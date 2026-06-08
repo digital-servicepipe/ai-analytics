@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
-import { BarChart3, Database, RotateCcw } from "lucide-react";
+import { ChangeEvent, useMemo, useRef, useState } from "react";
+import { BarChart3, RotateCcw, Upload } from "lucide-react";
 import { ChartsGrid } from "./components/ChartsGrid";
 import { EmptyState } from "./components/EmptyState";
 import { FiltersBar } from "./components/FiltersBar";
 import { InsightsCard } from "./components/InsightsCard";
 import { KpiCard } from "./components/KpiCard";
 import { SiteMapExplorer } from "./components/SiteMapExplorer";
+import { UploadZone } from "./components/UploadZone";
 import type { Filters, NormalizedLogRow } from "./types";
 import {
   buildInsights,
@@ -15,7 +16,7 @@ import {
   getDataPeriod,
   getFilterOptions,
 } from "./utils/aggregations";
-import { parseCsvText } from "./utils/parseCsv";
+import { parseCsvFile } from "./utils/parseCsv";
 import { UrlTable } from "./components/UrlTable";
 import { formatInteger } from "./utils/format";
 
@@ -29,15 +30,13 @@ const emptyFilters: Filters = {
   pathQuery: "",
 };
 
-const DEFAULT_DATABASE_URL = "/data/chatgpt_may.csv";
-const DEFAULT_DATABASE_NAME = "chatgpt_may.csv";
-
 export function App() {
   const [rows, setRows] = useState<NormalizedLogRow[]>([]);
   const [fileName, setFileName] = useState("");
   const [filters, setFilters] = useState<Filters>(emptyFilters);
   const [error, setError] = useState("");
-  const [isBootstrapping, setIsBootstrapping] = useState(true);
+  const [isParsing, setIsParsing] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const options = useMemo(() => getFilterOptions(rows), [rows]);
   const filteredRows = useMemo(
@@ -52,43 +51,27 @@ export function App() {
   const insights = useMemo(() => buildInsights(filteredRows), [filteredRows]);
   const period = useMemo(() => getDataPeriod(rows), [rows]);
 
-  useEffect(() => {
-    let isMounted = true;
+  const handleFile = async (file: File) => {
+    setIsParsing(true);
+    setError("");
 
-    const loadDatabase = async () => {
-      setError("");
+    try {
+      const result = await parseCsvFile(file);
+      setRows(result.rows);
+      setFileName(file.name);
+      setFilters(emptyFilters);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "Не удалось прочитать CSV.");
+    } finally {
+      setIsParsing(false);
+    }
+  };
 
-      try {
-        const response = await fetch(DEFAULT_DATABASE_URL);
-
-        if (!response.ok) {
-          throw new Error(`Не удалось загрузить базу: HTTP ${response.status}.`);
-        }
-
-        const csv = await response.text();
-        const result = await parseCsvText(csv);
-
-        if (!isMounted) return;
-        setRows(result.rows);
-        setFileName(DEFAULT_DATABASE_NAME);
-        setFilters(emptyFilters);
-      } catch (caught) {
-        if (!isMounted) return;
-        setRows([]);
-        setFileName("");
-        setError(caught instanceof Error ? caught.message : "Не удалось загрузить базу.");
-      } finally {
-        if (!isMounted) return;
-        setIsBootstrapping(false);
-      }
-    };
-
-    void loadDatabase();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const onFileInput = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) void handleFile(file);
+    event.target.value = "";
+  };
 
   const resetFilters = () => setFilters(emptyFilters);
 
@@ -117,41 +100,8 @@ export function App() {
     });
   };
 
-  if (isBootstrapping) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-surface p-6 text-ink">
-        <section className="w-full max-w-xl rounded-2xl border border-line bg-white p-8 text-center shadow-card">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-white">
-            <Database className="h-6 w-6" aria-hidden="true" />
-          </div>
-          <h1 className="mt-4 text-2xl font-semibold">База загружается</h1>
-          <p className="mt-2 text-sm text-muted">
-            Дашборд открывает сохранённую базу данных без ручной загрузки CSV.
-          </p>
-        </section>
-      </main>
-    );
-  }
-
   if (!rows.length) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-surface p-6 text-ink">
-        <section className="w-full max-w-xl rounded-2xl border border-line bg-white p-8 text-center shadow-card">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-white">
-            <Database className="h-6 w-6" aria-hidden="true" />
-          </div>
-          <h1 className="mt-4 text-2xl font-semibold">База не загрузилась</h1>
-          <p className="mt-2 text-sm text-muted">
-            Проверьте, что файл базы доступен по адресу {DEFAULT_DATABASE_URL}.
-          </p>
-          {error && (
-            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              {error}
-            </div>
-          )}
-        </section>
-      </main>
-    );
+    return <UploadZone error={error} isParsing={isParsing} onFile={handleFile} />;
   }
 
   return (
@@ -184,6 +134,14 @@ export function App() {
                 строк: {formatInteger(rows.length)}
               </span>
               <button
+                className="inline-flex items-center gap-2 rounded-lg bg-accent px-3 py-2 font-semibold text-white hover:bg-[#2648bd]"
+                type="button"
+                onClick={() => inputRef.current?.click()}
+              >
+                <Upload className="h-4 w-4" aria-hidden="true" />
+                Загрузить другой файл
+              </button>
+              <button
                 className="inline-flex items-center gap-2 rounded-lg border border-line bg-white px-3 py-2 font-semibold text-ink hover:bg-surface"
                 type="button"
                 onClick={resetFilters}
@@ -191,6 +149,13 @@ export function App() {
                 <RotateCcw className="h-4 w-4" aria-hidden="true" />
                 Сбросить фильтры
               </button>
+              <input
+                ref={inputRef}
+                className="hidden"
+                type="file"
+                accept=".csv,text/csv"
+                onChange={onFileInput}
+              />
             </div>
           </div>
         </header>
