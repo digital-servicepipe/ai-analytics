@@ -5,9 +5,23 @@ type UploadZoneProps = {
   error: string;
   isParsing: boolean;
   onFile: (file: File) => void;
+  title?: string;
+  description?: string;
+  headline?: string;
+  hint?: string;
+  buttonLabel?: string;
 };
 
-export function UploadZone({ error, isParsing, onFile }: UploadZoneProps) {
+export function UploadZone({
+  error,
+  isParsing,
+  onFile,
+  title = "Запросы ИИ-агентов к сайту",
+  description = "Загрузите CSV с логами ИИ-агентов, чтобы сразу построить KPI, графики, фильтры и таблицу запросов к страницам сайта.",
+  headline = "Загрузите CSV с логами ИИ-агентов",
+  hint = "Перетащите файл сюда или выберите его вручную",
+  buttonLabel = "Выбрать CSV",
+}: UploadZoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isOver, setIsOver] = useState(false);
 
@@ -33,11 +47,10 @@ export function UploadZone({ error, isParsing, onFile }: UploadZoneProps) {
         <div className="mb-6">
           <p className="text-sm font-medium text-accent">AI agents dashboard</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-normal text-ink">
-            Запросы ИИ-агентов к сайту
+            {title}
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
-            Загрузите CSV с логами ИИ-агентов, чтобы сразу построить KPI,
-            графики, фильтры и таблицу запросов к страницам сайта.
+            {description}
           </p>
         </div>
 
@@ -59,17 +72,17 @@ export function UploadZone({ error, isParsing, onFile }: UploadZoneProps) {
         >
           <FileUp className="mb-4 h-12 w-12 text-accent" aria-hidden="true" />
           <h2 className="text-xl font-semibold text-ink">
-            Загрузите CSV с логами ИИ-агентов
+            {headline}
           </h2>
           <p className="mt-2 text-sm text-muted">
-            Перетащите файл сюда или выберите его вручную
+            {hint}
           </p>
           <button
             className="mt-6 inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#2648bd]"
             type="button"
           >
             <Upload className="h-4 w-4" aria-hidden="true" />
-            Выбрать CSV
+            {buttonLabel}
           </button>
           <input
             ref={inputRef}
