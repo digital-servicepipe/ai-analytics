@@ -1,0 +1,30 @@
+User-agent: *
+Disallow: *?back_location
+Disallow: /certificates
+Disallow: /dosgate-docs/
+Disallow: /assets/video/
+Disallow: /ipv4
+  
+User-agent: Yandex
+Disallow: *?back_location
+Disallow: /certificates
+Disallow: /dosgate-docs/
+Disallow: /assets/video/
+Disallow: /ipv4
+  
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&yclid&ysclid&yadclid&fbclid&gclid&erid&roistat&roistat_referrer&roistat_pos&source&email&category&page&region&region_name&block&K1&K1%5BK2%5D&_ytm_preview&gtm_debug&gtm_latency&pbjs_debug&smart_analytics&visibla_campaign&visibla_group&visibla_ad&amp
+Clean-param: ref /
+ 
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: Google-Extended
+User-agent: Google-CloudVertexBot
+Crawl-delay: 3
+ 
+User-agent: PerplexityBot
+Crawl-delay: 5
+  
+Sitemap: https://servicepipe.ru/sitemap.xml
+Sitemap: https://servicepipe.ru/sitemap-blog.xml
+Sitemap: https://servicepipe.ru/sitemap-news.xml

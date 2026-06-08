@@ -1,5 +1,6 @@
 import { RotateCcw, Search } from "lucide-react";
 import type { Filters } from "../types";
+import { DateRangePicker } from "./DateRangePicker";
 
 type Options = {
   botTypes: string[];
@@ -78,30 +79,13 @@ export function FiltersBar({
   return (
     <section className="rounded-2xl border border-line bg-white p-3 shadow-sm">
       <div className="flex flex-wrap items-center gap-2">
-        <label className="flex items-center gap-2 rounded-lg border border-line bg-white px-3 py-2 text-sm">
-          <span className="text-muted">с</span>
-          <input
-            className="w-[140px] bg-transparent text-ink outline-none"
-            max={filters.dateTo || options.maxDate}
-            min={options.minDate}
-            type="date"
-            value={filters.dateFrom}
-            onChange={(event) =>
-              onChange({ ...filters, dateFrom: event.target.value })
-            }
-          />
-        </label>
-        <label className="flex items-center gap-2 rounded-lg border border-line bg-white px-3 py-2 text-sm">
-          <span className="text-muted">по</span>
-          <input
-            className="w-[140px] bg-transparent text-ink outline-none"
-            max={options.maxDate}
-            min={filters.dateFrom || options.minDate}
-            type="date"
-            value={filters.dateTo}
-            onChange={(event) => onChange({ ...filters, dateTo: event.target.value })}
-          />
-        </label>
+        <DateRangePicker
+          dateFrom={filters.dateFrom}
+          dateTo={filters.dateTo}
+          minDate={options.minDate}
+          maxDate={options.maxDate}
+          onChange={(range) => onChange({ ...filters, ...range })}
+        />
 
         <MultiSelect
           label="ИИ-агенты"

@@ -5,6 +5,7 @@ import { EmptyState } from "./components/EmptyState";
 import { FiltersBar } from "./components/FiltersBar";
 import { InsightsCard } from "./components/InsightsCard";
 import { KpiCard } from "./components/KpiCard";
+import { SiteMapExplorer } from "./components/SiteMapExplorer";
 import { UploadZone } from "./components/UploadZone";
 import type { Filters, NormalizedLogRow } from "./types";
 import {
@@ -189,6 +190,12 @@ export function App() {
               />
               <InsightsCard insights={insights} />
             </div>
+            <SiteMapExplorer
+              rows={filteredRows}
+              onPathSelect={(path) =>
+                setFilters((current) => ({ ...current, pathQuery: path }))
+              }
+            />
             <UrlTable summaries={urlSummaries} />
           </>
         ) : (
