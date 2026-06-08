@@ -1,32 +1,23 @@
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import {
-  AlertTriangle,
-  ArrowLeft,
-  Bot,
-  ChevronRight,
-  FileText,
-  Folder,
-  FolderOpen,
-  Map as MapIcon,
-  ShieldAlert,
-  Upload,
-} from "lucide-react";
+import { AlertTriangle, Bot, Search, ShieldAlert, Upload } from "lucide-react";
 import {
   DEFAULT_ROBOTS_FILE,
   DEFAULT_ROBOTS_TXT,
   DEFAULT_SITEMAP_FILES,
   DEFAULT_SITEMAP_XML,
 } from "../data/defaultSiteFiles";
-import type { NormalizedLogRow } from "../types";
-import { formatInteger } from "../utils/format";
+import type { Filters, NormalizedLogRow } from "../types";
+import { formatDate, formatInteger, truncateMiddle } from "../utils/format";
+import { matchesSectionFilter } from "../utils/aggregations";
+import { getPageMeta } from "../utils/normalize";
 import {
-  buildSitemapNodes,
   parseRobots,
   parseSitemap,
   summarizeTraffic,
 } from "../utils/siteFiles";
 
 type SiteMapExplorerProps = {
+  filters: Filters;
   rows: NormalizedLogRow[];
   onPathSelect: (path: string) => void;
 };
@@ -36,55 +27,44 @@ type LoadedSiteFile = {
   content: string;
 };
 
-type TreeItem = {
-  type: "folder" | "page";
-  name: string;
-  path: string;
-  pages: number;
-  total: number;
-  blocked: number;
-  bots: Record<string, number>;
+type SitemapRow = ReturnType<typeof parseSitemap>[number] & {
+  sources: string[];
 };
-
-function splitPath(path: string) {
-  return path.split("/").filter(Boolean);
-}
-
-function joinPath(parts: string[]) {
-  return parts.length ? `/${parts.join("/")}` : "/";
-}
-
-function titleFromSegment(segment: string) {
-  return segment.replace(/[-_]/g, " ");
-}
-
-function isUnderPath(path: string, parentPath: string) {
-  if (parentPath === "/") return true;
-  return path === parentPath || path.startsWith(`${parentPath}/`);
-}
-
-function mergeBots(target: Record<string, number>, source: Record<string, number>) {
-  Object.entries(source).forEach(([bot, count]) => {
-    target[bot] = (target[bot] ?? 0) + count;
-  });
-}
 
 function botSummary(bots: Record<string, number>) {
   return Object.entries(bots)
     .sort(([, left], [, right]) => right - left)
-    .slice(0, 2);
+    .slice(0, 3);
 }
 
-function statTone(value: number) {
-  return value ? "border-amber-200 bg-amber-50" : "border-line bg-surface";
+function collectSitemapRows(files: LoadedSiteFile[]): SitemapRow[] {
+  const rowsByPath = new Map<string, SitemapRow>();
+
+  files.forEach((file) => {
+    parseSitemap(file.content).forEach((entry) => {
+      const current = rowsByPath.get(entry.path);
+
+      if (current) {
+        current.sources.push(file.name);
+        return;
+      }
+
+      rowsByPath.set(entry.path, { ...entry, sources: [file.name] });
+    });
+  });
+
+  return Array.from(rowsByPath.values()).sort((left, right) =>
+    left.path.localeCompare(right.path),
+  );
 }
 
-export function SiteMapExplorer({ rows, onPathSelect }: SiteMapExplorerProps) {
+export function SiteMapExplorer({ filters, rows, onPathSelect }: SiteMapExplorerProps) {
   const [sitemapFiles, setSitemapFiles] = useState<LoadedSiteFile[]>([
     { name: "sitemap.xml", content: DEFAULT_SITEMAP_XML },
   ]);
   const [robotsTxt, setRobotsTxt] = useState(DEFAULT_ROBOTS_TXT);
-  const [currentPath, setCurrentPath] = useState("/");
+  const [query, setQuery] = useState("");
+  const [missingLimit, setMissingLimit] = useState<50 | 100 | 250 | "all">(100);
 
   useEffect(() => {
     const loadDefaults = async () => {
@@ -114,115 +94,45 @@ export function SiteMapExplorer({ rows, onPathSelect }: SiteMapExplorerProps) {
     void loadDefaults();
   }, []);
 
-  const fileStats = useMemo(
-    () =>
-      sitemapFiles.map((file) => ({
-        name: file.name,
-        count: parseSitemap(file.content).length,
-      })),
-    [sitemapFiles],
-  );
+  const sitemapRows = useMemo(() => collectSitemapRows(sitemapFiles), [sitemapFiles]);
+  const filteredSitemapRows = useMemo(() => {
+    const pathQuery = filters.pathQuery.trim().toLowerCase();
 
-  const sitemapEntries = useMemo(() => {
-    const entries = sitemapFiles.flatMap((file) => parseSitemap(file.content));
-    const byPath = new Map(entries.map((entry) => [entry.path, entry]));
-    return Array.from(byPath.values());
-  }, [sitemapFiles]);
+    return sitemapRows.filter((entry) => {
+      const { section } = getPageMeta(entry.path);
+
+      if (!matchesSectionFilter(entry.path, section, filters)) return false;
+      if (pathQuery && !entry.path.toLowerCase().includes(pathQuery)) return false;
+
+      return true;
+    });
+  }, [filters, sitemapRows]);
   const robotsRules = useMemo(() => parseRobots(robotsTxt), [robotsTxt]);
   const traffic = useMemo(
     () => summarizeTraffic(rows, robotsRules),
     [robotsRules, rows],
   );
-  const sitemapNodes = useMemo(
-    () => buildSitemapNodes(sitemapEntries, traffic, robotsRules),
-    [robotsRules, sitemapEntries, traffic],
+  const trafficByPath = useMemo(
+    () => new Map(traffic.map((item) => [item.path, item])),
+    [traffic],
   );
-
-  const sitemapPathSet = useMemo(
-    () => new Set(sitemapEntries.map((entry) => entry.path)),
-    [sitemapEntries],
+  const missingActivity = useMemo(
+    () => filteredSitemapRows.filter((entry) => !trafficByPath.has(entry.path)),
+    [filteredSitemapRows, trafficByPath],
   );
-  const blockedTraffic = useMemo(
+  const robotsViolations = useMemo(
     () => traffic.filter((item) => item.disallowedBy.length),
     [traffic],
   );
-  const outsideSitemap = useMemo(
-    () => traffic.filter((item) => !sitemapPathSet.has(item.path)),
-    [sitemapPathSet, traffic],
+  const queryValue = query.trim().toLowerCase();
+  const filteredMissing = missingActivity.filter((entry) =>
+    queryValue
+      ? `${entry.path} ${entry.sources.join(" ")}`.toLowerCase().includes(queryValue)
+      : true,
   );
-
-  const treeItems = useMemo(() => {
-    const currentParts = splitPath(currentPath);
-    const currentDepth = currentParts.length;
-    const items = new Map<string, TreeItem>();
-
-    sitemapNodes.forEach((node) => {
-      if (!isUnderPath(node.path, currentPath)) return;
-
-      const parts = splitPath(node.path);
-      if (node.path === "/" && currentPath === "/") {
-        items.set("/", {
-          type: "page",
-          name: "Главная",
-          path: "/",
-          pages: 1,
-          total: node.total,
-          blocked: node.isBlockedByRobots ? 1 : 0,
-          bots: { ...node.bots },
-        });
-        return;
-      }
-      if (parts.length <= currentDepth) return;
-
-      const childParts = parts.slice(0, currentDepth + 1);
-      const childPath = joinPath(childParts);
-      const isDirectPage = parts.length === currentDepth + 1;
-      const item = items.get(childPath) ?? {
-        type: isDirectPage ? "page" : "folder",
-        name: titleFromSegment(childParts[childParts.length - 1]),
-        path: childPath,
-        pages: 0,
-        total: 0,
-        blocked: 0,
-        bots: {},
-      };
-
-      item.type = item.type === "folder" || !isDirectPage ? "folder" : "page";
-      item.pages += 1;
-      item.total += node.total;
-      item.blocked += node.isBlockedByRobots ? 1 : 0;
-      mergeBots(item.bots, node.bots);
-      items.set(childPath, item);
-    });
-
-    return Array.from(items.values()).sort((left, right) => {
-      if (left.type !== right.type) return left.type === "folder" ? -1 : 1;
-      return right.total - left.total || right.pages - left.pages || left.path.localeCompare(right.path);
-    });
-  }, [currentPath, sitemapNodes]);
-
-  const breadcrumbs = splitPath(currentPath).reduce(
-    (acc, part, index, parts) => [
-      ...acc,
-      { label: titleFromSegment(part), path: joinPath(parts.slice(0, index + 1)) },
-    ],
-    [{ label: "Сайт", path: "/" }],
-  );
-  const maxHits = Math.max(1, ...treeItems.map((item) => item.total));
-  const visitedSitemapPages = sitemapNodes.filter((node) => node.total > 0).length;
-  const disallowRulesCount = robotsRules.filter(
-    (rule) => rule.directive === "disallow",
-  ).length;
-
-  const uploadRobotsFile = async (
-    event: ChangeEvent<HTMLInputElement>,
-    setter: (value: string) => void,
-  ) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    setter(await file.text());
-    event.target.value = "";
-  };
+  const missingRows =
+    missingLimit === "all" ? filteredMissing : filteredMissing.slice(0, missingLimit);
+  const activeSitemapPages = filteredSitemapRows.length - missingActivity.length;
 
   const uploadSitemapFiles = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? []);
@@ -236,23 +146,25 @@ export function SiteMapExplorer({ rows, onPathSelect }: SiteMapExplorerProps) {
         })),
       ),
     );
-    setCurrentPath("/");
+    event.target.value = "";
+  };
+
+  const uploadRobotsFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setRobotsTxt(await file.text());
     event.target.value = "";
   };
 
   return (
     <section className="rounded-2xl border border-line bg-white p-4 shadow-sm">
       <div className="mb-4 flex flex-wrap items-start gap-3">
-        <div className="mr-auto flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-white">
-            <MapIcon className="h-5 w-5" aria-hidden="true" />
-          </div>
-          <div>
-            <h2 className="text-lg font-semibold text-ink">Карта сайта</h2>
-            <p className="text-sm text-muted">
-              Дерево sitemap с фактическими заходами ИИ-агентов
-            </p>
-          </div>
+        <div className="mr-auto">
+          <h2 className="text-lg font-semibold text-ink">Sitemap и robots</h2>
+          <p className="text-sm text-muted">
+            Базовая проверка: где в sitemap нет запросов ИИ и где robots нарушается
+          </p>
         </div>
 
         <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-line bg-white px-3 py-2 text-sm font-semibold text-ink hover:bg-surface">
@@ -273,186 +185,173 @@ export function SiteMapExplorer({ rows, onPathSelect }: SiteMapExplorerProps) {
             className="hidden"
             type="file"
             accept=".txt,text/plain"
-            onChange={(event) => void uploadRobotsFile(event, setRobotsTxt)}
+            onChange={(event) => void uploadRobotsFile(event)}
           />
         </label>
       </div>
 
-      <div className="mb-4 grid gap-3 lg:grid-cols-[1fr_330px]">
-        <div className="rounded-2xl border border-line bg-surface p-3">
-          <div className="mb-3 flex flex-wrap items-center gap-2">
-            {currentPath !== "/" && (
-              <button
-                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-white text-muted hover:text-ink"
-                type="button"
-                onClick={() => setCurrentPath(joinPath(splitPath(currentPath).slice(0, -1)))}
-                aria-label="Назад"
-              >
-                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-              </button>
-            )}
-            {breadcrumbs.map((crumb, index) => (
-              <button
-                key={crumb.path}
-                className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-sm font-semibold ${
-                  crumb.path === currentPath
-                    ? "bg-accent text-white"
-                    : "bg-white text-ink hover:bg-slate-100"
-                }`}
-                type="button"
-                onClick={() => setCurrentPath(crumb.path)}
-              >
-                {index > 0 && <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />}
-                {crumb.label}
-              </button>
-            ))}
+      <div className="mb-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="rounded-xl border border-line bg-surface p-3">
+          <p className="text-xs font-medium uppercase text-muted">URL в sitemap</p>
+          <p className="mt-1 text-xl font-semibold text-ink">
+            {formatInteger(filteredSitemapRows.length)}
+          </p>
+        </div>
+        <div className="rounded-xl border border-line bg-surface p-3">
+          <p className="text-xs font-medium uppercase text-muted">С запросами</p>
+          <p className="mt-1 text-xl font-semibold text-ink">
+            {formatInteger(activeSitemapPages)}
+          </p>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+          <p className="text-xs font-medium uppercase text-muted">Без запросов</p>
+          <p className="mt-1 text-xl font-semibold text-ink">
+            {formatInteger(missingActivity.length)}
+          </p>
+        </div>
+        <div className={`rounded-xl border p-3 ${robotsViolations.length ? "border-amber-200 bg-amber-50" : "border-line bg-surface"}`}>
+          <p className="text-xs font-medium uppercase text-muted">Robots violations</p>
+          <p className="mt-1 text-xl font-semibold text-ink">
+            {formatInteger(robotsViolations.length)}
+          </p>
+        </div>
+      </div>
+
+      <div className="grid gap-3 2xl:grid-cols-[1fr_520px]">
+        <div className="rounded-xl border border-line">
+          <div className="flex flex-wrap items-center gap-2 border-b border-line p-3">
+            <div className="mr-auto">
+              <h3 className="text-sm font-semibold text-ink">
+                Страницы из sitemap без запросов ИИ
+              </h3>
+              <p className="text-xs text-muted">
+                Это кандидаты на проверку: агенты не доходят до них в текущем фильтре
+              </p>
+            </div>
+            <label className="flex min-w-[260px] items-center gap-2 rounded-lg border border-line px-3 py-2 text-sm">
+              <Search className="h-4 w-4 text-muted" aria-hidden="true" />
+              <input
+                className="w-full bg-transparent outline-none placeholder:text-muted"
+                placeholder="Найти URL"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+              />
+            </label>
+            <div className="flex rounded-lg border border-line p-1">
+              {([50, 100, 250, "all"] as const).map((item) => (
+                <button
+                  key={item}
+                  className={`rounded-md px-2.5 py-1.5 text-xs font-semibold ${
+                    missingLimit === item
+                      ? "bg-accent text-white"
+                      : "text-slate-700 hover:bg-surface"
+                  }`}
+                  type="button"
+                  onClick={() => setMissingLimit(item)}
+                >
+                  {item === "all" ? "Все" : item}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="grid max-h-[520px] gap-2 overflow-auto pr-1 md:grid-cols-2 2xl:grid-cols-3">
-            {treeItems.map((item) => {
-              const heat = Math.max(4, Math.round((item.total / maxHits) * 100));
-              const isFolder = item.type === "folder";
+          <div className="max-h-[520px] overflow-auto">
+            <table className="w-full min-w-[780px] border-collapse text-left text-sm">
+              <thead className="sticky top-0 z-10 bg-surface text-slate-600">
+                <tr>
+                  <th className="px-3 py-2 font-semibold">URL</th>
+                  <th className="w-[150px] px-3 py-2 font-semibold">Sitemap</th>
+                  <th className="w-[120px] px-3 py-2 font-semibold">Lastmod</th>
+                  <th className="w-[110px] px-3 py-2 font-semibold">Freq</th>
+                </tr>
+              </thead>
+              <tbody>
+                {missingRows.map((entry) => (
+                  <tr key={entry.path} className="border-t border-line hover:bg-[#f9fbfe]">
+                    <td className="px-3 py-2 font-semibold text-ink">
+                      {truncateMiddle(entry.path, 92)}
+                    </td>
+                    <td className="px-3 py-2 text-xs text-muted">
+                      {entry.sources.join(", ")}
+                    </td>
+                    <td className="px-3 py-2 text-muted">
+                      {entry.lastmod ? formatDate(entry.lastmod) : "-"}
+                    </td>
+                    <td className="px-3 py-2 text-muted">{entry.changefreq || "-"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-              return (
-                <button
-                  key={item.path}
-                  className="group rounded-xl border border-line bg-white p-3 text-left shadow-sm transition hover:border-accent hover:shadow-card"
-                  type="button"
-                  onClick={() => {
-                    if (isFolder) {
-                      setCurrentPath(item.path);
-                      return;
-                    }
-                    onPathSelect(item.path);
-                  }}
-                >
-                  <div className="mb-3 flex items-start gap-2">
-                    <div
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
-                        isFolder ? "bg-accent/10 text-accent" : "bg-surface text-muted"
-                      }`}
-                    >
-                      {isFolder ? (
-                        <FolderOpen className="h-4 w-4" aria-hidden="true" />
-                      ) : (
-                        <FileText className="h-4 w-4" aria-hidden="true" />
-                      )}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-1">
-                        <p className="truncate text-sm font-semibold capitalize text-ink">
-                          {item.name}
-                        </p>
-                        {isFolder && (
-                          <ChevronRight className="h-4 w-4 shrink-0 text-muted group-hover:text-accent" aria-hidden="true" />
-                        )}
-                      </div>
-                      <p className="truncate text-xs text-muted">{item.path}</p>
-                    </div>
-                  </div>
-
-                  <div className="mb-2 h-2 rounded-full bg-surface">
-                    <div
-                      className={`h-2 rounded-full ${item.blocked ? "bg-amber-500" : "bg-accent"}`}
-                      style={{ width: `${heat}%` }}
-                    />
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
-                    <span>{formatInteger(item.total)} запросов</span>
-                    {isFolder && <span>{formatInteger(item.pages)} страниц</span>}
-                    {item.blocked > 0 && (
-                      <span className="inline-flex items-center gap-1 rounded-md bg-amber-100 px-1.5 py-0.5 font-semibold text-amber-800">
-                        <ShieldAlert className="h-3 w-3" aria-hidden="true" />
-                        {formatInteger(item.blocked)}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="mt-2 flex flex-wrap gap-1.5 text-xs text-muted">
-                    {botSummary(item.bots).map(([bot, count]) => (
-                      <span key={bot} className="inline-flex items-center gap-1 rounded-md bg-surface px-1.5 py-0.5">
-                        <Bot className="h-3 w-3" aria-hidden="true" />
-                        {bot}: {formatInteger(count)}
-                      </span>
-                    ))}
-                  </div>
-                </button>
-              );
-            })}
+            {!missingRows.length && (
+              <div className="p-4 text-sm text-muted">
+                В текущем фильтре все страницы из sitemap имеют запросы ИИ.
+              </div>
+            )}
           </div>
         </div>
 
-        <aside className="grid content-start gap-3">
-          <div className="grid grid-cols-2 gap-2">
-            <div className="rounded-xl border border-line bg-surface p-3">
-              <p className="text-xs font-medium uppercase text-muted">Sitemap</p>
-              <p className="mt-1 text-xl font-semibold text-ink">
-                {formatInteger(sitemapEntries.length)}
-              </p>
-              <p className="text-xs text-muted">
-                {formatInteger(visitedSitemapPages)} с трафиком
-              </p>
-            </div>
-            <div className={`rounded-xl border p-3 ${statTone(blockedTraffic.length)}`}>
-              <p className="text-xs font-medium uppercase text-muted">Robots</p>
-              <p className="mt-1 text-xl font-semibold text-ink">
-                {formatInteger(blockedTraffic.length)}
-              </p>
-              <p className="text-xs text-muted">запрещённых URL</p>
-            </div>
-          </div>
-
-          <div className={`rounded-xl border p-3 ${statTone(outsideSitemap.length)}`}>
-            <p className="text-xs font-medium uppercase text-muted">Вне sitemap</p>
-            <p className="mt-1 text-xl font-semibold text-ink">
-              {formatInteger(outsideSitemap.length)}
+        <div className="rounded-xl border border-line">
+          <div className="border-b border-line p-3">
+            <h3 className="flex items-center gap-2 text-sm font-semibold text-ink">
+              <ShieldAlert className="h-4 w-4 text-amber-600" aria-hidden="true" />
+              Нарушения robots.txt
+            </h3>
+            <p className="text-xs text-muted">
+              URL, куда агенты ходили, хотя правило Disallow это закрывает
             </p>
-            <p className="text-xs text-muted">агенты ходили, но URL нет в карте</p>
           </div>
 
-          <div className="rounded-xl border border-line p-3">
-            <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-ink">
-              <AlertTriangle className="h-4 w-4 text-amber-600" aria-hidden="true" />
-              Куда ходили, хотя закрыто
-            </h3>
-            <div className="flex max-h-44 flex-col gap-2 overflow-auto">
-              {blockedTraffic.slice(0, 6).map((item) => (
-                <button
-                  key={item.path}
-                  className="rounded-lg bg-surface p-2 text-left text-xs hover:bg-amber-50"
-                  type="button"
-                  onClick={() => onPathSelect(item.path)}
-                >
-                  <p className="truncate font-semibold text-ink">{item.path}</p>
-                  <p className="text-muted">
-                    {formatInteger(item.total)} запросов · {item.disallowedBy[0]}
-                  </p>
-                </button>
-              ))}
-              {!blockedTraffic.length && (
-                <p className="text-sm text-muted">Нарушений по robots.txt нет.</p>
-              )}
-            </div>
-          </div>
+          <div className="max-h-[520px] overflow-auto">
+            {robotsViolations.map((item) => (
+              <button
+                key={item.path}
+                className="block w-full border-b border-line px-3 py-3 text-left hover:bg-amber-50"
+                type="button"
+                onClick={() => onPathSelect(item.path)}
+              >
+                <div className="mb-2 flex items-start gap-2">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" aria-hidden="true" />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-semibold text-ink">{item.path}</p>
+                    <p className="text-xs text-muted">
+                      {formatInteger(item.total)} запросов
+                    </p>
+                  </div>
+                </div>
+                <div className="mb-2 flex flex-wrap gap-1.5">
+                  {item.disallowedBy.map((rule) => (
+                    <span key={rule} className="rounded-md bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-800">
+                      {rule}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {botSummary(item.bots).map(([bot, count]) => (
+                    <span key={bot} className="inline-flex items-center gap-1 rounded-md bg-surface px-1.5 py-0.5 text-xs text-muted">
+                      <Bot className="h-3 w-3" aria-hidden="true" />
+                      {bot}: {formatInteger(count)}
+                    </span>
+                  ))}
+                </div>
+              </button>
+            ))}
 
-          <div className="rounded-xl border border-line p-3">
-            <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-ink">
-              <Folder className="h-4 w-4" aria-hidden="true" />
-              Файлы
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {fileStats.map((file) => (
-                <span key={file.name} className="rounded-md bg-surface px-2 py-1 text-xs text-muted">
-                  {file.name}: {formatInteger(file.count)}
-                </span>
-              ))}
-              <span className="rounded-md bg-surface px-2 py-1 text-xs text-muted">
-                robots rules: {formatInteger(disallowRulesCount)}
-              </span>
-            </div>
+            {!robotsViolations.length && (
+              <div className="p-4 text-sm text-muted">
+                Нарушений robots.txt в текущем фильтре нет.
+              </div>
+            )}
           </div>
-        </aside>
+        </div>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted">
+        {sitemapFiles.map((file) => (
+          <span key={file.name} className="rounded-md bg-surface px-2 py-1">
+            {file.name}: {formatInteger(parseSitemap(file.content).length)}
+          </span>
+        ))}
       </div>
     </section>
   );

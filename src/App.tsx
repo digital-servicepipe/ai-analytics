@@ -25,6 +25,7 @@ const emptyFilters: Filters = {
   dateTo: "",
   botTypes: [],
   sections: [],
+  sectionPatterns: "",
   countries: [],
   pathQuery: "",
 };
@@ -117,7 +118,7 @@ export function App() {
                   AI agents dashboard
                 </p>
                 <h1 className="text-xl font-semibold text-ink">
-                  Обращения ИИ-агентов к сайту
+                  Запросы ИИ-агентов к сайту
                 </h1>
               </div>
             </div>
@@ -191,6 +192,7 @@ export function App() {
               <InsightsCard insights={insights} />
             </div>
             <SiteMapExplorer
+              filters={filters}
               rows={filteredRows}
               onPathSelect={(path) =>
                 setFilters((current) => ({ ...current, pathQuery: path }))

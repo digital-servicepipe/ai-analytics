@@ -99,6 +99,17 @@ export function FiltersBar({
           selected={filters.sections}
           onChange={(sections) => onChange({ ...filters, sections })}
         />
+        <label className="flex min-w-[250px] items-center gap-2 rounded-lg border border-line bg-white px-3 py-2 text-sm">
+          <Search className="h-4 w-4 text-muted" aria-hidden="true" />
+          <input
+            className="w-full bg-transparent text-ink outline-none placeholder:text-muted"
+            placeholder="Раздел: /blog*, /news/*"
+            value={filters.sectionPatterns}
+            onChange={(event) =>
+              onChange({ ...filters, sectionPatterns: event.target.value })
+            }
+          />
+        </label>
         <MultiSelect
           label="Страны"
           values={options.countries}

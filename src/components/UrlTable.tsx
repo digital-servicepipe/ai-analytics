@@ -8,13 +8,13 @@ type UrlTableProps = {
 };
 
 type Limit = 10 | 25 | 50 | "all";
+type TableSortKey = Exclude<SortKey, "asnCount">;
 
-const sortLabels: Record<SortKey, string> = {
+const sortLabels: Record<TableSortKey, string> = {
   total: "Запросы",
   chatGptUser: "ChatGPT-User",
   oaiSearchBot: "OAI-SearchBot",
   gptBot: "GPTBot",
-  asnCount: "ASN",
 };
 
 function buildFullUrl(path: string): string {
@@ -24,7 +24,7 @@ function buildFullUrl(path: string): string {
 }
 
 export function UrlTable({ summaries }: UrlTableProps) {
-  const [sortKey, setSortKey] = useState<SortKey>("total");
+  const [sortKey, setSortKey] = useState<TableSortKey>("total");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [limit, setLimit] = useState<Limit>(50);
   const [query, setQuery] = useState("");
@@ -47,7 +47,7 @@ export function UrlTable({ summaries }: UrlTableProps) {
     return limit === "all" ? sorted : sorted.slice(0, limit);
   }, [filteredRows, limit, sortDirection, sortKey]);
 
-  const setSort = (key: SortKey) => {
+  const setSort = (key: TableSortKey) => {
     if (key === sortKey) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
       return;
@@ -67,7 +67,7 @@ export function UrlTable({ summaries }: UrlTableProps) {
     }
   };
 
-  const numericHeader = (key: SortKey) => (
+  const numericHeader = (key: TableSortKey) => (
     <button
       className="inline-flex items-center gap-1 text-left hover:text-accent"
       type="button"
@@ -119,7 +119,7 @@ export function UrlTable({ summaries }: UrlTableProps) {
       </div>
 
       <div className="relative h-[min(68vh,760px)] overflow-auto rounded-xl border border-line">
-        <table className="w-full min-w-[1420px] border-collapse text-left text-sm">
+        <table className="w-full min-w-[980px] border-collapse text-left text-sm">
           <thead className="sticky top-0 z-10 bg-surface text-slate-600">
             <tr>
               <th className="sticky left-0 z-20 w-[430px] bg-surface px-4 py-3 font-semibold">
@@ -135,11 +135,6 @@ export function UrlTable({ summaries }: UrlTableProps) {
               <th className="px-3 py-3 font-semibold">{numericHeader("gptBot")}</th>
               <th className="px-3 py-3 font-semibold">Раздел</th>
               <th className="px-3 py-3 font-semibold">Тип</th>
-              <th className="px-3 py-3 font-semibold">Первый</th>
-              <th className="px-3 py-3 font-semibold">Последний</th>
-              <th className="px-3 py-3 font-semibold">Страны</th>
-              <th className="px-3 py-3 font-semibold">{numericHeader("asnCount")}</th>
-              <th className="w-[260px] px-3 py-3 font-semibold">User-agent</th>
             </tr>
           </thead>
           <tbody>
@@ -182,15 +177,6 @@ export function UrlTable({ summaries }: UrlTableProps) {
                   <td className="px-3 py-3">{formatInteger(row.gptBot)}</td>
                   <td className="px-3 py-3">{row.section}</td>
                   <td className="px-3 py-3">{row.pageType}</td>
-                  <td className="px-3 py-3">{row.firstSeen}</td>
-                  <td className="px-3 py-3">{row.lastSeen}</td>
-                  <td className="px-3 py-3" title={row.countries.join(", ")}>
-                    {row.countries.join(", ")}
-                  </td>
-                  <td className="px-3 py-3">{formatInteger(row.asnCount)}</td>
-                  <td className="px-3 py-3" title={row.userAgentExamples.join(" | ")}>
-                    {truncateMiddle(row.userAgentExamples.join(" | "), 64)}
-                  </td>
                 </tr>
               );
             })}

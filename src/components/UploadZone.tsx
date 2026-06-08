@@ -33,7 +33,7 @@ export function UploadZone({ error, isParsing, onFile }: UploadZoneProps) {
         <div className="mb-6">
           <p className="text-sm font-medium text-accent">AI agents dashboard</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-normal text-ink">
-            Обращения ИИ-агентов к сайту
+            Запросы ИИ-агентов к сайту
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
             Загрузите CSV с логами ИИ-агентов, чтобы сразу построить KPI,

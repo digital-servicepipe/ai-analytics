@@ -31,6 +31,7 @@ export type Filters = {
   dateTo: string;
   botTypes: string[];
   sections: string[];
+  sectionPatterns: string;
   countries: string[];
   pathQuery: string;
 };

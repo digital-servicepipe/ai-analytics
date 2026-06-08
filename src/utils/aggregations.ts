@@ -9,13 +9,56 @@ import { formatDate, formatInteger, formatPercent, uniqueSorted } from "./format
 
 const palette = ["#3157d8", "#7157d9", "#0f9f8f", "#e9893a", "#d43f6a", "#64748b"];
 
+function getPatternParts(value: string): string[] {
+  return value
+    .split(/[\s,]+/)
+    .map((part) => part.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+export function pathMatchesSectionPatterns(path: string, patternsValue: string): boolean {
+  const value = path.toLowerCase();
+
+  return getPatternParts(patternsValue).some((pattern) => {
+    if (!pattern.includes("*")) {
+      return value.includes(pattern);
+    }
+
+    const source = pattern
+      .split("*")
+      .map(escapeRegExp)
+      .join(".*");
+
+    return new RegExp(`^${source}$`).test(value);
+  });
+}
+
+export function hasSectionFilter(filters: Filters): boolean {
+  return Boolean(filters.sections.length || filters.sectionPatterns.trim());
+}
+
+export function matchesSectionFilter(
+  path: string,
+  section: string,
+  filters: Filters,
+): boolean {
+  if (!hasSectionFilter(filters)) return true;
+  return (
+    filters.sections.includes(section) ||
+    pathMatchesSectionPatterns(path, filters.sectionPatterns)
+  );
+}
+
 export function filterRows(
   rows: NormalizedLogRow[],
   filters: Filters,
 ): NormalizedLogRow[] {
   const query = filters.pathQuery.trim().toLowerCase();
   const bots = new Set(filters.botTypes);
-  const sections = new Set(filters.sections);
   const countries = new Set(filters.countries);
 
   return rows.filter((row) => {
@@ -26,7 +69,7 @@ export function filterRows(
       return false;
     }
     if (bots.size && !bots.has(row.botType)) return false;
-    if (sections.size && !sections.has(row.section)) return false;
+    if (!matchesSectionFilter(row.path, row.section, filters)) return false;
     if (countries.size && !countries.has(row.country)) return false;
     if (query && !row.path.toLowerCase().includes(query)) return false;
     return true;
@@ -80,29 +123,29 @@ export function buildKpis(rows: NormalizedLogRow[]): Kpi[] {
 
   return [
     {
-      label: "Всего обращений",
+      label: "Всего запросов",
       value: formatInteger(total),
       hint: "в текущем фильтре",
     },
     {
       label: "Уникальных страниц",
       value: formatInteger(uniquePages),
-      hint: "path с обращениями",
+      hint: "path с запросами",
     },
     {
       label: "ChatGPT-User",
       value: formatInteger(countBot("ChatGPT-User")),
-      hint: "обращения этого ИИ-агента",
+      hint: "запросы этого ИИ-агента",
     },
     {
       label: "OAI-SearchBot",
       value: formatInteger(countBot("OAI-SearchBot")),
-      hint: "обращения этого ИИ-агента",
+      hint: "запросы этого ИИ-агента",
     },
     {
       label: "GPTBot",
       value: formatInteger(countBot("GPTBot")),
-      hint: "обращения этого ИИ-агента",
+      hint: "запросы этого ИИ-агента",
     },
     {
       label: "Доля коммерческих страниц",
@@ -238,7 +281,7 @@ export function buildInsights(rows: NormalizedLogRow[]): string[] {
 
   return [
     topBot
-      ? `Основной объем обращений дает ${topBot.botType} - ${formatPercent((topBot.count / total) * 100)}.`
+      ? `Основной объем запросов дает ${topBot.botType} - ${formatPercent((topBot.count / total) * 100)}.`
       : "",
     topPage
       ? `Лидирующая страница по запросам ИИ-агентов: ${topPage.path}.`
@@ -247,6 +290,6 @@ export function buildInsights(rows: NormalizedLogRow[]): string[] {
       ? `Самый заметный раздел: ${topSection[0]} - ${formatPercent((topSection[1] / total) * 100)}.`
       : "",
     `Доля ChatGPT-User в текущем фильтре: ${formatPercent((chatGpt / total) * 100)}.`,
-    `Коммерческие страницы дают ${formatPercent((commercial / total) * 100)} обращений.`,
+    `Коммерческие страницы дают ${formatPercent((commercial / total) * 100)} запросов.`,
   ].filter(Boolean);
 }

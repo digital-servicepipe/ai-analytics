@@ -61,7 +61,7 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
   return (
     <section className="grid gap-3 xl:grid-cols-12">
       <div className="xl:col-span-7">
-        <ChartCard title="Динамика обращений по дням">
+        <ChartCard title="Динамика запросов по дням">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={daily.data} margin={{ top: 5, right: 20, bottom: 0, left: -10 }}>
               <CartesianGrid stroke="#eef2f7" vertical={false} />
@@ -88,14 +88,14 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
       </div>
 
       <div className="xl:col-span-5">
-        <ChartCard title="Обращения по типам ИИ-агентов">
+        <ChartCard title="Запросы по типам ИИ-агентов">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={botBars} margin={{ top: 5, right: 10, bottom: 0, left: -10 }}>
               <CartesianGrid stroke="#eef2f7" vertical={false} />
               <XAxis dataKey="botType" tick={{ fontSize: 10 }} tickLine={false} />
               <YAxis tick={{ fontSize: 11 }} tickLine={false} allowDecimals={false} />
               <Tooltip
-                formatter={(value) => [formatInteger(Number(value)), "Обращения"]}
+                formatter={(value) => [formatInteger(Number(value)), "Запросы"]}
                 labelFormatter={(label) => `ИИ-агент: ${label}`}
               />
               <Bar dataKey="count" fill="#3157d8" radius={[8, 8, 0, 0]} />
@@ -110,7 +110,7 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
             <BarChart
               data={topPages}
               layout="vertical"
-              margin={{ top: 5, right: 18, bottom: 0, left: 82 }}
+              margin={{ top: 5, right: 18, bottom: 0, left: 120 }}
             >
               <CartesianGrid stroke="#eef2f7" horizontal={false} />
               <XAxis type="number" tick={{ fontSize: 11 }} allowDecimals={false} />
@@ -119,10 +119,11 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
                 type="category"
                 tick={{ fontSize: 11 }}
                 tickLine={false}
-                width={82}
+                interval={0}
+                width={120}
               />
               <Tooltip
-                formatter={(value) => [formatInteger(Number(value)), "Обращения"]}
+                formatter={(value) => [formatInteger(Number(value)), "Запросы"]}
                 labelFormatter={(_, payload) => payload?.[0]?.payload?.path ?? ""}
               />
               <Bar
@@ -172,7 +173,7 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
               <XAxis dataKey="hour" tick={{ fontSize: 10 }} tickLine={false} />
               <YAxis tick={{ fontSize: 11 }} tickLine={false} allowDecimals={false} />
               <Tooltip
-                formatter={(value) => [formatInteger(Number(value)), "Обращения"]}
+                formatter={(value) => [formatInteger(Number(value)), "Запросы"]}
                 labelFormatter={(label) => `Час: ${label}:00`}
               />
               <Bar dataKey="count" fill="#0f9f8f" radius={[8, 8, 0, 0]} />
