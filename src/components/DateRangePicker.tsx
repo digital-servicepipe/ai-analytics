@@ -90,11 +90,8 @@ export function DateRangePicker({
 
   useEffect(() => {
     const onPointerDown = (event: PointerEvent) => {
-      if (!wrapperRef.current?.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
+      if (!wrapperRef.current?.contains(event.target as Node)) setIsOpen(false);
     };
-
     document.addEventListener("pointerdown", onPointerDown);
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, []);
@@ -117,16 +114,8 @@ export function DateRangePicker({
           : "Все даты";
 
   const selectDate = (value: string) => {
-    if (!dateFrom || dateTo) {
-      onChange({ dateFrom: value, dateTo: "" });
-      return;
-    }
-
-    if (compareDate(value, dateFrom) < 0) {
-      onChange({ dateFrom: value, dateTo: "" });
-      return;
-    }
-
+    if (!dateFrom || dateTo) return onChange({ dateFrom: value, dateTo: "" });
+    if (compareDate(value, dateFrom) < 0) return onChange({ dateFrom: value, dateTo: "" });
     onChange({ dateFrom, dateTo: value });
   };
 
@@ -139,18 +128,21 @@ export function DateRangePicker({
   return (
     <div ref={wrapperRef} className="relative">
       <button
-        className="inline-flex min-h-10 min-w-[230px] items-center justify-between gap-3 rounded-lg border border-line bg-white px-3 py-2 text-sm font-medium text-ink hover:bg-surface"
+        className="control inline-flex min-h-[56px] min-w-[230px] items-center justify-between gap-3 px-3 py-2 text-left text-sm font-bold text-ink"
         type="button"
         onClick={() => setIsOpen((current) => !current)}
       >
         <span className="inline-flex min-w-0 items-center gap-2">
-          <CalendarDays className="h-4 w-4 shrink-0 text-muted" aria-hidden="true" />
-          <span className="truncate">{summary}</span>
+          <CalendarDays className="h-4 w-4 shrink-0 text-aqua" aria-hidden="true" />
+          <span className="grid min-w-0 gap-0.5">
+            <span className="text-[11px] font-bold uppercase text-muted">Дата</span>
+            <span className="truncate text-sm font-extrabold text-ink">{summary}</span>
+          </span>
         </span>
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 z-30 mt-2 w-[min(340px,calc(100vw-32px))] rounded-2xl border border-line bg-white p-3 shadow-card">
+        <div className="absolute left-0 z-30 mt-2 w-[min(340px,calc(100vw-32px))] rounded-2xl border border-line bg-panel p-3 shadow-card">
           <div className="mb-3 flex items-center justify-between gap-2">
             <button
               className="flex h-8 w-8 items-center justify-center rounded-lg border border-line text-muted hover:bg-surface hover:text-ink"
@@ -160,7 +152,7 @@ export function DateRangePicker({
             >
               <ChevronLeft className="h-4 w-4" aria-hidden="true" />
             </button>
-            <div className="text-sm font-semibold capitalize text-ink">{monthLabel}</div>
+            <div className="text-sm font-bold capitalize text-ink">{monthLabel}</div>
             <button
               className="flex h-8 w-8 items-center justify-center rounded-lg border border-line text-muted hover:bg-surface hover:text-ink"
               type="button"
@@ -171,7 +163,7 @@ export function DateRangePicker({
             </button>
           </div>
 
-          <div className="mb-2 grid grid-cols-7 gap-1 text-center text-[11px] font-semibold uppercase text-muted">
+          <div className="mb-2 grid grid-cols-7 gap-1 text-center text-[11px] font-bold uppercase text-muted">
             {DAY_NAMES.map((day) => (
               <div key={day}>{day}</div>
             ))}
@@ -196,10 +188,10 @@ export function DateRangePicker({
                 <button
                   key={value}
                   className={[
-                    "h-9 rounded-lg text-sm font-medium transition",
+                    "h-9 rounded-lg text-sm font-bold transition",
                     isOutsideMonth ? "text-slate-300" : "text-ink",
-                    isInRange ? "bg-accent/10 text-accent" : "",
-                    isStart || isEnd ? "bg-accent text-white" : "hover:bg-surface",
+                    isInRange ? "bg-aqua/10 text-aqua" : "",
+                    isStart || isEnd ? "bg-aqua text-[#071314]" : "hover:bg-surface",
                     isDisabled ? "cursor-not-allowed opacity-30 hover:bg-transparent" : "",
                   ].join(" ")}
                   disabled={Boolean(isDisabled)}
@@ -213,22 +205,14 @@ export function DateRangePicker({
           </div>
 
           <div className="mt-3 grid grid-cols-3 gap-2">
-            <button
-              className="rounded-lg border border-line px-2 py-1.5 text-xs font-semibold text-ink hover:bg-surface"
-              type="button"
-              onClick={() => setPreset(7)}
-            >
+            <button className="control px-2 py-1.5 text-xs font-bold text-ink" type="button" onClick={() => setPreset(7)}>
               7 дней
             </button>
-            <button
-              className="rounded-lg border border-line px-2 py-1.5 text-xs font-semibold text-ink hover:bg-surface"
-              type="button"
-              onClick={() => setPreset(30)}
-            >
+            <button className="control px-2 py-1.5 text-xs font-bold text-ink" type="button" onClick={() => setPreset(30)}>
               30 дней
             </button>
             <button
-              className="inline-flex items-center justify-center gap-1 rounded-lg border border-line px-2 py-1.5 text-xs font-semibold text-ink hover:bg-surface"
+              className="control inline-flex items-center justify-center gap-1 px-2 py-1.5 text-xs font-bold text-ink"
               type="button"
               onClick={() => onChange({ dateFrom: "", dateTo: "" })}
             >

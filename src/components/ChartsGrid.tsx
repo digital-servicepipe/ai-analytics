@@ -1,14 +1,11 @@
-import { useMemo, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import {
+  Area,
+  AreaChart,
   Bar,
   BarChart,
   CartesianGrid,
   Cell,
-  Legend,
-  Line,
-  LineChart,
-  Pie,
-  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -16,11 +13,13 @@ import {
 } from "recharts";
 import type { NormalizedLogRow } from "../types";
 import {
-  buildBotBars,
+  buildAgentGroupBars,
   buildDailySeries,
-  buildHourlyActivity,
+  buildDetailedAgentBars,
   buildPageTypeShare,
+  buildTimeActivity,
   buildTopPages,
+  type ActivityGranularity,
 } from "../utils/aggregations";
 import { formatInteger, truncateMiddle } from "../utils/format";
 
@@ -29,154 +28,351 @@ type ChartsGridProps = {
   onPathSelect: (path: string) => void;
 };
 
+const groupPalette = [
+  "#2DD4BF",
+  "#60A5FA",
+  "#A78BFA",
+  "#F59E0B",
+  "#F472B6",
+  "#94A3B8",
+  "#34D399",
+  "#FB7185",
+];
+
+const gridStroke = "rgba(255,255,255,0.08)";
+const axisTick = { fontSize: 11, fill: "#8E918F" };
+
 function ChartCard({
   title,
+  subtitle,
+  action,
   children,
+  className = "",
 }: {
   title: string;
+  subtitle?: string;
+  action?: ReactNode;
   children: ReactNode;
+  className?: string;
 }) {
   return (
-    <article className="min-h-[260px] rounded-2xl border border-line bg-white p-4 shadow-sm">
-      <h2 className="mb-3 text-sm font-semibold text-ink">{title}</h2>
-      <div className="h-[215px]">{children}</div>
+    <article className={`panel min-h-[320px] p-4 ${className}`.trim()}>
+      <div className="mb-4 flex min-h-11 items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="text-sm font-extrabold text-ink">{title}</h2>
+          {subtitle && <p className="mt-1 break-words text-xs leading-5 text-muted">{subtitle}</p>}
+        </div>
+        {action}
+      </div>
+      <div className="h-[260px]">{children}</div>
     </article>
   );
 }
 
+function TooltipCard({
+  active,
+  label,
+  payload,
+}: {
+  active?: boolean;
+  label?: string;
+  payload?: Array<{ color?: string; name?: string; value?: number | string }>;
+}) {
+  if (!active || !payload?.length) return null;
+
+  return (
+    <div className="min-w-[180px] rounded-2xl border border-line bg-panel px-3 py-3 shadow-workspace">
+      <div className="mb-2 text-xs font-bold uppercase text-muted">{label}</div>
+      <div className="space-y-1.5">
+        {payload
+          .filter((item) => Number(item.value) > 0)
+          .map((item) => (
+            <div key={String(item.name)} className="flex items-center justify-between gap-3">
+              <div className="flex min-w-0 items-center gap-2">
+                <span
+                  className="h-2.5 w-2.5 shrink-0 rounded-full"
+                  style={{ backgroundColor: item.color || "#2DD4BF" }}
+                />
+                <span className="truncate text-sm text-ink">{item.name}</span>
+              </div>
+              <span className="shrink-0 text-sm font-extrabold text-ink">
+                {formatInteger(Number(item.value))}
+              </span>
+            </div>
+          ))}
+      </div>
+    </div>
+  );
+}
+
 export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
+  const [activityGranularity, setActivityGranularity] =
+    useState<ActivityGranularity>("hour");
+
   const daily = useMemo(() => buildDailySeries(rows), [rows]);
-  const botBars = useMemo(() => buildBotBars(rows), [rows]);
-  const topPages = useMemo(
+  const groupBars = useMemo(() => buildAgentGroupBars(rows).slice(0, 10), [rows]);
+  const detailBars = useMemo(
     () =>
-      buildTopPages(rows, 10).map((item) => ({
+      buildDetailedAgentBars(rows)
+        .slice(0, 10)
+        .map((item) => ({ ...item, shortLabel: truncateMiddle(item.label, 22) })),
+    [rows],
+  );
+  const topPaths = useMemo(
+    () =>
+      buildTopPages(rows, 8).map((item) => ({
         ...item,
-        shortPath: truncateMiddle(item.path, 26),
+        shortPath: truncateMiddle(item.path, 34),
       })),
     [rows],
   );
-  const pageTypes = useMemo(() => buildPageTypeShare(rows), [rows]);
-  const hourly = useMemo(() => buildHourlyActivity(rows), [rows]);
+  const pageTypes = useMemo(
+    () =>
+      buildPageTypeShare(rows)
+        .sort((left, right) => right.value - left.value)
+        .map((item) => ({
+          ...item,
+          shortName: truncateMiddle(item.name, 14),
+        })),
+    [rows],
+  );
+  const activity = useMemo(
+    () => buildTimeActivity(rows, activityGranularity),
+    [activityGranularity, rows],
+  );
+  const activityStep = Math.max(0, Math.ceil(activity.length / 7) - 1);
 
   return (
-    <section className="grid gap-3 xl:grid-cols-12">
-      <div className="xl:col-span-7">
-        <ChartCard title="Динамика запросов по дням">
+    <section className="grid gap-3 2xl:grid-cols-12">
+      <div className="2xl:col-span-8">
+        <ChartCard
+          title="Запросы по дням"
+          subtitle="Основные группы ботов по дням."
+        >
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={daily.data} margin={{ top: 5, right: 20, bottom: 0, left: -10 }}>
-              <CartesianGrid stroke="#eef2f7" vertical={false} />
-              <XAxis dataKey="label" tick={{ fontSize: 11 }} tickLine={false} />
-              <YAxis tick={{ fontSize: 11 }} tickLine={false} allowDecimals={false} />
-              <Tooltip
-                formatter={(value, name) => [formatInteger(Number(value)), String(name)]}
-                labelFormatter={(label) => `Дата: ${label}`}
+            <AreaChart data={daily.data} margin={{ top: 8, right: 10, bottom: 0, left: -14 }}>
+              <defs>
+                {daily.bots.map((bot) => (
+                  <linearGradient
+                    key={`gradient:${bot}`}
+                    id={`daily-${bot}`}
+                    x1="0"
+                    x2="0"
+                    y1="0"
+                    y2="1"
+                  >
+                    <stop offset="5%" stopColor={daily.colors[bot]} stopOpacity={0.34} />
+                    <stop offset="95%" stopColor={daily.colors[bot]} stopOpacity={0.02} />
+                  </linearGradient>
+                ))}
+              </defs>
+              <CartesianGrid stroke={gridStroke} vertical={false} />
+              <XAxis
+                dataKey="label"
+                tick={axisTick}
+                tickLine={false}
+                axisLine={{ stroke: gridStroke }}
               />
-              <Legend wrapperStyle={{ fontSize: 11 }} />
+              <YAxis tick={axisTick} tickLine={false} axisLine={false} allowDecimals={false} />
+              <Tooltip content={<TooltipCard />} />
               {daily.bots.map((bot) => (
-                <Line
+                <Area
                   key={bot}
                   dataKey={bot}
-                  dot={false}
-                  stroke={daily.colors[bot]}
-                  strokeWidth={2}
                   type="monotone"
+                  stroke={daily.colors[bot]}
+                  fill={`url(#daily-${bot})`}
+                  strokeWidth={2.25}
+                  isAnimationActive={false}
+                  activeDot={{ r: 4, strokeWidth: 0 }}
                 />
               ))}
-            </LineChart>
+            </AreaChart>
           </ResponsiveContainer>
         </ChartCard>
       </div>
 
-      <div className="xl:col-span-5">
-        <ChartCard title="Запросы по типам ИИ-агентов">
+      <div className="2xl:col-span-4">
+        <ChartCard title="Группы ботов" subtitle="Кто даёт основной поток.">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={botBars} margin={{ top: 5, right: 10, bottom: 0, left: -10 }}>
-              <CartesianGrid stroke="#eef2f7" vertical={false} />
-              <XAxis dataKey="botType" tick={{ fontSize: 10 }} tickLine={false} />
-              <YAxis tick={{ fontSize: 11 }} tickLine={false} allowDecimals={false} />
-              <Tooltip
-                formatter={(value) => [formatInteger(Number(value)), "Запросы"]}
-                labelFormatter={(label) => `ИИ-агент: ${label}`}
+            <BarChart
+              data={groupBars}
+              layout="vertical"
+              margin={{ top: 8, right: 12, bottom: 0, left: 46 }}
+            >
+              <CartesianGrid stroke={gridStroke} horizontal={false} />
+              <XAxis type="number" tick={axisTick} axisLine={false} allowDecimals={false} />
+              <YAxis
+                dataKey="agentGroup"
+                type="category"
+                tick={axisTick}
+                tickLine={false}
+                width={94}
               />
-              <Bar dataKey="count" fill="#3157d8" radius={[8, 8, 0, 0]} />
+              <Tooltip content={<TooltipCard />} />
+              <Bar dataKey="count" radius={[0, 10, 10, 0]} isAnimationActive={false}>
+                {groupBars.map((entry, index) => (
+                  <Cell
+                    key={`${entry.agentGroup}:${entry.count}`}
+                    fill={groupPalette[index % groupPalette.length]}
+                  />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
       </div>
 
-      <div className="xl:col-span-5">
-        <ChartCard title="Топ страниц">
+      <div className="2xl:col-span-6">
+        <ChartCard
+          title="Запросы по времени"
+          subtitle={
+            activityGranularity === "hour"
+              ? "Срез по часам."
+              : "Срез по часу и минуте."
+          }
+          action={
+            <div className="inline-flex shrink-0 rounded-xl border border-line bg-surface p-1">
+              {[
+                ["hour", "Часы"],
+                ["minute", "Часы:минуты"],
+              ].map(([value, label]) => (
+                <button
+                  key={value}
+                  className={`rounded-lg px-3 py-1.5 text-xs font-bold ${
+                    activityGranularity === value
+                      ? "bg-panel text-ink ring-1 ring-inset ring-aqua/20"
+                      : "text-muted hover:text-ink"
+                  }`}
+                  type="button"
+                  onClick={() => setActivityGranularity(value as ActivityGranularity)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          }
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={activity} margin={{ top: 8, right: 14, bottom: 0, left: -10 }}>
+              <CartesianGrid stroke={gridStroke} vertical={false} />
+              <XAxis
+                dataKey="label"
+                interval={activityStep}
+                tick={{ ...axisTick, fontSize: 10 }}
+                tickLine={false}
+                axisLine={{ stroke: gridStroke }}
+              />
+              <YAxis tick={axisTick} tickLine={false} axisLine={false} allowDecimals={false} />
+              <Tooltip content={<TooltipCard />} />
+              <Bar
+                dataKey="count"
+                fill="#2DD4BF"
+                radius={[10, 10, 0, 0]}
+                isAnimationActive={false}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      </div>
+
+      <div className="2xl:col-span-6">
+        <ChartCard title="Топ user-agent" subtitle="Какие имена встречаются чаще всего.">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
-              data={topPages}
+              data={detailBars}
               layout="vertical"
-              margin={{ top: 5, right: 18, bottom: 0, left: 120 }}
+              margin={{ top: 8, right: 12, bottom: 0, left: 72 }}
             >
-              <CartesianGrid stroke="#eef2f7" horizontal={false} />
-              <XAxis type="number" tick={{ fontSize: 11 }} allowDecimals={false} />
+              <CartesianGrid stroke={gridStroke} horizontal={false} />
+              <XAxis type="number" tick={axisTick} axisLine={false} allowDecimals={false} />
+              <YAxis
+                dataKey="shortLabel"
+                type="category"
+                tick={axisTick}
+                tickLine={false}
+                width={116}
+              />
+              <Tooltip content={<TooltipCard />} />
+              <Bar
+                dataKey="count"
+                radius={[0, 10, 10, 0]}
+                fill="#60A5FA"
+                isAnimationActive={false}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      </div>
+
+      <div className="2xl:col-span-5">
+        <ChartCard title="Типы path" subtitle="Какие типы path получают больше запросов.">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={pageTypes}
+              layout="vertical"
+              margin={{ top: 8, right: 16, bottom: 0, left: 52 }}
+            >
+              <CartesianGrid stroke={gridStroke} horizontal={false} />
+              <XAxis
+                type="number"
+                tick={axisTick}
+                axisLine={{ stroke: gridStroke }}
+                allowDecimals={false}
+              />
+              <YAxis
+                dataKey="shortName"
+                type="category"
+                tick={axisTick}
+                tickLine={false}
+                width={64}
+              />
+              <Tooltip content={<TooltipCard />} />
+              <Bar dataKey="value" radius={[0, 10, 10, 0]} isAnimationActive={false}>
+                {pageTypes.map((entry, index) => (
+                  <Cell key={entry.name} fill={groupPalette[index % groupPalette.length]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      </div>
+
+      <div className="2xl:col-span-7">
+        <ChartCard title="Топ path" subtitle="Клик по строке подставляет path в фильтр.">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={topPaths}
+              layout="vertical"
+              margin={{ top: 8, right: 20, bottom: 0, left: 140 }}
+            >
+              <CartesianGrid stroke={gridStroke} horizontal={false} />
+              <XAxis
+                type="number"
+                tick={axisTick}
+                axisLine={{ stroke: gridStroke }}
+                allowDecimals={false}
+              />
               <YAxis
                 dataKey="shortPath"
                 type="category"
-                tick={{ fontSize: 11 }}
+                tick={axisTick}
                 tickLine={false}
                 interval={0}
-                width={120}
+                width={140}
               />
-              <Tooltip
-                formatter={(value) => [formatInteger(Number(value)), "Запросы"]}
-                labelFormatter={(_, payload) => payload?.[0]?.payload?.path ?? ""}
-              />
+              <Tooltip content={<TooltipCard />} />
               <Bar
                 dataKey="count"
-                fill="#7157d9"
-                radius={[0, 8, 8, 0]}
+                fill="#A78BFA"
+                radius={[0, 10, 10, 0]}
                 cursor="pointer"
+                isAnimationActive={false}
                 onClick={(event) => {
                   const path = event?.payload?.path;
                   if (path) onPathSelect(path);
                 }}
               />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
-      </div>
-
-      <div className="xl:col-span-3">
-        <ChartCard title="Типы страниц">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={pageTypes}
-                dataKey="value"
-                innerRadius={48}
-                outerRadius={78}
-                paddingAngle={2}
-              >
-                {pageTypes.map((entry) => (
-                  <Cell key={entry.name} fill={entry.fill} />
-                ))}
-              </Pie>
-              <Tooltip
-                formatter={(value, name) => [formatInteger(Number(value)), String(name)]}
-              />
-              <Legend wrapperStyle={{ fontSize: 11 }} />
-            </PieChart>
-          </ResponsiveContainer>
-        </ChartCard>
-      </div>
-
-      <div className="xl:col-span-4">
-        <ChartCard title="Активность по часам">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={hourly} margin={{ top: 5, right: 10, bottom: 0, left: -10 }}>
-              <CartesianGrid stroke="#eef2f7" vertical={false} />
-              <XAxis dataKey="hour" tick={{ fontSize: 10 }} tickLine={false} />
-              <YAxis tick={{ fontSize: 11 }} tickLine={false} allowDecimals={false} />
-              <Tooltip
-                formatter={(value) => [formatInteger(Number(value)), "Запросы"]}
-                labelFormatter={(label) => `Час: ${label}:00`}
-              />
-              <Bar dataKey="count" fill="#0f9f8f" radius={[8, 8, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>

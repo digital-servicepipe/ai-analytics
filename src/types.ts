@@ -15,6 +15,7 @@ export type NormalizedLogRow = {
   parsedAt: Date | null;
   date: string;
   hour: number | null;
+  minute: number | null;
   httpUserAgent: string;
   uniqId: string;
   path: string;
@@ -22,6 +23,7 @@ export type NormalizedLogRow = {
   asn: string;
   subnet: string;
   botType: string;
+  agentGroup: string;
   section: string;
   pageType: PageType;
 };
@@ -29,9 +31,9 @@ export type NormalizedLogRow = {
 export type Filters = {
   dateFrom: string;
   dateTo: string;
-  botTypes: string[];
+  agentGroups: string[];
+  agentDetails: string[];
   sections: string[];
-  sectionPatterns: string;
   countries: string[];
   pathQuery: string;
 };
@@ -45,9 +47,11 @@ export type Kpi = {
 export type UrlSummary = {
   path: string;
   total: number;
-  chatGptUser: number;
-  oaiSearchBot: number;
-  gptBot: number;
+  topGroup: string;
+  topGroupCount: number;
+  topGroupShare: number;
+  uniqueGroups: number;
+  uniqueAgents: number;
   section: string;
   pageType: PageType;
   firstSeen: string;
@@ -59,12 +63,28 @@ export type UrlSummary = {
 
 export type SortKey =
   | "total"
-  | "chatGptUser"
-  | "oaiSearchBot"
-  | "gptBot"
+  | "topGroupCount"
+  | "uniqueGroups"
+  | "uniqueAgents"
   | "asnCount";
 
 export type ParseResult = {
   rows: NormalizedLogRow[];
   rowCount: number;
+};
+
+export type FileKind = "logs";
+
+export type UploadedFileMeta = {
+  id: string;
+  kind: FileKind;
+  name: string;
+  rowCount: number;
+  uploadedAt: string;
+};
+
+export type PersistedDashboardState = {
+  version: 2;
+  rows: NormalizedLogRow[];
+  files: UploadedFileMeta[];
 };

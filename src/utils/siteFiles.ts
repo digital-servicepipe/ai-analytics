@@ -246,6 +246,7 @@ export function buildSitemapNodes(
     parsedAt: null,
     date: "Unknown",
     hour: null,
+    minute: null,
     httpUserAgent: "",
     uniqId: "",
     path,
@@ -253,6 +254,7 @@ export function buildSitemapNodes(
     asn: "",
     subnet: "",
     botType: "*",
+    agentGroup: "Other",
     section: "",
     pageType: "other",
   });

@@ -1,0 +1,11 @@
+datetime,http_user_agent,uniq_id,path,cresp_country,cresp_asn,cresp_subnet,bot_type
+2026-05-18 09:15:00,Mozilla/5.0,1,/blog/ai-analytics,RU,12345,10.0.0.0/24,ChatGPT-User
+2026-05-18 09:18:00,GPTBot/1.0,2,/blog/ai-analytics,US,54321,10.0.1.0/24,GPTBot
+2026-05-18 10:05:00,OpenAI-SearchBot/1.0,3,/web-ddos-protection,DE,11111,10.0.2.0/24,OAI-SearchBot
+2026-05-18 10:22:00,Mozilla/5.0,4,/finance/cloud-security,GB,22222,10.0.3.0/24,ChatGPT-User
+2026-05-18 11:41:00,Mozilla/5.0,5,/news/platform-update,FR,33333,10.0.4.0/24,ChatGPT-User
+2026-05-19 08:02:00,GPTBot/1.0,6,/blog/ai-analytics,US,54321,10.0.1.0/24,GPTBot
+2026-05-19 08:19:00,OpenAI-SearchBot/1.0,7,/stress-test,NL,44444,10.0.5.0/24,OAI-SearchBot
+2026-05-19 09:45:00,Mozilla/5.0,8,/press-center/q2-release,RU,12345,10.0.0.0/24,ChatGPT-User
+2026-05-19 10:07:00,GPTBot/1.0,9,/assets/app.js,US,54321,10.0.1.0/24,GPTBot
+2026-05-19 10:55:00,Mozilla/5.0,10,/telecom/network-visibility,PL,55555,10.0.6.0/24,ChatGPT-User

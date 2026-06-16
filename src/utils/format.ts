@@ -15,7 +15,7 @@ export function formatPercent(value: number): string {
 }
 
 export function formatDate(date: string): string {
-  if (date === "Unknown") return "Unknown";
+  if (date === "Unknown") return "неизвестно";
   const [year, month, day] = date.split("-");
   if (!year || !month || !day) return date;
   return `${day}.${month}.${year}`;
@@ -23,9 +23,9 @@ export function formatDate(date: string): string {
 
 export function truncateMiddle(value: string, maxLength = 42): string {
   if (value.length <= maxLength) return value;
-  const headLength = Math.ceil((maxLength - 1) * 0.62);
-  const tailLength = Math.floor((maxLength - 1) * 0.38);
-  return `${value.slice(0, headLength)}…${value.slice(-tailLength)}`;
+  const headLength = Math.ceil((maxLength - 3) * 0.62);
+  const tailLength = Math.floor((maxLength - 3) * 0.38);
+  return `${value.slice(0, headLength)}...${value.slice(-tailLength)}`;
 }
 
 export function uniqueSorted(values: string[]): string[] {
