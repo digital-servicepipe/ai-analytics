@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { CalendarDays, ChevronLeft, ChevronRight, X } from "lucide-react";
 
 const DAY_NAMES = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
@@ -18,6 +19,12 @@ type DateRangePickerProps = {
   minDate: string;
   maxDate: string;
   onChange: (range: { dateFrom: string; dateTo: string }) => void;
+};
+
+type PopoverPosition = {
+  top: number;
+  left: number;
+  width: number;
 };
 
 function parseDate(value: string) {
@@ -75,6 +82,20 @@ function readableDate(value: string) {
   return date ? DATE_FORMATTER.format(date) : "";
 }
 
+function getPopoverPosition(element: HTMLElement | null, preferredWidth: number): PopoverPosition | null {
+  if (!element) return null;
+
+  const rect = element.getBoundingClientRect();
+  const width = Math.min(preferredWidth, window.innerWidth - 24);
+  const left = Math.min(Math.max(12, rect.left), window.innerWidth - width - 12);
+
+  return {
+    top: rect.bottom + 8,
+    left,
+    width,
+  };
+}
+
 export function DateRangePicker({
   dateFrom,
   dateTo,
@@ -83,22 +104,42 @@ export function DateRangePicker({
   onChange,
 }: DateRangePickerProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [position, setPosition] = useState<PopoverPosition | null>(null);
   const [visibleMonth, setVisibleMonth] = useState(() =>
     startOfMonth(parseDate(dateFrom || maxDate || minDate) ?? new Date()),
   );
 
   useEffect(() => {
     const onPointerDown = (event: PointerEvent) => {
-      if (!wrapperRef.current?.contains(event.target as Node)) setIsOpen(false);
+      const target = event.target as HTMLElement | null;
+      if (!wrapperRef.current?.contains(target as Node) && !target?.closest("[data-fk-dropdown-portal]")) {
+        setIsOpen(false);
+      }
     };
+
     document.addEventListener("pointerdown", onPointerDown);
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, []);
 
   useEffect(() => {
     if (!isOpen) return;
+
     setVisibleMonth(startOfMonth(parseDate(dateFrom || maxDate || minDate) ?? new Date()));
+
+    const updatePosition = () => {
+      setPosition(getPopoverPosition(triggerRef.current, 340));
+    };
+
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+    window.addEventListener("scroll", updatePosition, true);
+
+    return () => {
+      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener("scroll", updatePosition, true);
+    };
   }, [dateFrom, isOpen, maxDate, minDate]);
 
   const days = useMemo(() => getCalendarDays(visibleMonth), [visibleMonth]);
@@ -114,8 +155,16 @@ export function DateRangePicker({
           : "Все даты";
 
   const selectDate = (value: string) => {
-    if (!dateFrom || dateTo) return onChange({ dateFrom: value, dateTo: "" });
-    if (compareDate(value, dateFrom) < 0) return onChange({ dateFrom: value, dateTo: "" });
+    if (!dateFrom || dateTo) {
+      onChange({ dateFrom: value, dateTo: "" });
+      return;
+    }
+
+    if (compareDate(value, dateFrom) < 0) {
+      onChange({ dateFrom: value, dateTo: "" });
+      return;
+    }
+
     onChange({ dateFrom, dateTo: value });
   };
 
@@ -128,100 +177,118 @@ export function DateRangePicker({
   return (
     <div ref={wrapperRef} className="relative">
       <button
-        className="control inline-flex min-h-[56px] min-w-[230px] items-center justify-between gap-3 px-3 py-2 text-left text-sm font-bold text-ink"
+        ref={triggerRef}
+        className="control inline-flex h-[46px] w-full items-center justify-between gap-2 px-3 py-1.5 text-left"
         type="button"
         onClick={() => setIsOpen((current) => !current)}
       >
-        <span className="inline-flex min-w-0 items-center gap-2">
-          <CalendarDays className="h-4 w-4 shrink-0 text-aqua" aria-hidden="true" />
-          <span className="grid min-w-0 gap-0.5">
-            <span className="text-[11px] font-bold uppercase text-muted">Дата</span>
-            <span className="truncate text-sm font-extrabold text-ink">{summary}</span>
+        <span className="inline-flex min-w-0 items-center gap-2.5">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl bg-aqua/10 text-aqua">
+            <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
+          </span>
+          <span className="grid min-w-0 gap-0">
+            <span className="text-[10px] font-bold uppercase tracking-normal text-muted">Дата</span>
+            <span className="truncate text-[13px] font-bold text-ink">{summary}</span>
           </span>
         </span>
       </button>
 
-      {isOpen && (
-        <div className="absolute left-0 z-30 mt-2 w-[min(340px,calc(100vw-32px))] rounded-2xl border border-line bg-panel p-3 shadow-card">
-          <div className="mb-3 flex items-center justify-between gap-2">
-            <button
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-line text-muted hover:bg-surface hover:text-ink"
-              type="button"
-              onClick={() => setVisibleMonth((month) => addMonths(month, -1))}
-              aria-label="Предыдущий месяц"
+      {isOpen && position
+        ? createPortal(
+            <div
+              data-fk-dropdown-portal="true"
+              className="fixed z-[120] rounded-2xl border border-line bg-panel p-3 shadow-card"
+              style={{ top: position.top, left: position.left, width: position.width }}
             >
-              <ChevronLeft className="h-4 w-4" aria-hidden="true" />
-            </button>
-            <div className="text-sm font-bold capitalize text-ink">{monthLabel}</div>
-            <button
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-line text-muted hover:bg-surface hover:text-ink"
-              type="button"
-              onClick={() => setVisibleMonth((month) => addMonths(month, 1))}
-              aria-label="Следующий месяц"
-            >
-              <ChevronRight className="h-4 w-4" aria-hidden="true" />
-            </button>
-          </div>
-
-          <div className="mb-2 grid grid-cols-7 gap-1 text-center text-[11px] font-bold uppercase text-muted">
-            {DAY_NAMES.map((day) => (
-              <div key={day}>{day}</div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-7 gap-1">
-            {days.map((date) => {
-              const value = formatDate(date);
-              const isOutsideMonth = date.getUTCMonth() !== currentMonth;
-              const isDisabled =
-                (minDate && compareDate(value, minDate) < 0) ||
-                (maxDate && compareDate(value, maxDate) > 0);
-              const isStart = value === dateFrom;
-              const isEnd = value === dateTo;
-              const isInRange =
-                dateFrom &&
-                dateTo &&
-                compareDate(value, dateFrom) > 0 &&
-                compareDate(value, dateTo) < 0;
-
-              return (
+              <div className="mb-3 flex items-center justify-between gap-2">
                 <button
-                  key={value}
-                  className={[
-                    "h-9 rounded-lg text-sm font-bold transition",
-                    isOutsideMonth ? "text-slate-300" : "text-ink",
-                    isInRange ? "bg-aqua/10 text-aqua" : "",
-                    isStart || isEnd ? "bg-aqua text-[#071314]" : "hover:bg-surface",
-                    isDisabled ? "cursor-not-allowed opacity-30 hover:bg-transparent" : "",
-                  ].join(" ")}
-                  disabled={Boolean(isDisabled)}
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-line text-muted hover:bg-surface hover:text-ink"
                   type="button"
-                  onClick={() => selectDate(value)}
+                  onClick={() => setVisibleMonth((month) => addMonths(month, -1))}
+                  aria-label="Предыдущий месяц"
                 >
-                  {date.getUTCDate()}
+                  <ChevronLeft className="h-4 w-4" aria-hidden="true" />
                 </button>
-              );
-            })}
-          </div>
+                <div className="text-sm font-bold capitalize text-ink">{monthLabel}</div>
+                <button
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-line text-muted hover:bg-surface hover:text-ink"
+                  type="button"
+                  onClick={() => setVisibleMonth((month) => addMonths(month, 1))}
+                  aria-label="Следующий месяц"
+                >
+                  <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </div>
 
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            <button className="control px-2 py-1.5 text-xs font-bold text-ink" type="button" onClick={() => setPreset(7)}>
-              7 дней
-            </button>
-            <button className="control px-2 py-1.5 text-xs font-bold text-ink" type="button" onClick={() => setPreset(30)}>
-              30 дней
-            </button>
-            <button
-              className="control inline-flex items-center justify-center gap-1 px-2 py-1.5 text-xs font-bold text-ink"
-              type="button"
-              onClick={() => onChange({ dateFrom: "", dateTo: "" })}
-            >
-              <X className="h-3.5 w-3.5" aria-hidden="true" />
-              Очистить
-            </button>
-          </div>
-        </div>
-      )}
+              <div className="mb-2 grid grid-cols-7 gap-1 text-center text-[11px] font-bold uppercase text-muted">
+                {DAY_NAMES.map((day) => (
+                  <div key={day}>{day}</div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-7 gap-1">
+                {days.map((date) => {
+                  const value = formatDate(date);
+                  const isOutsideMonth = date.getUTCMonth() !== currentMonth;
+                  const isDisabled =
+                    (minDate && compareDate(value, minDate) < 0) ||
+                    (maxDate && compareDate(value, maxDate) > 0);
+                  const isStart = value === dateFrom;
+                  const isEnd = value === dateTo;
+                  const isInRange =
+                    dateFrom &&
+                    dateTo &&
+                    compareDate(value, dateFrom) > 0 &&
+                    compareDate(value, dateTo) < 0;
+
+                  return (
+                    <button
+                      key={value}
+                      className={[
+                        "h-9 rounded-lg text-sm font-bold transition",
+                        isOutsideMonth ? "text-slate-300" : "text-ink",
+                        isInRange ? "bg-aqua/10 text-aqua" : "",
+                        isStart || isEnd ? "bg-aqua text-[#071314]" : "hover:bg-surface",
+                        isDisabled ? "cursor-not-allowed opacity-30 hover:bg-transparent" : "",
+                      ].join(" ")}
+                      disabled={Boolean(isDisabled)}
+                      type="button"
+                      onClick={() => selectDate(value)}
+                    >
+                      {date.getUTCDate()}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                <button
+                  className="control px-2 py-1.5 text-xs font-bold text-ink"
+                  type="button"
+                  onClick={() => setPreset(7)}
+                >
+                  7 дней
+                </button>
+                <button
+                  className="control px-2 py-1.5 text-xs font-bold text-ink"
+                  type="button"
+                  onClick={() => setPreset(30)}
+                >
+                  30 дней
+                </button>
+                <button
+                  className="control inline-flex items-center justify-center gap-1 px-2 py-1.5 text-xs font-bold text-ink"
+                  type="button"
+                  onClick={() => onChange({ dateFrom: "", dateTo: "" })}
+                >
+                  <X className="h-3.5 w-3.5" aria-hidden="true" />
+                  Очистить
+                </button>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }
