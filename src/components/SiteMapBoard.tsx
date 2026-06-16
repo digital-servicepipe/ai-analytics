@@ -7,6 +7,7 @@ import {
   MiniMap,
   Position,
   ReactFlow,
+  useReactFlow,
   type Edge,
   type Node,
   type NodeProps,
@@ -88,9 +89,9 @@ const mapModes: Array<[ViewMode, string]> = [
 const bucketOrder: SitemapBucketKey[] = ["main", "press", "blog"];
 
 const bucketMeta: Record<SitemapBucketKey, { label: string }> = {
-  main: { label: "Главный" },
-  press: { label: "Пресс-центр" },
-  blog: { label: "Блог" },
+  main: { label: "Основной" },
+  press: { label: "Новости и пресс-центр" },
+  blog: { label: "Блог и кейсы" },
 };
 
 function buildFullUrl(path: string) {
@@ -155,11 +156,15 @@ function GroupNode({ data }: NodeProps<Node<GroupNodeData>>) {
           </p>
         </div>
         <button
-          className="rounded-full border border-line bg-surface px-2.5 py-1 text-[11px] font-bold text-ink hover:border-aqua hover:text-aqua"
+          className="nodrag nopan rounded-full border border-line bg-surface px-2.5 py-1 text-[11px] font-bold text-ink hover:border-aqua hover:text-aqua"
           type="button"
-          onClick={() => data.onToggle(data.groupKey)}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            data.onToggle(data.groupKey);
+          }}
         >
-          {data.expanded ? "Свернуть" : `Показать ${data.urlCount}`}
+          {data.expanded ? "Скрыть" : `Показать ${data.urlCount}`}
         </button>
       </div>
 
@@ -236,26 +241,35 @@ function PathNode({ data }: NodeProps<Node<PathNodeData>>) {
 
       <div className="mt-3 flex items-center gap-2">
         <button
-          className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-surface text-ink hover:border-aqua hover:text-aqua"
+          className="nodrag nopan inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-surface text-ink hover:border-aqua hover:text-aqua"
           type="button"
           title="Скопировать ссылку"
-          onClick={() => void copyLink()}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            void copyLink();
+          }}
         >
           {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
         </button>
         <a
-          className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-surface text-ink hover:border-aqua hover:text-aqua"
+          className="nodrag nopan inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-surface text-ink hover:border-aqua hover:text-aqua"
           href={data.fullUrl}
           rel="noreferrer"
           target="_blank"
           title="Открыть path"
+          onClick={(event) => event.stopPropagation()}
         >
           <ExternalLink className="h-4 w-4" />
         </a>
         <button
-          className="inline-flex h-8 items-center justify-center rounded-lg border border-line bg-surface px-2.5 text-[11px] font-bold text-ink hover:border-aqua hover:text-aqua"
+          className="nodrag nopan inline-flex h-8 items-center justify-center rounded-lg border border-line bg-surface px-2.5 text-[11px] font-bold text-ink hover:border-aqua hover:text-aqua"
           type="button"
-          onClick={() => data.onPathSelect(data.path)}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            data.onPathSelect(data.path);
+          }}
         >
           В фильтр
         </button>
@@ -268,6 +282,24 @@ const nodeTypes = {
   group: GroupNode,
   path: PathNode,
 };
+
+function FlowViewportSync({ syncKey }: { syncKey: string }) {
+  const { fitView } = useReactFlow();
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      void fitView({
+        padding: 0.14,
+        duration: 260,
+        includeHiddenNodes: true,
+      });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [fitView, syncKey]);
+
+  return null;
+}
 
 export function SiteMapBoard({
   filters,
@@ -419,7 +451,10 @@ export function SiteMapBoard({
       const isExpanded = expandedGroups.includes(group.key);
       const visibleChildren = isExpanded ? group.nodes : [];
       const childRows = Math.max(1, Math.ceil(Math.max(visibleChildren.length, 1) / childColumns));
-      const laneHeight = Math.max(groupHeight, childRows * childHeight + (childRows - 1) * childGapY);
+      const laneHeight = Math.max(
+        groupHeight,
+        childRows * childHeight + (childRows - 1) * childGapY,
+      );
 
       nodes.push({
         id: `group:${group.key}`,
@@ -486,14 +521,19 @@ export function SiteMapBoard({
     return { nodes, edges };
   }, [expandedGroups, groups, highMark, lowMark, onPathSelect]);
 
+  const viewportSyncKey = useMemo(
+    () => `${expandedGroups.join("|")}::${graph.nodes.length}::${graph.edges.length}`,
+    [expandedGroups, graph.edges.length, graph.nodes.length],
+  );
+
   return (
     <section className="panel p-4">
       <div className="mb-4 flex flex-wrap items-start gap-3">
         <div className="mr-auto">
           <h2 className="text-lg font-extrabold text-ink">Карта сайта</h2>
           <p className="mt-1 max-w-3xl text-sm leading-6 text-muted">
-            Разбивка строго по sitemap: главный, пресс-центр и блог. Внутри видно все URL, число
-            запросов, пустые страницы и правила robots.
+            Разбивка строго по sitemap: основной, новости и пресс-центр, блог и кейсы. Внутри
+            видно все URL, число запросов, пустые страницы и правила robots.
           </p>
         </div>
 
@@ -527,7 +567,9 @@ export function SiteMapBoard({
           ].map(([label, value]) => (
             <div key={label} className="rounded-2xl bg-surface px-4 py-3">
               <p className="text-[11px] font-bold uppercase text-muted">{label}</p>
-              <p className="mt-1 text-xl font-extrabold text-ink">{formatInteger(Number(value))}</p>
+              <p className="mt-1 text-xl font-extrabold text-ink">
+                {formatInteger(Number(value))}
+              </p>
             </div>
           ))}
         </div>
@@ -590,6 +632,7 @@ export function SiteMapBoard({
             zoomOnScroll
             defaultEdgeOptions={{ style: edgeStyle }}
           >
+            <FlowViewportSync syncKey={viewportSyncKey} />
             <Background color="rgba(148, 163, 184, 0.12)" gap={20} size={1} />
             <MiniMap
               pannable
@@ -621,8 +664,8 @@ export function SiteMapBoard({
         <div className="rounded-2xl bg-surface px-4 py-4">
           <p className="text-sm font-extrabold text-ink">Как читать карту</p>
           <p className="mt-2 text-sm leading-6 text-muted">
-            Слева всегда три fixed-блока по sitemap. Нажмите на блок, чтобы раскрыть URL внутри.
-            Запросы влияют только на цвет и счетчики, но не на структуру карты.
+            Слева всегда три fixed-блока по sitemap. Нажмите на кнопку в блоке, чтобы показать или
+            скрыть URL внутри. Запросы влияют только на цвет и счетчики, но не на структуру карты.
           </p>
         </div>
 
@@ -635,19 +678,19 @@ export function SiteMapBoard({
             <p>Блоков: {formatInteger(groups.length)}</p>
             <p>Раскрыто: {formatInteger(expandedGroups.length)}</p>
             <p>
-              Главный sitemap:{" "}
+              Основной:{" "}
               <span className="font-bold text-ink">
                 {formatInteger(groups.find((group) => group.key === "main")?.urlCount ?? 0)} URL
               </span>
             </p>
             <p>
-              Пресс-центр:{" "}
+              Новости и пресс-центр:{" "}
               <span className="font-bold text-ink">
                 {formatInteger(groups.find((group) => group.key === "press")?.urlCount ?? 0)} URL
               </span>
             </p>
             <p>
-              Блог:{" "}
+              Блог и кейсы:{" "}
               <span className="font-bold text-ink">
                 {formatInteger(groups.find((group) => group.key === "blog")?.urlCount ?? 0)} URL
               </span>
