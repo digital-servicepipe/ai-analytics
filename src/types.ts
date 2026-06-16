@@ -44,6 +44,23 @@ export type Kpi = {
   hint: string;
 };
 
+export type InsightTone = "signal" | "opportunity" | "watch";
+
+export type InsightItem = {
+  title: string;
+  body: string;
+  action: string;
+  tone: InsightTone;
+};
+
+export type IntentSummary = {
+  label: string;
+  purpose: string;
+  count: number;
+  share: number;
+  action: string;
+};
+
 export type UrlSummary = {
   path: string;
   total: number;

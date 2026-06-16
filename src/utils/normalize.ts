@@ -1,5 +1,11 @@
 import type { NormalizedLogRow, PageType, RawLogRow } from "../types";
 
+type AgentIntentProfile = {
+  purpose: string;
+  action: string;
+  audience: string;
+};
+
 export const REQUIRED_COLUMNS = [
   "datetime",
   "http_user_agent",
@@ -101,6 +107,82 @@ export function getAgentGroup(botType: string, userAgent: string): string {
   if (normalizedBotType && normalizedBotType !== "Unknown bot") return normalizedBotType;
 
   return "Other";
+}
+
+export function getAgentIntentProfile(agentGroup: string, agentDetail: string): AgentIntentProfile {
+  const detail = agentDetail.toLowerCase();
+  const group = agentGroup.toLowerCase();
+
+  if (
+    detail.includes("chatgpt-user") ||
+    detail.includes("claude-user") ||
+    detail.includes("perplexity-user") ||
+    detail.includes("copilot")
+  ) {
+    return {
+      purpose: "ищет готовый ответ, цитату и короткий вывод для пользователя",
+      action:
+        "Добавьте сверху ясный ответ, тезисы, цифры, FAQ и фрагменты, которые можно легко процитировать.",
+      audience: "Маркетинг",
+    };
+  }
+
+  if (
+    detail.includes("oai-searchbot") ||
+    detail.includes("gptbot") ||
+    detail.includes("claudebot") ||
+    detail.includes("perplexitybot") ||
+    detail.includes("googlebot") ||
+    detail.includes("google-extended") ||
+    detail.includes("bingbot") ||
+    detail.includes("applebot") ||
+    detail.includes("bytespider") ||
+    detail.includes("duckassistbot") ||
+    detail.includes("ccbot") ||
+    detail.includes("petalbot") ||
+    detail.includes("yandex")
+  ) {
+    return {
+      purpose: "сканирует страницу для индексации, retrieval и будущих ответов",
+      action:
+        "Упростите структуру страницы: понятный заголовок, блок с сутью, факты, таблицы, FAQ и чистые внутренние ссылки.",
+      audience: "CMO",
+    };
+  }
+
+  if (group.includes("anthropic") || group.includes("openai") || group.includes("perplexity")) {
+    return {
+      purpose: "оценивает, можно ли страницу использовать в AI-ответах и рекомендациях",
+      action:
+        "Усильте экспертность: добавьте кейсы, формулировки выгод, сравнения и конкретные сценарии применения.",
+      audience: "Маркетинг",
+    };
+  }
+
+  if (group.includes("google") || group.includes("microsoft") || group.includes("apple")) {
+    return {
+      purpose: "проверяет видимость и пригодность страницы для поиска и ассистентов",
+      action:
+        "Проверьте, что ключевые path дают понятный интент, короткое описание и не прячут важный смысл ниже первого экрана.",
+      audience: "CMO",
+    };
+  }
+
+  if (group.includes("meta")) {
+    return {
+      purpose: "проверяет, как материал выглядит для распространения и ссылок",
+      action:
+        "Для PR и контента добавьте чёткий заголовок, заметную цитату, цифры и блок, который легко репостить.",
+      audience: "PR",
+    };
+  }
+
+  return {
+    purpose: "проверяет и читает страницу как внешний агент или краулер",
+    action:
+      "Сделайте страницу понятной без контекста: один главный месседж, короткое объяснение и явный следующий шаг.",
+    audience: "Маркетинг",
+  };
 }
 
 export function parseDatetime(raw: string): {

@@ -230,3 +230,110 @@ textarea {
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
+.react-flow {
+  --xy-background-color-default: #111419;
+  --xy-edge-stroke-default: rgba(148, 163, 184, 0.36);
+  --xy-node-color-default: #e3e3e3;
+  --xy-node-background-color-default: transparent;
+  --xy-node-border-default: 0;
+  background:
+    radial-gradient(circle at top left, rgba(45, 212, 191, 0.05), transparent 28%),
+    linear-gradient(180deg, #13161b 0%, #101318 100%);
+}
+
+.react-flow__panel,
+.react-flow__controls,
+.react-flow__minimap {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.react-flow__controls {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+}
+
+.react-flow__controls-button {
+  background: #15181c;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e3e3e3;
+}
+
+.react-flow__controls-button:hover {
+  background: #1c2025;
+}
+
+.react-flow__attribution {
+  display: none;
+}
+
+.fk-map-canvas {
+  height: 760px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  background: #111419;
+}
+
+.fk-map-node {
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: #171b20;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.02),
+    0 14px 34px rgba(0, 0, 0, 0.24);
+}
+
+.fk-map-group {
+  padding: 16px;
+  background:
+    linear-gradient(180deg, rgba(45, 212, 191, 0.08), rgba(45, 212, 191, 0.02)),
+    #171b20;
+}
+
+.fk-map-path {
+  padding: 12px;
+}
+
+.fk-map-path--hot {
+  border-color: rgba(45, 212, 191, 0.42);
+  background:
+    linear-gradient(180deg, rgba(45, 212, 191, 0.08), rgba(45, 212, 191, 0.02)),
+    #171b20;
+}
+
+.fk-map-path--warm {
+  border-color: rgba(167, 139, 250, 0.42);
+  background:
+    linear-gradient(180deg, rgba(167, 139, 250, 0.08), rgba(167, 139, 250, 0.02)),
+    #171b20;
+}
+
+.fk-map-path--cold {
+  border-color: rgba(96, 165, 250, 0.42);
+  background:
+    linear-gradient(180deg, rgba(96, 165, 250, 0.08), rgba(96, 165, 250, 0.02)),
+    #171b20;
+}
+
+.fk-map-path--empty {
+  border-color: rgba(107, 114, 128, 0.34);
+  background:
+    linear-gradient(180deg, rgba(107, 114, 128, 0.08), rgba(107, 114, 128, 0.02)),
+    #171b20;
+}
+
+.fk-map-path--blocked {
+  border-color: rgba(248, 113, 113, 0.44);
+  background:
+    linear-gradient(180deg, rgba(248, 113, 113, 0.1), rgba(248, 113, 113, 0.02)),
+    #171b20;
+}
+
+.fk-map-handle {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.2);
+}

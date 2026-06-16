@@ -1,5 +1,8 @@
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import {
+  Check,
+  Copy,
+  ExternalLink,
   FileText,
   LayoutDashboard,
   RotateCcw,
@@ -7,15 +10,22 @@ import {
   ShieldCheck,
   Trash2,
   Upload,
+  Waypoints,
 } from "lucide-react";
 import { ChartsGrid } from "./components/ChartsGrid";
 import { EmptyState } from "./components/EmptyState";
 import { FiltersBar } from "./components/FiltersBar";
-import { InsightsCard } from "./components/InsightsCard";
 import { KpiCard } from "./components/KpiCard";
+import { SiteMapBoard } from "./components/SiteMapBoard";
 import { SiteMapExplorer } from "./components/SiteMapExplorer";
 import { UploadZone } from "./components/UploadZone";
 import { UrlTable } from "./components/UrlTable";
+import {
+  DEFAULT_ROBOTS_FILE,
+  DEFAULT_ROBOTS_TXT,
+  DEFAULT_SITEMAP_FILES,
+  DEFAULT_SITEMAP_XML,
+} from "./data/defaultSiteFiles";
 import type {
   Filters,
   NormalizedLogRow,
@@ -23,10 +33,11 @@ import type {
   UploadedFileMeta,
 } from "./types";
 import {
+  buildAgentIntentSummary,
   buildAgentGroupBars,
   buildDetailedAgentBars,
-  buildInsights,
   buildKpis,
+  buildLowSignalPaths,
   buildPageTypeShare,
   buildTimeActivity,
   buildTopPages,
@@ -49,7 +60,7 @@ const emptyFilters: Filters = {
   pathQuery: "",
 };
 
-type ScreenKey = "overview" | "pages" | "control";
+type ScreenKey = "overview" | "pages" | "map" | "control";
 
 type RankingRow = {
   label: string;
@@ -61,6 +72,16 @@ type StatRow = {
   label: string;
   value: string;
   hint: string;
+};
+
+type TopPathRow = {
+  path: string;
+  count: number;
+};
+
+type LoadedSitemapFile = {
+  name: string;
+  content: string;
 };
 
 function createFileId(): string {
@@ -77,6 +98,12 @@ function formatDateTime(value: Date | null): string {
     hour: "2-digit",
     minute: "2-digit",
   }).format(value);
+}
+
+function buildFullUrl(path: string): string {
+  if (/^https?:\/\//i.test(path)) return path;
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `https://servicepipe.ru${encodeURI(normalizedPath)}`;
 }
 
 function BrandMark() {
@@ -162,6 +189,83 @@ function RankingCard({
             Недостаточно данных
           </div>
         )}
+      </div>
+    </article>
+  );
+}
+
+function TopPathsPanel({ rows }: { rows: TopPathRow[] }) {
+  const [copied, setCopied] = useState("");
+
+  const copyUrl = async (path: string) => {
+    const fullUrl = buildFullUrl(path);
+    try {
+      await navigator.clipboard.writeText(fullUrl);
+      setCopied(path);
+      window.setTimeout(() => setCopied(""), 1600);
+    } catch {
+      setCopied("");
+    }
+  };
+
+  return (
+    <article className="panel h-full p-4">
+      <div className="mb-4">
+        <h2 className="text-sm font-extrabold text-ink">Топ path</h2>
+        <p className="mt-1 text-xs leading-5 text-muted">
+          15 страниц с самым заметным потоком. Можно сразу открыть или скопировать ссылку.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        {rows.map((row) => {
+          const fullUrl = buildFullUrl(row.path);
+          return (
+            <div
+              key={row.path}
+              className="flex items-start justify-between gap-3 rounded-2xl bg-surface px-3 py-3"
+            >
+              <div className="min-w-0 flex-1">
+                <a
+                  className="block break-all text-sm font-bold leading-5 text-ink hover:text-aqua"
+                  href={fullUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                  title={fullUrl}
+                >
+                  {row.path}
+                </a>
+                <p className="mt-1 text-xs leading-5 text-muted">
+                  {formatInteger(row.count)} запросов
+                </p>
+              </div>
+
+              <div className="flex shrink-0 items-center gap-2">
+                <button
+                  className="control inline-flex h-9 w-9 items-center justify-center text-ink"
+                  type="button"
+                  title="Скопировать ссылку"
+                  onClick={() => void copyUrl(row.path)}
+                >
+                  {copied === row.path ? (
+                    <Check className="h-4 w-4 text-aqua" aria-hidden="true" />
+                  ) : (
+                    <Copy className="h-4 w-4" aria-hidden="true" />
+                  )}
+                </button>
+                <a
+                  className="control inline-flex h-9 w-9 items-center justify-center text-ink hover:text-aqua"
+                  href={fullUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                  title="Открыть страницу"
+                >
+                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </article>
   );
@@ -302,6 +406,10 @@ export function App() {
   const [error, setError] = useState("");
   const [isParsing, setIsParsing] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [sitemapFiles, setSitemapFiles] = useState<LoadedSitemapFile[]>([
+    { name: "sitemap.xml", content: DEFAULT_SITEMAP_XML },
+  ]);
+  const [robotsTxt, setRobotsTxt] = useState(DEFAULT_ROBOTS_TXT);
   const logInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -320,6 +428,33 @@ export function App() {
       .finally(() => setIsReady(true));
   }, []);
 
+  useEffect(() => {
+    const loadSiteDefaults = async () => {
+      try {
+        const baseUrl = document.baseURI;
+        const loadedSitemaps = await Promise.all(
+          DEFAULT_SITEMAP_FILES.map(async (path) => {
+            const response = await fetch(new URL(path, baseUrl));
+            if (!response.ok) throw new Error(path);
+            return {
+              name: path.split("/").pop() ?? path,
+              content: await response.text(),
+            };
+          }),
+        );
+        const robotsResponse = await fetch(new URL(DEFAULT_ROBOTS_FILE, baseUrl));
+        if (!robotsResponse.ok) throw new Error(DEFAULT_ROBOTS_FILE);
+        setSitemapFiles(loadedSitemaps);
+        setRobotsTxt(await robotsResponse.text());
+      } catch {
+        setSitemapFiles([{ name: "sitemap.xml", content: DEFAULT_SITEMAP_XML }]);
+        setRobotsTxt(DEFAULT_ROBOTS_TXT);
+      }
+    };
+
+    void loadSiteDefaults();
+  }, []);
+
   const persistState = async (nextState: PersistedDashboardState) => {
     setRows(nextState.rows);
     setFiles(nextState.files);
@@ -330,7 +465,6 @@ export function App() {
   const filteredRows = useMemo(() => filterRows(rows, filters), [filters, rows]);
   const kpis = useMemo(() => buildKpis(filteredRows), [filteredRows]);
   const urlSummaries = useMemo(() => buildUrlSummaries(filteredRows), [filteredRows]);
-  const insights = useMemo(() => buildInsights(filteredRows), [filteredRows]);
   const period = useMemo(() => getDataPeriod(rows), [rows]);
   const filterOptions = useMemo(
     () => ({
@@ -370,17 +504,32 @@ export function App() {
     [filteredRows],
   );
 
+  const intentRows = useMemo(
+    () =>
+      buildAgentIntentSummary(filteredRows, 6).map((item) => ({
+        label: item.label,
+        value: formatPercent(item.share * 100),
+        hint: item.purpose,
+      })),
+    [filteredRows],
+  );
+
   const sectionRows = useMemo(
     () => buildRankingRows(filteredRows, "section", "запросов"),
     [filteredRows],
   );
 
-  const topPathsShort = useMemo(
+  const topPathRows = useMemo<TopPathRow[]>(
+    () => buildTopPages(filteredRows, 15),
+    [filteredRows],
+  );
+
+  const lowSignalRows = useMemo(
     () =>
-      buildTopPages(filteredRows, 6).map((item) => ({
-        label: truncateMiddle(item.path, 46),
+      buildLowSignalPaths(filteredRows, 6).map((item) => ({
+        label: truncateMiddle(item.path, 44),
         value: formatInteger(item.count),
-        hint: item.path,
+        hint: item.section,
       })),
     [filteredRows],
   );
@@ -554,26 +703,32 @@ export function App() {
     { label: string; title: string; description: string; icon: typeof LayoutDashboard }
   > = {
     overview: {
-      label: "Аналитика",
-      title: "Аналитика ботов",
+      label: "Панель",
+      title: "Аналитика ИИ-ботов",
       description: "Запросы, группы, user-agent и path в одном экране.",
       icon: LayoutDashboard,
     },
     pages: {
-      label: "Path",
+      label: "URL",
       title: "Path и запросы",
-      description: "Какие path получают запросы и кто по ним ходит.",
+      description: "Какие path получают запросы и кто по ним ходит",
       icon: FileText,
+    },
+    map: {
+      label: "Карта",
+      title: "Карта сайта",
+      description: "Все URL из sitemap, плотность запросов и пустые зоны на одной доске.",
+      icon: Waypoints,
     },
     control: {
       label: "Данные",
       title: "Файлы и проверки",
-      description: "CSV, очистка базы и проверка sitemap с robots.txt.",
+      description: "CSV, очистка базы и проверка sitemap с robots.txt",
       icon: Settings2,
     },
   };
 
-  const screenOrder: ScreenKey[] = ["overview", "pages", "control"];
+  const screenOrder: ScreenKey[] = ["overview", "pages", "map", "control"];
   const activeMeta = screenMeta[activeScreen];
 
   return (
@@ -587,8 +742,8 @@ export function App() {
         onChange={onLogInput}
       />
 
-      <div className="grid min-h-screen lg:grid-cols-[188px_minmax(0,1fr)]">
-        <aside className="border-r border-line bg-sidebar px-3 py-4">
+      <div className="grid h-screen overflow-hidden lg:grid-cols-[188px_minmax(0,1fr)]">
+        <aside className="h-screen overflow-y-auto border-r border-line bg-sidebar px-3 py-4">
           <div className="flex h-full flex-col gap-4">
             <div className="flex items-center gap-3 px-1">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-line bg-surface text-aqua">
@@ -643,7 +798,7 @@ export function App() {
           </div>
         </aside>
 
-        <section className="min-w-0 px-4 py-4 sm:px-5 lg:px-6 xl:px-7">
+        <section className="h-screen min-w-0 overflow-y-auto px-4 py-4 sm:px-5 lg:px-6 xl:px-7">
           <div className="flex w-full flex-col gap-4">
             <header className="flex flex-wrap items-end gap-3">
               <div className="mr-auto">
@@ -706,34 +861,42 @@ export function App() {
 
                     <section className="grid items-stretch gap-3 xl:grid-cols-3">
                       <RankingCard
-                        title="Группы"
+                        title="Группы ботов"
                         description="Кто даёт основной поток."
                         rows={groupRows}
                       />
                       <RankingCard
-                        title="User-agent"
-                        description="Какие имена встречаются чаще всего."
-                        rows={detailRows}
+                        title="Намерения user-agent"
+                        description="Что именно пытаются сделать конкретные агенты."
+                        rows={intentRows}
                       />
                       <RankingCard
-                        title="Разделы"
-                        description="Какие разделы получают больше запросов."
-                        rows={sectionRows}
+                        title="Точки роста"
+                        description="Какие path получают мало запросов, но их стоит усилить."
+                        rows={lowSignalRows}
                       />
                     </section>
 
-                    <section className="grid items-stretch gap-3 xl:grid-cols-3">
-                      <div className="xl:col-span-2">
-                        <RankingCard
-                          title="Топ path"
-                          description="Какие path получают больше всего запросов."
-                          rows={topPathsShort}
-                        />
+                    <section className="grid items-stretch gap-3 xl:grid-cols-[minmax(0,2fr)_minmax(320px,1fr)]">
+                      <div className="min-w-0">
+                        <TopPathsPanel rows={topPathRows} />
                       </div>
-                      <div className="grid gap-3">
-                        <InsightsCard insights={insights} />
+                      <div className="min-w-0">
                         <HealthPanel rows={healthRows} />
                       </div>
+                    </section>
+
+                    <section className="grid items-stretch gap-3 xl:grid-cols-2">
+                      <RankingCard
+                        title="Короткие user-agent"
+                        description="Какие конкретные имена встречаются чаще всего."
+                        rows={detailRows}
+                      />
+                      <RankingCard
+                        title="Разделы спроса"
+                        description="Какие разделы сайта чаще всего попадают в интерес ботов."
+                        rows={sectionRows}
+                      />
                     </section>
                   </>
                 ) : (
@@ -744,6 +907,18 @@ export function App() {
 
             {activeScreen === "pages" && (
               <>{filteredRows.length ? <UrlTable summaries={urlSummaries} /> : <EmptyState />}</>
+            )}
+
+            {activeScreen === "map" && (
+              <SiteMapBoard
+                filters={filters}
+                rows={filteredRows}
+                sitemapFiles={sitemapFiles}
+                robotsTxt={robotsTxt}
+                onPathSelect={(path) =>
+                  setFilters((current) => ({ ...current, pathQuery: path }))
+                }
+              />
             )}
 
             {activeScreen === "control" && (
