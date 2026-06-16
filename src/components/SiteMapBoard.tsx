@@ -26,8 +26,8 @@ import {
   type SitemapNode,
 } from "../utils/siteFiles";
 
-type ViewMode = "all" | "active" | "empty" | "blocked";
 type SitemapBucketKey = "main" | "press" | "blog";
+type NodeTag = "hot" | "warm" | "cold" | "empty" | "blocked";
 
 type SiteMapBoardProps = {
   filters: Filters;
@@ -63,7 +63,7 @@ type PathNodeData = {
   path: string;
   fullUrl: string;
   total: number;
-  status: "hot" | "warm" | "cold" | "empty" | "blocked";
+  status: NodeTag;
   blockedRules: string[];
   botLabels: string[];
   onPathSelect: (path: string) => void;
@@ -79,10 +79,11 @@ const edgeStyle = {
   strokeWidth: 1.2,
 };
 
-const mapModes: Array<[ViewMode, string]> = [
-  ["all", "Все URL"],
-  ["active", "С запросами"],
-  ["empty", "Пустые"],
+const filterChips: Array<[NodeTag, string]> = [
+  ["hot", "Горячие path"],
+  ["warm", "Средний поток"],
+  ["cold", "Низкий поток"],
+  ["empty", "Нет запросов"],
   ["blocked", "Robots"],
 ];
 
@@ -109,12 +110,32 @@ function classifyNode(
   node: SitemapNode,
   lowMark: number,
   highMark: number,
-): PathNodeData["status"] {
+): NodeTag {
   if (node.isBlockedByRobots) return "blocked";
   if (node.total <= 0) return "empty";
   if (node.total >= highMark) return "hot";
   if (node.total >= lowMark) return "warm";
   return "cold";
+}
+
+function getNodeTags(
+  node: SitemapNode,
+  lowMark: number,
+  highMark: number,
+): NodeTag[] {
+  const tags: NodeTag[] = [];
+
+  if (node.isBlockedByRobots) tags.push("blocked");
+  if (node.total <= 0) {
+    tags.push("empty");
+    return tags;
+  }
+
+  if (node.total >= highMark) tags.push("hot");
+  else if (node.total >= lowMark) tags.push("warm");
+  else tags.push("cold");
+
+  return tags;
 }
 
 function getMinimapColor(node: Node) {
@@ -308,7 +329,13 @@ export function SiteMapBoard({
   robotsTxt,
   onPathSelect,
 }: SiteMapBoardProps) {
-  const [viewMode, setViewMode] = useState<ViewMode>("all");
+  const [selectedTags, setSelectedTags] = useState<NodeTag[]>([
+    "hot",
+    "warm",
+    "cold",
+    "empty",
+    "blocked",
+  ]);
   const [expandedGroups, setExpandedGroups] = useState<SitemapBucketKey[]>([]);
 
   const entryMetaByPath = useMemo(() => {
@@ -359,14 +386,13 @@ export function SiteMapBoard({
 
     return sitemapNodes.filter((node) => {
       const { section } = getPageMeta(node.path);
+      const tags = getNodeTags(node, lowMark, highMark);
       if (!matchesSectionFilter(node.path, section, filters)) return false;
       if (query && !node.path.toLowerCase().includes(query)) return false;
-      if (viewMode === "active" && node.total <= 0) return false;
-      if (viewMode === "empty" && node.total > 0) return false;
-      if (viewMode === "blocked" && !node.isBlockedByRobots) return false;
+      if (!selectedTags.some((tag) => tags.includes(tag))) return false;
       return true;
     });
-  }, [filters, sitemapNodes, viewMode]);
+  }, [filters, highMark, lowMark, selectedTags, sitemapNodes]);
 
   const groups = useMemo<GroupSummary[]>(() => {
     const grouped = new Map<SitemapBucketKey, SitemapNode[]>();
@@ -383,9 +409,11 @@ export function SiteMapBoard({
     return bucketOrder
       .map((bucket) => {
         const nodes = (grouped.get(bucket) ?? []).sort((left, right) => {
-          const leftOrder = entryMetaByPath.get(left.path)?.order ?? 0;
-          const rightOrder = entryMetaByPath.get(right.path)?.order ?? 0;
-          return leftOrder - rightOrder;
+          if (right.total !== left.total) return right.total - left.total;
+          const leftOrder = entryMetaByPath.get(left.path)?.order ?? Number.MAX_SAFE_INTEGER;
+          const rightOrder = entryMetaByPath.get(right.path)?.order ?? Number.MAX_SAFE_INTEGER;
+          if (leftOrder !== rightOrder) return leftOrder - rightOrder;
+          return left.path.localeCompare(right.path);
         });
 
         return {
@@ -430,6 +458,12 @@ export function SiteMapBoard({
       current.includes(groupKey)
         ? current.filter((key) => key !== groupKey)
         : [...current, groupKey],
+    );
+  };
+
+  const toggleTag = (tag: NodeTag) => {
+    setSelectedTags((current) =>
+      current.includes(tag) ? current.filter((item) => item !== tag) : [...current, tag],
     );
   };
 
@@ -575,16 +609,16 @@ export function SiteMapBoard({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          {mapModes.map(([mode, label]) => (
+          {filterChips.map(([tag, label]) => (
             <button
-              key={mode}
+              key={tag}
               className={`rounded-full border px-3 py-1.5 text-xs font-bold ${
-                viewMode === mode
+                selectedTags.includes(tag)
                   ? "border-aqua bg-aqua/12 text-aqua"
                   : "border-line bg-surface text-ink hover:border-aqua hover:text-aqua"
               }`}
               type="button"
-              onClick={() => setViewMode(mode)}
+              onClick={() => toggleTag(tag)}
             >
               {label}
             </button>
