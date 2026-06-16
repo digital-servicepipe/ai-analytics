@@ -63,6 +63,7 @@ export type IntentSummary = {
 
 export type UrlSummary = {
   path: string;
+  title: string;
   total: number;
   topGroup: string;
   topGroupCount: number;

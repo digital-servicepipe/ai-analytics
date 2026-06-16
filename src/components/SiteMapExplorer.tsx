@@ -112,7 +112,9 @@ export function SiteMapExplorer({ filters, rows, onPathSelect }: SiteMapExplorer
   const queryValue = query.trim().toLowerCase();
   const filteredMissing = missingActivity.filter((entry) =>
     queryValue
-      ? `${entry.path} ${entry.sources.join(" ")}`.toLowerCase().includes(queryValue)
+      ? `${entry.title} ${entry.path} ${entry.sources.join(" ")}`
+          .toLowerCase()
+          .includes(queryValue)
       : true,
   );
   const missingRows =
@@ -216,8 +218,13 @@ export function SiteMapExplorer({ filters, rows, onPathSelect }: SiteMapExplorer
               <tbody>
                 {missingRows.map((entry) => (
                   <tr key={entry.path} className="border-t border-line hover:bg-[#F8FAFC]">
-                    <td className="px-3 py-2 font-bold text-ink">
-                      {truncateMiddle(entry.path, 92)}
+                    <td className="px-3 py-2 text-ink">
+                      <div className="min-w-0">
+                        <p className="break-words font-bold">{entry.title}</p>
+                        <p className="mt-1 break-all text-xs text-muted">
+                          {truncateMiddle(entry.path, 92)}
+                        </p>
+                      </div>
                     </td>
                     <td className="px-3 py-2 text-xs text-muted">{entry.sources.join(", ")}</td>
                     <td className="px-3 py-2 text-muted">

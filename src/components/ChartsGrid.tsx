@@ -122,7 +122,7 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
     () =>
       buildTopPages(rows, 8).map((item) => ({
         ...item,
-        shortPath: truncateMiddle(item.path, 34),
+        shortLabel: truncateMiddle(item.title, 28),
       })),
     [rows],
   );
@@ -354,7 +354,7 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
                 allowDecimals={false}
               />
               <YAxis
-                dataKey="shortPath"
+                dataKey="shortLabel"
                 type="category"
                 tick={axisTick}
                 tickLine={false}

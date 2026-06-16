@@ -9,6 +9,7 @@ import type {
 } from "../types";
 import { formatDate, formatInteger, formatPercent, uniqueSorted } from "./format";
 import { getAgentDetailLabel, getAgentIntentProfile } from "./normalize";
+import { getPageTitle } from "./pageTitles";
 
 const palette = ["#2DD4BF", "#60A5FA", "#A78BFA", "#FB923C", "#FB7185", "#94A3B8"];
 
@@ -215,7 +216,7 @@ export function buildAgentGroupBars(rows: NormalizedLogRow[]) {
 
 export function buildTopPages(rows: NormalizedLogRow[], limit = 10) {
   return Array.from(countBy(rows, (row) => row.path).entries())
-    .map(([path, count]) => ({ path, count }))
+    .map(([path, count]) => ({ path, count, title: getPageTitle(path) }))
     .sort((left, right) => right.count - left.count)
     .slice(0, limit);
 }
@@ -334,6 +335,7 @@ export function buildUrlSummaries(rows: NormalizedLogRow[]): UrlSummary[] {
 
       return {
         path,
+        title: getPageTitle(path),
         total: group.length,
         topGroup: topGroup?.agentGroup ?? "Unknown",
         topGroupCount: topGroup?.count ?? 0,

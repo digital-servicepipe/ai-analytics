@@ -48,7 +48,11 @@ export function UrlTable({ summaries }: UrlTableProps) {
   const filteredRows = useMemo(() => {
     const lowerQuery = query.trim().toLowerCase();
     return lowerQuery
-      ? summaries.filter((summary) => summary.path.toLowerCase().includes(lowerQuery))
+      ? summaries.filter(
+          (summary) =>
+            summary.path.toLowerCase().includes(lowerQuery) ||
+            summary.title.toLowerCase().includes(lowerQuery),
+        )
       : summaries;
   }, [query, summaries]);
 
@@ -204,12 +208,12 @@ export function UrlTable({ summaries }: UrlTableProps) {
                           target="_blank"
                           title={fullUrl}
                         >
-                          <span className="min-w-0 break-all leading-5">
-                            {truncateMiddle(displayPath, 58)}
+                          <span className="min-w-0 break-words leading-5">
+                            {truncateMiddle(row.title, 64)}
                           </span>
                           <ExternalLink className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
                         </a>
-                        <p className="mt-1 truncate text-xs text-muted">servicepipe.ru</p>
+                        <p className="mt-1 break-all text-xs text-muted">{displayPath}</p>
                         <p className="mt-1 break-words text-xs leading-5 text-muted">
                           {row.userAgentExamples.join(" / ")}
                         </p>

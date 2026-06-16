@@ -1,0 +1,2657 @@
+{
+  "/press-center/companiya-Servicepipe-stala-rezidentom-Skolkovo": {
+    "title": "Компания Servicepipe стала резидентом «Сколково»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/zashchita-informatsionnykh-aktivov-kompanii-kak-i-zachem-obespechivat": {
+    "title": "Защита информационных активов компании: как и зачем обеспечивать",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kak-izmenilsya-rynok-reklamy-i-chto-s-etim-delat": {
+    "title": "Как изменился рынок рекламы и что с этим делать",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/DDoS-protection-with-Servicepipe-Cybert-technology": {
+    "title": "Как защититься от продвинутых DDoS-атак и ботов с помощью технологии Servicepipe Cybert",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v-reestre-rossiyskogo-po-zaregestrirovan-noviy-programniy-product": {
+    "title": "В реестре российского ПО зарегистрирован новый программный продукт DosGate",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kompanii-it-task-i-servicepipe-zakluchili-partniorskoye-soglasheniye": {
+    "title": "Servicepipepe и IT Task заключили партнёрское соглашение",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/obzor-Servicepipe-Cybert-3": {
+    "title": "Обзор платформы Servicepipe Cybert 3.0",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/experti-kompanii-servicepipe-rasskazali-kak-spravlyatsya-s-ddos-atakami": {
+    "title": "Эксперты компании Servicepipe рассказали, как справляться с DDoS-атаками",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/obzor-technologii-Servicepipe-DosGate": {
+    "title": "Как защититься от DDoS-атак и аномального трафика с помощью Servicepipe DosGate",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hakery-atakyut-kompanii-s-pomoshchyu-sms-botov": {
+    "title": "Servicepipe: хакеры атакуют компании с помощью SMS-ботов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/zashchita-ot-ddos-recomendacii-na-2023-god": {
+    "title": "Защита от DDoS: переосмысление опыта и рекомендации на 2023 год",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/osobennosti-ddos-atak-v-2022-godu": {
+    "title": "Особенности DDoS-атак в 2022 году",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hakerskie-ataki-na-rossiyskie-banki": {
+    "title": "Длительность хакерских атак на российские банки выросла за год в шесть раз",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rost-ddos-atak-na-igrovye-servery": {
+    "title": "Эксперты зафиксировали рост DDoS-атак на игровые серверы",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/mnogovektornaya-bezalternativnost-soc": {
+    "title": "Многовекторная безальтернативность SOC",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/zashhita-veb-prilozhenij": {
+    "title": "Главные вопросы защиты веб-приложений",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/banki-i-marketpleisi-stolknulis-s-trehkratnim-rostom-chastoti-sms-atak": {
+    "title": "Банки и маркетплейсы столкнулись с трехкратным ростом частоты sms-атак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/evolyutsiya-ddos-atak": {
+    "title": "Эволюция DDoS-атак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/web-2023-waf": {
+    "title": "Эшелонированная защита от кибератак. Или почему WAF — не панацея?",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/bis-journal-sms-bombing": {
+    "title": "Защищая пользователей, защищайтесь сами",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/danila-chezhin-pionery-atakuiut": {
+    "title": "Пионеры атакуют",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/PHDays-12": {
+    "title": "Servicepipe на PHDays 12",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/sp-kross-tech": {
+    "title": "«Кросс технолоджис» и Servicepipe объявляют о начале партнерства",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/api-noviy-cherniy": {
+    "title": "Почему защищённый API — это новый чёрный",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ekspert-otcenil-poteri-bankov-iz-za-khakerskikh-atak": {
+    "title": "Эксперт оценил потери банков из-за хакерских атак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/zolotaya-korona": {
+    "title": "Хакеры примерили «Золотую корону»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/Zloumyshlenniki-prikryvautsya-imenami-specialistov-Roszdravnadzora": {
+    "title": "Злоумышленники прикрываются именами специалистов Росздравнадзора",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/strakchovschiki-obzhyvayutsya-v-oblakah": {
+    "title": "Страховщики обживаются в облаках",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/http-2-rapid-reset": {
+    "title": "Атаки с технологией HTTP/2 RapidReset проще детектируются…",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/nastroj_antibota_sam_servicepipe": {
+    "title": "Настрой антибота сам",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/avtonomnost-navsegda": {
+    "title": "Автономность навсегда",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/biznes-pereezzhaet-v-onlain": {
+    "title": "Бизнес переезжает в онлайн",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/shifrovalschiki-shifruyut-dlya-dushi": {
+    "title": "Шифровальщики шифруют для души",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/informatsionnaya-bezopasnost": {
+    "title": "Информационная безопасность обновилась",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rynok_ib_importozamestilsya": {
+    "title": "Рынок ИБ «импортозаместился»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/servicepipe_besplatno_zashchitit": {
+    "title": "Servicepipe бесплатно защитит НКО",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ne-vsyakaya-utechka-vedet-k-uscherbu": {
+    "title": "Не всякая утечка ведет к ущербу",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/strahovschiki-uletaut-v-oblaka": {
+    "title": "Страховщики улетают в облака",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/spider-press-reliz": {
+    "title": "Servicepipe: защита от DDoS в одно касание",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/delo-prinimaet-durnoj-oborot": {
+    "title": "Дело принимает дурной оборот",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/uspet_za_15_sekund": {
+    "title": "Успеть за 15 секунд",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v-runete-nashli-ddos-ataki-prodolzhitelnostyu-pochti-v-dva-goda": {
+    "title": "В рунете нашли DDoS-атаки продолжительностью почти в два года",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/karpet-ddos": {
+    "title": "Хакеры стали проводить \"ковровые\" атаки на российские банки",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/zloumishlenniki-atakuyut-banki-millionami-esemesok": {
+    "title": "Злоумышленники атакуют банки миллионами SMS",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/prodlil-arest-hakeru": {
+    "title": "Суд продлил арест хакеру",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/importozameshchenie_2023_itogi_i_plany": {
+    "title": "Интервью с Валентином Соколовым, RCloud by 3data",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/botovody-nashli-novyh-zhertv": {
+    "title": "Ботоводы нашли новых жертв",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/servicepipe_litsenzii_fstek": {
+    "title": "Servicepipe получила лицензии ФСТЭК",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ddos-v-kazdyj-dom": {
+    "title": "DDоS в каждый дом",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/attacks-on-insurers": {
+    "title": "Эксперт раскрыл способ атаки мошенниками сайтов страховщиков",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/razvedenie-ugroz": {
+    "title": "Разведение угроз",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/piraty-vooruzhilis-botami": {
+    "title": "Пираты вооружились ботами",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/telekom_birzha_predstavit": {
+    "title": "«Телеком биржа» на конференции CNews",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/tehnologii-dobra-final": {
+    "title": "Финал конкурса «Технологии добра»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/prostie-investitsii": {
+    "title": "Простые инвестиции",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/sp-dpsgate-upd-logirovanie": {
+    "title": "О блокировках помни год",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/inferit-tb-sp": {
+    "title": "«Инферит Облако» и «Телеком биржа» объединили усилия для комплексной защиты бизнеса от киберугроз",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/bot-i-ia-pochemu-muzhchiny-pered-8-marta-veli-sebia-kak-programmy": {
+    "title": "Покупатель становится ботом",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/servicepipe_zafiksirovala_rost": {
+    "title": "Мощный рост DDoS-атак с начала 2024",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/cisoclub-interwiev-monitoring-i-analiz-setevogo-trafika": {
+    "title": "«Разговор с экспертом»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/cybercamp-meetup-bezopasnost-web-prilojenij": {
+    "title": "CyberCamp MeetUp. Безопасность веб-приложений",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/petla-zatagivaetsa-cem-opasna-novaa-uazvimost-dla-provedenia-ddos-atak": {
+    "title": "Петля затягивается",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/servicepipe-zapustila-dva-novyh-uzla": {
+    "title": "Servicepipe запустила два новых узла фильтрации",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/onlanta-tb-sp": {
+    "title": "«Security ON: аутсорсинг ИБ для бизнеса»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/servicepipe-zafiksirovala-rost": {
+    "title": "Servicepipe зафиксировала рост объема и длительности атак хактивистов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/march-2024-ddos-x450-percent": {
+    "title": "В 2024 году хакеры стали активнее атаковать банки, МФО и коллекторов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/frank-ataki-na-brokerov": {
+    "title": "Брокеры фиксируют число ботовых атак на свои ресурсы",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hakery-pereklychayutsya-na-companii-iz-apk": {
+    "title": "Хакеры переключаются на компании из АПК, потому что они слабо защищены от атак - эксперты",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/netwell-zaklyuchila-distribyutorskoe": {
+    "title": "Netwell заключила дистрибьюторское соглашение с Servicepipe",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/startapi-i-export-rossiyskogo-ib": {
+    "title": "Вглядываясь вдаль",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/sitronics-group-i-servicepipe-obyavili": {
+    "title": "Sitronics Group и Servicepipe объявили о партнерстве",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/odnomu-botu-izvestno": {
+    "title": "Одному боту известно",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ataki-na-bukmekerov": {
+    "title": "Хакеры сделали ставки",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hakeri-stali-chasche-ispolzovat-botneti-v-ddos-atakah": {
+    "title": "Хакеры стали чаще использовать ботнеты в DDoS-атаках",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/boty-v-glubinke": {
+    "title": "Боты уходят “в глубинку”",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hacking-dlya-samoreklamy": {
+    "title": "Хакинг для саморекламы",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/obespechit-zaschitu-biznesa": {
+    "title": "Как обеспечить защиту бизнеса",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/children-security-day": {
+    "title": "Защитить детей от них самих",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ISP-pod-pricelom": {
+    "title": "Ковровые атаки на интернет-провайдеров",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/topoviy-vuz-ne-prigovor": {
+    "title": "Выпускник технического вуза глазами нанимателя",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ddos-moex": {
+    "title": "СМИ выяснили, что Мосбиржа была атакована методом ковровых бомбардировок",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/bad-bot-evolution": {
+    "title": "Эволюция плохих ботов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/vetry-arostnyh-ddos-atak": {
+    "title": "Ветры яростных DDoS-атак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/moschnost_kovrovyh_atak": {
+    "title": "Банки столкнулись с новой киберугрозой",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/potrebnost_zaschiti_vyrosla": {
+    "title": "Потребность в защите от киберугроз выросла вдвое по сравнению с 2023 годом",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/banki_vysvali_na_kover": {
+    "title": "Банки вызвали на ковер",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/vsplesk_interesa_k_zaschite_ot_ddos": {
+    "title": "Servicepipе фиксирует всплеск интереса к решениям по защите от DDoS-атак со стороны финсектора",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kiberugroza_dlya_vuzov_letom": {
+    "title": "Летняя кибергроза: интенсивность DDoS-атак на вузы выросла в разы",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ataki_na_cfa_warning": {
+    "title": "Предупреждён — вооружён!",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/sboi_v_rabote_bankovskyh_prilozheniy": {
+    "title": "В работе мобильных приложений нескольких банков произошел сбой",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/dengi_otbivayutsya_ot_hakerov": {
+    "title": "Деньги отбиваются от хакеров",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/za_polgoda_v_set_uteklo_140_mln_nomerov": {
+    "title": "Слышу прозвон: за полгода в Сеть утекло 140 млн номеров россиян",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/produkty_servicepipe_vnedrili_v_tokeon": {
+    "title": "Продукты Servicepipe внедрили на платформу «Токеон»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hakery_perekluchilis_na_unicredit": {
+    "title": "Хакеры переключились с Райффайзенбанка на «дочку» UniCredit и Абсолют-банк",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hakery_vyigrali_vremya": {
+    "title": "Хакеры выиграли время",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hakeram_ne_povezlo_na_stavkah": {
+    "title": "Хакерам не повезло на ставках",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rt_i_telecom_birzha_stali_partnerami": {
+    "title": "РТ-информационная безопасность предложит своим клиентам продукты Servicepipe",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/boti_atakovali_online_shkoli_v_den_znaniy": {
+    "title": "Контентный запрос: боты атаковали онлайн-школы накануне Дня знаний",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/bezopasnik_idet_v_shkolu": {
+    "title": "Безопасник идёт в школу",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_rossii_uteklo_odin_mlrd_dannykh": {
+    "title": "В России за полгода утекло около 1 млрд строк персональных данных",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hackeri_uvleklis_razgonom": {
+    "title": "Хакеры увлеклись разгоном",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/zloumishlenniki_nashli_noviy_sposob_ataki": {
+    "title": "Злоумышленники нашли новый способ атаки на финансовые сервисы",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ya_ne_hochu_suetitsya": {
+    "title": "«Я не хочу суетиться»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/michail_khlebunov_iz_servicepipe_sberbank_atakuyut_dazhe_pioneri": {
+    "title": "Михаил Хлебунов из Servicepipe: «Сбербанк атакуют даже пионеры»",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/servicepipe_vnedril_granulyarnuyu_nastroiku_filtracii_trafika": {
+    "title": "Servicepipe внедрил гранулярную настройку фильтрации трафика",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/specialistov_po_kiberbezopasnosti_budut_obuchat_so_shkoli": {
+    "title": "Специалистов по кибербезопасности будут воспитывать со школы",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kubernetes_rossii": {
+    "title": "Kubernetes в России",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pochemu_pered_8_marta_muzchin_v_internete_prinimaut_za_botov": {
+    "title": "Почему перед 8 Марта мужчин в интернет-магазине легко принять за ботов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/oblachnie_servisi_stanovyatsya_kluchevimi": {
+    "title": "Облачные сервисы становятся ключевым элементом безопасности корпоративной инфраструктуры",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rossiyskiy_rinok_it_infrastrukturi": {
+    "title": "Российский рынок ИТ-инфраструктуры: тренды, проблемы и прогнозы",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_den_karieri_niu_vshe_2024": {
+    "title": "Servicepipe приняла участие в «Дне карьеры» пермского кампуса НИУ ВШЭ",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/chto_mozhet_sluchitsya_s_biznesom_pri_uvolnenii_programmistov": {
+    "title": "Что может случиться с бизнесом, если сократить IT-разработчиков",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/bezopasnost_dorozhe_deneg": {
+    "title": "Безопасность дороже денег",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/naimi_menya_esli_smozhesh": {
+    "title": "Найми меня, если сможешь",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/chem_opasna_dlya_biznesa_zabitaya_avtomatisatsiya": {
+    "title": "Чем опасна для бизнеса «забытая» автоматизация",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_den_karieri_mgu_2024": {
+    "title": "Servicepipe приняла участие в «Дне карьеры» ВМК МГУ",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/specialisti_obnaruzhili_opasnyi_botnet": {
+    "title": "Специалисты обнаружили атакующий IT-провайдеров опасный ботнет",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_den_kariri_mtusi_2024": {
+    "title": "Компания Servicepipe рассказала студентам МТУСИ о информбезопасности",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/v_set_popalo_286_mln_nomerov": {
+    "title": "В Сеть попало 286 млн номеров россиян",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ddos_i_posle_rossiya_stala_devyatoy_po_chislu_atak": {
+    "title": "DDoS и после: Россия стала девятой в списке основных мишеней хакеров",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/boti_stali_chasche_atakovat_mfo": {
+    "title": "Боты стали чаще атаковать микрофинансовые организации",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_rasskazali_shkolnikam_o_kariere_v_it": {
+    "title": "Servicepipe рассказали школьникам, как попасть в IT",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/novaya_volna_atak_kapcha": {
+    "title": "Новая волна атак с помощью фальшивых «капчей»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/90_procentov_lichnyh_dannyh_rossiyan_popali_v_otkritiy_dostup": {
+    "title": "90% личных данных взрослых россиян попало в открытый доступ",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kolichestvo_hackerskyh_atak_uvelichilos_vdvoe": {
+    "title": "Количество хакерских атак на банки с начала года увеличилось вдвое",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hackeri_pitalis_sorvat_den_rasprodazh": {
+    "title": "Хакеры пытались сорвать день распродаж «11.11»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/chem_grozit_biznesu_otkaz_ot_servisov_cloudflare": {
+    "title": "Чем грозит бизнесу отказ от сервисов Cloudflare",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_planiruyet_otkrit_issledovatelskuyu_laboratoriyu": {
+    "title": "Servicepipe планирует открыть исследовательскую лабораторию",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/hakerov_rasprodazhi_privlekli_bolsche_chem_pokupatelei": {
+    "title": "Хакеров распродажи привлекли больше, чем покупателей",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kompanii_po_kiberbezopasnosti_nazvali_top_uyazvimostei_logistov": {
+    "title": "Компании по кибербезопасности назвали топ уязвимостей логистов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/kak_stat_kibergeroyem_kompaniya_servicepipe_vystupila_v_mtusi": {
+    "title": "Компания Servicepipe выступила с лекцией в Колледже Телекоммуникаций при МТУСИ",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/zaschita_api_korporativnyh_prilozheniy": {
+    "title": "Защита API корпоративных приложений",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_chem_slozhnost_obespecheniya_ib_v_oblachnyh_sredah": {
+    "title": "В чем сложность обеспечения ИБ в облачных средах",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kak_roboti_sobirayut_dannye_o_polzovalelyah_i_opasno_li_eto": {
+    "title": "Как роботы собирают данные о пользователях в сети и опасно ли это",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/konferencia_setevaya_bezopasnost_ib_trendy_importozameschenie_i_buduschee": {
+    "title": "Конференция «Сетевая безопасность»: тренды, импортозамещение и будущее в ИБ",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/obiem_kiberatak_na_saiti_krupnyh_kompaniy_v_food_riteile_viros": {
+    "title": "Объем кибератак на сайты крупных компаний в фуд-ритейле вырос на 80%",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rost_it_atak_motiviruyet_banki_uvelichit_rashodi_na_ib": {
+    "title": "Рост ИТ-атак мотивирует банки увеличить затраты на информбезопасность",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/banki_aktivizirovali_proverku_ustoichivosti_k_kovrovym_ddos_atakam": {
+    "title": "Банки активизировали проверку устойчивости к ковровым DDoS-атакам",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/banki_strani_pod_kovrom": {
+    "title": "Банки страны под «ковром»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_poluchila_natcionalnuyu_bankovskuyu_premiyu": {
+    "title": "Servicepipe получила Национальную банковскую премию 2024",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/hackeri_chasche_atakuyut_online_magazini_pered_novim_godom": {
+    "title": "Хакеры чаще атакуют онлайн-магазины перед Новым годом",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_vystupila_s_lekciey_na_temu_kiberbezopasnosti_v_mirea": {
+    "title": "Компания Servicepipe выступила с лекцией на тему кибербезопасности в МИРЭА",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/innostage_i_servicepipe_obiavili_o_strategicheskom_partnerstve_v_sfere_zaschiti_ot_ddos_atak": {
+    "title": "Innostage и Servicepipe объявили о стратегическом партнерстве в сфере защиты бизнеса от DDoS-атак",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/sboi_po_v_konce_goda_chasche_vsego_fixirovali_v_riteile_i_logistike": {
+    "title": "Сбои ПО в конце года чаще всего фиксировали в ритейле и логистике",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kakim_dlya_rinka_kiberbeza_bil_2024_god_i_kakim_budet_2025": {
+    "title": "Каким для рынка кибербеза был 2024 год и каким будет 2025-й",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hackery_v_noviy_god_atakovali_riteil_i_telecom": {
+    "title": "Хакеры в Новый год атаковали онлайн-маркеты, телеком и ведомства",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/chto_zhdet_it_sferu_v_blizhaishem_buduschem": {
+    "title": "Что ждет ИТ-сферу в ближайшем будущем и какие решения стали лучшими в 2024 году",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kolichestvo_napadeniy_botov_na_bankovskie_prilozheniya_viroslo": {
+    "title": "Количество нападений ботов на банковские приложения выросло на четверть",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_obnovila_product_zaschischenniy_dns_hosting": {
+    "title": "Servicepipe обновила продукт Защищённый DNS-хостинг",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/prilozhenie_surgutneftegazbanka_rabotaet_so_sboyami": {
+    "title": "Приложение банка из нефтяной отрасли работает со сбоями",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/it_trendi_na_2025_god_vo_chto_budut_vkladivatsya_kompanii": {
+    "title": "ИТ-тренды на 2025 год: во что будут вкладываться компании",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/chislo_ddos_atak_na_rossiyskiye_kompanii_viroslo_v_2024": {
+    "title": "Число DDoS-атак на российские компании в 2024 году выросло в 1,5 раза",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/odnogo_iz_krupneishih_operatorov_svyazi_atakovali_politicheski_zamotivirovannye_hackeri": {
+    "title": "Одного из крупнейших операторов связи атаковали политически мотивированные хакеры",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/experti_otcenili_ugrozu_ddos_atak_dlya_telecom_operatorov": {
+    "title": "Эксперты оценили угрозу DDoS-атак для телекоммуникационных операторов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ddos-mitigation-expert-advice": {
+    "title": "Защита от DDoS-атак: актуальные советы экспертов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/cybersecurity-hr-demand": {
+    "title": "Эксперты оценили спрос на ИБ-специалистов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kompanii_vse_aktivnee_ischut_specialistov_po_ib": {
+    "title": "Компании все активнее ищут специалистов по ИБ",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/chislo_ddos_atak_na_rossiyskiiye_telecom_kompanii_vyroslo": {
+    "title": "Число DDoS-атак на российские телеком-компании выросло на 60%",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rossiyan_prizvali_ne_delitsya_s_deepseek_lichnimy_dannymi": {
+    "title": "Россиян призвали не делиться с DeepSeek личными данными",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/flowcollector-press-release": {
+    "title": "Данные о трафике храните бесконечно | Пресс-релиз FlowCollector",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/hakery_stali_chasche_atakovat_online_shkoly": {
+    "title": "Хакеры стали чаще атаковать онлайн-школы в России и сайты с образовательными материалами",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/interview_vyacheslav_kasimov_mkb": {
+    "title": "Вячеслав Касимов, МКБ: В случае DDoS-атак простои не могут превышать трех минут",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/zloumishlenniki_vse_chasche_ispolzuyut_zarazhenniye_virtualniye_serveri": {
+    "title": "Злоумышленники все чаще используют зараженные виртуальные серверы",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pochemu_povtorniye_ataki_hackerov_neizbezhni_i_kak_ih_ostanovit": {
+    "title": "Почему повторные атаки хакеров неизбежны и как их остановить",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kakie_kiberriski_ugrozhaut_biznesu_i_polzovatelyam_v_2025_godu": {
+    "title": "Какие киберриски угрожают бизнесу и пользователям в 2025 году",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/uralskiy_forum_na_noviy_lad": {
+    "title": "Уральский форум на новый лад",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/botov_nauchili_pohischat_bonusi_programm_loyalnosti": {
+    "title": "Ботов научили похищать бонусы программ лояльности",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/flowcollector_dlya_telecom_operatorov_na_tri_mesyaca": {
+    "title": "Специальное предложение для телеком-операторов от Servicepipe",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/fintekh_poprosil_minobrnauki_skorrektirovar_plan_podgotovki_it_specialistov": {
+    "title": "Финтех попросил Минобрнауки скорректировать план подготовки IT-специалистов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kak_telecom_otrasli_zaschititsya_ot_ddos": {
+    "title": "Как телеком-отрасли защититься от DDoS-угроз",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/experti_rasskazali_ob_opasnosti_kiberatak_na_telecom": {
+    "title": "Эксперты рассказали об опасности кибератак для отрасли телеком",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kak_raskrivayut_botneti": {
+    "title": "Как раскрывают ботнеты",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hackery_nachali_atakovat_saiti_prodazhi_biletov_v_prddverii_8_marta": {
+    "title": "Хакеры начали атаковать сайты продажи билетов в преддверии 8 Марта",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pochemu_muzhchin_mogut_prinyat_za_botov": {
+    "title": "Почему покупающих в Сети подарки мужчин могут принять за ботов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pochemu_kovroviye_araki_okazalis_effektivni_protiv_bankov": {
+    "title": "Почему ковровые атаки оказались эффективны против крупнейших игроков финрынка",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/diskussiya_it_i_startapi": {
+    "title": "Дискуссия «IT: профессии и стартапы» состоится 11 марта в Москве",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/localnaya_zaschita_ot_botov_realnost_ili_utopiya": {
+    "title": "Локальная защита от ботов — реальность или утопия",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hackeri_nachali_atakovat_banki_prodvinutym_botnetom": {
+    "title": "Хакеры начали разорять банки РФ на миллионы рублей в день за счет SMS",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_predstavlyaet_noviy_apparatniy_kompleks_cybert": {
+    "title": "Servicepipe представляет программно-аппаратный комплекс по защите от атак на уровне приложений",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/v_prazdniki_na_retail_obrushilis_seteviye_ataki": {
+    "title": "В праздники на онлайн-ритейл обрушились сетевые атаки",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_prinyali_uchastie_v_diskussii_po_it_v_atrium": {
+    "title": "Servicepipe приняли участие в дискуссии по теме IT от дискуссионного клуба «Атриум»",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/neiroset_skoro_budet_pisat_vtroe_bolshe_koda": {
+    "title": "Нейросеть скоро будет писать втрое больше кода за разработчиков",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_pobivala_na_yarmarke_vakansiy_v_mgtu_baumana": {
+    "title": "Servicepipe побывала на «Ярмарке вакансий» МГТУ им. Н.Э. Баумана",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/servicepipe_moderniziroval_yadro_dosgate": {
+    "title": "Servicepipe модернизировал ядро DosGate для интеграции с NGFW",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/dlya_zaschiti_ot_ddos_banki_vybirayut_pak": {
+    "title": "Для защиты от DDoS-атак банки выбирают ПАК",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kolichestvo_del_ob_ispolzovanii_ii_v_sudah_vyroslo_na_40_procentov": {
+    "title": "Количество дел об использовании ИИ в судах выросло на 40%",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/it_integrator_ibs_vyidet_na_rynok_konsaltinga": {
+    "title": "IT-интегратор IBS выйдет на рынок консалтинга",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_vystupila_s_lekciey_ob_it_v_kolledge_sovremennyh_kommunikaciy": {
+    "title": "Компания Servicepipe выступила с лекцией в Колледже современных технологий",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/servicepipe_obnovila_product_secure_dns_hosting": {
+    "title": "Servicepipe обновила продукт «Защищенный DNS-хостинг»",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/chem_mogut_bit_polezni_zakoni_dlya_robotov": {
+    "title": "Нужны ли законы для роботов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pochemu_internet_provaideri_ne_mogut_popast_v_mnogokvartirniye_doma": {
+    "title": "DDoS-атака не дала войти в подъезд",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/expert_servicepipe_ocenil_predlozhenie_rkn_o_usilenii_sistemi_bezopasnosti_provaiderov": {
+    "title": "Эксперт Servicepipe оценил предложение РКН доработать регулирование безопасности провайдеров",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_rossii_naschitali_bolee_mln_zarazhennyh_ustroistv": {
+    "title": "В России насчитали почти 1,3 млн зараженных умных устройств",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_servicepipe_viyasnili_kak_faza_luni_vliyaet_na_ddos": {
+    "title": "В Servicepipe выяснили, как фаза Луны влияет на количество DDoS-атак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/experi_rasskazali_o_novoi_sheme_atak_na_prilozheniya": {
+    "title": "Эксперты рассказали о новой схеме атак на приложения",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_prilozheniyah_transporta_obnaruzheni_uyazvimosti": {
+    "title": "В приложениях транспорта обнаружено более 1800 уязвимостей",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/skolko_zarabativayut_ib_specialisti": {
+    "title": "Сколько зарабатывают ИБ-специалисты?",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/interview_frank_media": {
+    "title": "Интервью с техническим директором Frank Media: чем опасен черный парсинг для СМИ",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/roskomnadzor_rasskazal_o_samoy_dlitelnoy_atake": {
+    "title": "Роскомнадзор рассказал о самой длительной DDoS-атаке на Россию",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kolichestvo_it_specialistov_v_rossii_vyroslo": {
+    "title": "Количество IT-специалистов в России достигло миллиона",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/interview_antimalware_khlebunov_laboratory": {
+    "title": "Как устроена лаборатория Servicepipe",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/mincifri_oseniyu_opredelit_shtrafi_uk_za_nedopusk_provaiderov": {
+    "title": "Минцифры осенью определит штрафы для УК за недопуск интернет-провайдеров в дома",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_obnovila_product_flowcollector_v1.4": {
+    "title": "Servicepipe обновила анализатор трафика FlowCollector",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/ddos_ataki_obrushilis_na_telecom_i_finansovuyu_sferu": {
+    "title": "DDoS-атаки обрушились на телеком и финансовый сектор",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/michail_khlebunov_sprognoziroval_rost_koda_sozdannogo_ii": {
+    "title": "Михаил Хлебунов спрогнозировал увеличение использования ИИ для создания кода",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/mincifri_mozhet_obyazat_it_biznes_pomogat_shkolam_i_kolledjam": {
+    "title": "Минцифры может обязать IT-бизнес помогать еще и колледжам и школам",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/gde_naiti_idealnogo_bezopasnika": {
+    "title": "Где найти идеального безопасника",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hackery_atakuyut_zdravookhranenie_i_pischevuyu_promishlennost": {
+    "title": "Хакеры атакуют здравоохранение и пищевую промышленность",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/prilozheniya_obrazovatelnyh_servisov_okazalis_samimi_uyazvimimi": {
+    "title": "Приложения образовательных сервисов оказались самыми уязвимыми",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/servicepipe_telecom_birzha_i_infosecurity_zakluchili_soglashenie_o_partnerstve": {
+    "title": "Servicepipe, «Телеком биржа» и Infosecurity заключили партнерское соглашение",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/interview_dmitriy_shakhin_azbuka_vkusa": {
+    "title": "Азбука вкуса: «Надо за 20% бюджета защищаться от 80% киберугроз»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hackery_atakovali_rossiyskyh_bukmekerov": {
+    "title": "Хакеры атаковали российских букмекеров перед матчем с Овечкиным",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hackery_stali_bolee_izbiratelnimy": {
+    "title": "Хакеры становятся более избирательными",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/serviceipe_issledovala_servera_kraftway_dlya_sozdaniya_pak_ot_ddos": {
+    "title": "Servicepipe исследовала сервера Kraftway для построения на их основе ПАКа для защиты от DDoS-атак",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/rossiya_voshla_v_top_atakuemyh_stran": {
+    "title": "Россия вошла в топ-10 самых атакуемых хакерами стран",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/servicepipe_opublikovala_resultati_issledovaniya_aktivnosti_botov_parserov_v_aprele": {
+    "title": "Servicepipe опубликовала результаты исследования активности ботов-парсеров в апреле",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_i_infosistemi_djet_obyavili_o_partnerstve": {
+    "title": "Оn-premise решения Servicepipe будут представлены в «Инфосистемы Джет»",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/v_laboratorii_servicepipe_bolee_40_inzhenerov_proshli_kurs": {
+    "title": "В Лаборатории Servicepipe более 40 инженеров прошли освоение курса противодействию сетевым угрозам",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/kompanii_s_blizhnego_vostoka_okazalis_yuazvimi": {
+    "title": "Компании, работающие на рынке Ближнего Востока, оказались уязвимы перед кражей данных",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/mincifri_videlit_bolee_13_mlrd_rublei_na_granti_dlya_it_kompaniy": {
+    "title": "Минцифры выделит более 13 млрд рублей на гранты в поддержку отечественных IT-решений",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pochti_vse_ataki_hacktivistov_na_mayskyh_bili_na_rossiiskyh_operatorov": {
+    "title": "Почти все атаки хактивистов на майских пришлись на российских операторов и провайдеров",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/iprotect_i_servicepipe_zakluchili_strategicheskoe_partnerstvo": {
+    "title": "iTProtect и Servicepipe заключили стратегическое партнерство в сфере защиты от DDoS-атак и ботов",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/laboratoriya_servicepipe_zavershila_pilotniy_proekt_po_analizu_logov": {
+    "title": "Лаборатория Servicepipe завершила пилотный проект по анализу логов",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/na_rynke_odezdi_vyrosla_aktivnost_botov_parserov": {
+    "title": "На рынке одежды РФ выросла активность ботов-парсеров",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/minust_predlagaet_rasshirit_ugolovnuyu_za_ddos": {
+    "title": "Минюст предлагает расширить уголовную ответственность за DDoS-атаки",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/dohodi_rossiyskyh_relokantov_virosli_na_14_procentov": {
+    "title": "Доходы российских релокантов, работающих из-за границы, выросли на 14%",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/zablokirovana_krupneishaya_bot_ataka_na_gosstrukturi_rf": {
+    "title": "Заблокирована крупнейшая бот-атака на госструктуры в РФ",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/chatgpt_i_drugie_ii_kotoriye_ispolzuyut_hackeri": {
+    "title": "ChatGPT и другие языковые модели активно используются хакерами",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kiber_positiv_kak_startoval_phdays": {
+    "title": "Кибер-позитив: как стартовал Positive Hack Days 2025?",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_predstavila_dosgate_autopilot": {
+    "title": "DosGate Autopilot — модуль, который сам пишет защитные правила во время DDoS-атаки",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/ii_algoritmi_budut_predlagat_varianti_ustraneniya_ddos": {
+    "title": "ИИ-алгоритмы будут предлагать варианты устранения DDoS-атак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kiberataka_ostavila_bez_interneta_neskolko_moskovskyh_zhk": {
+    "title": "Кибератака оставила без интернета несколько московских ЖК",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kod_rosta_kak_techno_kompanii_adaptiruyutsya_k_novim_usloviyam": {
+    "title": "Код роста: как технологические компании адаптируются к новым рыночным условиям",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_voshla_v_reiting_techuspeh": {
+    "title": "Servicepipe вошла в топ-50 рейтинга быстрорастущих технологических компаний",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/hackeri_stali_chasche_ispolzovat_uyazvimosti_prilozheniy": {
+    "title": "Хакеры стали чаще использовать уязвимости приложений",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/mobius_technologii_i_servicepipe_partnerstvo": {
+    "title": "«Мобиус Технологии» и Servicepipe создадут надежный киберщит  для российской экономики",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/rossetyam_nuzhno_esche_sem_let_dlya_perehoda_na_otechestvenniy_soft": {
+    "title": "«Россетям» нужно еще семь лет для перехода на отечественный софт",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/novaya_kiberrealnost_o_chem_govorili_na_cipr_2025": {
+    "title": "Новая киберреальность: о чем говорили ИБшники на ЦИПР-2025?",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_laboratorii_servicepipe_razrabatyvayut_novuyu_platformu_dlya_analiza_trafika_na_l7": {
+    "title": "В лаборатории Servicepipe разрабатывается платформа для анализа трафика на уровне приложений",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_ugolovnom_kodekse_mogut_poyavitsya_nakazaniya_za_ddos": {
+    "title": "В Уголовном кодексе РФ может появиться наказание за DDoS-атаки",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rossiya_voshla_v_top_10_po_rashodam_na_bezopasnost": {
+    "title": "Россия вошла в топ-10 по расходам на кибербезопасность",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hackeri_ne_smogli_vzlomat_veb_resursi_cipr_2025": {
+    "title": "Хакеры не смогли взломать веб-ресурсы конференции ЦИПР 2025",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/iz_za_dnya_rossii_v_rf_v_neskolko_raz_viroslo_chislo_hackerskyh_atak": {
+    "title": "Из-за Дня России в РФ в несколько раз выросло число проукраинских хакерских атак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pryamoy_stik_novaya_norma_bezopasnosti": {
+    "title": "Прямой защищённый стык — новая норма безопасности",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/spros_na_specialistov_ii_v_bezopasnosti_vyros": {
+    "title": "Спрос на специалистов по безопасности ИИ вырос в 4 раза",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/vozmozhno_li_detyam_zapretit_polzovatsya_socsetyami": {
+    "title": "Возможно ли запретить детям пользоваться социальными сетями",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kolichestvo_ddos_atak_na_telecom_vyroslo_na_55_procentov": {
+    "title": "Количество DDoS-атак на телеком-отрасль выросло на 55%",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/kak_rekruteram_naladit_kommunikaciyu_s_hr": {
+    "title": "Как рекрутерам наладить коммуникацию с нанимающими: мнение техлидов",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/rkn_ozhidaet_uvelicheniya_chisla_ddos_atak_v_sentyabre": {
+    "title": "Роскомнадзор ожидает увеличения числа DDoS-атак в сентябре",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rossiyskomy_it_biznesu_nuzhna_pomosch_dlya_vihoda_na_zarubezhniy_rinok": {
+    "title": "Российскому IT-бизнесу необходима помощь в выходе на зарубежные рынки",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/mincifri_iniciirovalo_sozdanie_novyh_programm_podgotovki_it": {
+    "title": "Минцифры России инициировало новые программы подготовки IT-кадров",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rekordniye_ataki_obrushilis_na_vuzi": {
+    "title": "Рекордные кибератаки обрушились на вузы",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/kak_brokeru_vistroit_eschelonirovannuyu_zaschitu": {
+    "title": "Как брокеру построить эшелонированную киберзащиту, соответствующую духу времени",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/kak_proschel_perviy_ai_meetup_v_servicepipe": {
+    "title": "Как прошел первый AI Meetup в Servicepipe",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/chislo_ddos_atak_na_rossiyskie_kompanii_viroslo": {
+    "title": "Число DDoS-атак на российские компании в первом полугодии выросло более чем на 60%",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ukraina_nauchilas_provodit_massoviye_ataki_iz_rossii": {
+    "title": "Украина научилась проводить массовые DDoS-атаки из России",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/chislo_atak_botov_na_medtech_viroslo": {
+    "title": "Число атак ботов на медтех выросло за полгода на четверть",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_prinyala_uchastie_v_kariyernom_vipusknom_mtusi": {
+    "title": "Servicepipe приняла участие в «Карьерном выпускном» МТУСИ",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/ii_assistenti_novaya_dira_v_bezopasnosti": {
+    "title": "ИИ-ассистенты — новая дыра в безопасности",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/resheniya_servicepipe_zaschityat_innostage": {
+    "title": "Решения Servicepipe позволят Innostage комплексно защитить клиентов от автоматизированных L3-L7 атак",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/dlitelnost_ddos_atak_sokratilas_v_4_raza": {
+    "title": "Длительность DDos-атак на российские компании сократилась более чем в 4 раза",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_predstavila_noviy_modul_dosgate_rlog": {
+    "title": "Servicepipe представила новый модуль DosGate RLOG",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/iz_za_ddos_ataki_na_hosting_estt_postradali_krupniye_companii": {
+    "title": "Из-за DDoS-атаки на хостинг ESTT пострадали крупные компании",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/k_chemu_privedet_moschnaya_ddos_ataka_na_krimskiy_telecom": {
+    "title": "К чему приведет мощная DDoS-атака на телеком Крыма и Херсонской области",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/chislo_kiberatak_na_magazini_kosmetiki_viroslo": {
+    "title": "Servicepipe: число кибератак на магазины косметики в 2025 году выросло на 31%",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/resursi_developerov_podverdlis_aktivnym_atakam": {
+    "title": "Ресурсы девелоперов подверглись активным кибератакам",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hackery_iz_silent_crow_zayavili_o_prichastnosti_k_sbou_aviakompanii": {
+    "title": "Хакеры из Silent Crow заявили о причастности к сбою «Аэрофлота»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_rossii_vyroslo_chislo_hackerskih_atak_na_transportniy_sektor": {
+    "title": "В России резко выросло число разведывательных хакерских атак на транспортный сектор",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/rossiyskiye_kompanii_smogut_kontrolirovat_deistviya_ii_agentov_na_ih_saitah": {
+    "title": "Российские компании смогут контролировать действия ИИ-агентов на своих сайтах",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/k_chemu_privedet_hackerskaya_ataka_na_aptechniye_seti": {
+    "title": "К чему приведет хакерская атака на аптечные сети и «Семейного доктора»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_rossii_viroslo_chislo_visitov_ii_kraulerov": {
+    "title": "В России в три раза выросло число визитов на сайты через ИИ-краулеры",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/neiroseti_obirayut_media": {
+    "title": "Нейросети обирают медиа",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/chatgpt_dlya_prodvinutyh_soveti_michaila_khlebunova": {
+    "title": "ChatGPT для продвинутых: советы Михаила Хлебунова",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_rossii_poyavitsya_servis_dlya_markirovki_ii_kontenta": {
+    "title": "В России появится сервис для маркировки ИИ-контента и его выявления",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/roditelskiy_kontrol_kak_zaschitit_detei_ot_kiberugroz": {
+    "title": "Родительский контроль: как защитить от киберугроз детей и подростков",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pochemu_biznesu_vazhno_investirovat_v_bezopasnost": {
+    "title": "Почему бизнесу важно инвестировать в кибербезопасность",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_prinyala_uchastie_v_mitape_centralnogo_universiteta": {
+    "title": "Servicepipe приняла участие в митапе «Сплошные плюсы. Клуб С++ разработчиков»",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/michael_khlebunov_interview_cnews": {
+    "title": "Интервью Михаила Хлебунова для CNews",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/boti_peremanivayut_pokupateley_na_seriy_rinok": {
+    "title": "Боты переманивают покупателей на серый рынок",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rossiyskiy_biznes_stal_chasche_registrirovat_pochtu_na_sobstvennyh_domenakh": {
+    "title": "Российский бизнес стал чаще регистрировать почтовые ящики на собственных доменах",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pochemu_rastet_rinok_bezopasnoy_razrabotki_softa": {
+    "title": "Почему растет рынок безопасной разработки софта",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rostelecom_kupil_esche_odnogo_razrabotchika_v_kiberbeze": {
+    "title": "«Ростелеком» купил еще одного разработчика сервисов в кибербезе",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kak_sboi_v_internete_vliyayut_na_finansovuyu_sistemu": {
+    "title": "Как сбои в работе интернета влияют на финансовую систему",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_prilozheniyah_dlya_arendi_avto_nashli_uyazvimosti": {
+    "title": "В приложениях для аренды автомобилей и самокатов нашли более 400 уязвимостей",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/mincifri_podgotovilo_koncepciyu_regulirovaniya_iskusstvennogo_intellekta": {
+    "title": "Минцифры подготовило концепцию регулирования искусственного интеллекта",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/expert_rasskazal_kak_hackery_ispolzuyut_ii": {
+    "title": "Эксперт рассказал, как хакеры используют ИИ",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hirurgicheskiye_ddos_ataki_nachali_nakrivat_rossiyu": {
+    "title": "«Хирургические» DDoS-атаки начали накрывать Россию",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kolichestvo_internet_provaiderov_rastet": {
+    "title": "Количество интернет-провайдеров растет вместе со спросом на подключение",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_i_telecom_birzha_nachnut_predostavlyat_uslugu_sdc": {
+    "title": "Servicepipe и «Телеком биржа» начнут предлагать клиентам «прямые защищенные стыки»",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/poisk_uyazvimostei_prines_belim_hackeram_270_mln_rublei": {
+    "title": "Поиск уязвимостей принес белым хакерам почти 270 млн рублей",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_reorganizuyet_techpodderzhku": {
+    "title": "Servicepipe создает Инженерный центр реагирования на сетевые и веб-угрозы",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/aktivnost_vredonosnyh_botov_virosla_na_saitah_shkol": {
+    "title": "Активность вредоносных ботов на сайтах онлайн-школ выросла в 2,5 раза",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/it-contractors-as-hackers-loopholes": {
+    "title": "IT-подрядчики крупного бизнеса могут стать лазейкой для хакеров",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/information-security-demand-growth": {
+    "title": "Спрос на ИБ-сервисы может удвоиться к 2030 году",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/service-pipa-telegram-channel": {
+    "title": "Servicepipe запустил Telegram-канал Service Pipa для студентов и джунов",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/vibe-coding-in-it": {
+    "title": "Может ли ИИ заменить разработчиков",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/july-cyber-attacks-consequences": {
+    "title": "Чем обернулись июльские кибератаки на российский бизнес",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/russian-domains-threat": {
+    "title": "Злоумышленники активно интересуются доменами российских компаний",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/hub-and-flowcollector": {
+    "title": "Servicepipe предлагает новое решение для защиты телеком-операторов",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/it-elements-award-2025": {
+    "title": "Servicepipe получил премию IT Elements",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/vnedrenie_ii_mozhet_prinesti_bankam_pribil_cherez_pyat_let": {
+    "title": "Внедрение ИИ может принести банкам до 1,9 трлн рублей прибыли через пять лет",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/domen_su_podderzhit_esche_4_yazika": {
+    "title": "Домен .SU поддержит еще четыре языка",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/chislo_kiberatak_na_regionalniye_operatory_svyazi_vyroslo": {
+    "title": "Число кибератак на региональные операторы связи выросло на 65%",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/novaya_professiya_perevodchik_s_itshnogo": {
+    "title": "Новая профессия — переводчик ИТ-шного",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/fstek_gotovit_pravila_bezopasnosti_dlya_iskusstvennogo_intellekta": {
+    "title": "ФСТЭК готовит правила безопасности для искусственного интеллекта",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_it_rastet_spros_na_mnogofunkcionalnyh_sotrudnikov": {
+    "title": "В IT растет спрос на многофункциональных сотрудников",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rossiyanam_rasskazali_o_sposobe_obmana_studentov_fake_boss": {
+    "title": "Россиянам рассказали о способе обмана студентов с помощью схемы «фейк-босс»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_i_it_park_obiyavili_o_partnerstve": {
+    "title": "Servicepipe и ГАУ «Технопарк в сфере высоких технологий «ИТ-парк» объявили о партнерстве",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/ukrainskiye_hackeri_atakovali_rossiyskiyh_provaiderov_sputnikovoy_svyazi": {
+    "title": "Украинские хакеры атаковали российских провайдеров спутниковой связи",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/bolshinstvo_rossiyan_podderzhali_vnedrenie_ii_v_bankovskiye_processi": {
+    "title": "Большинство россиян под­дер­жа­ли час­тич­ное внед­ре­ние ИИ в бан­ков­ские про­цес­сы",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rastet_chislo_tochechnyh_kiberatak": {
+    "title": "Servicepipe: растет число точечных кибератак в России",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kak_uberech_detei_i_pensionerov_ot_moschennikov": {
+    "title": "Россиянам рассказали, как уберечь детей и пенсионеров от мошенников",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/zloumishlenniki_nachali_aktivno_osvaivat_rossiyskiye_botneti": {
+    "title": "Злоумышленники начали активно осваивать российские ботнеты",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rossiyskiye_companii_bolshe_ne_polagayutsya_na_geofiltraciyu": {
+    "title": "Servicepipe: российские компании больше не полагаются на геофильтрацию в защите от DDoS-атак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_zapuskaet_panel_upravleniya_dlya_operatorov_svyazi": {
+    "title": "Servicepipe запускает панель управления для операторов связи",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/issledovanie_boti_smart_tv": {
+    "title": "Аналитики Servicepipe выявили, что в рекламных кампаниях на Smart TV боты могут составлять до 99%",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/biznes_nedoocenivayet_opasnost_iskusstvennogo_intellekta": {
+    "title": "Бизнес недооценивает опасность искусственного интеллекта",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_na_dne_karieri_v_mirea": {
+    "title": "Servicepipe на Дне карьеры в МИРЭА",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/rastet_chislo_ukradennyh_allauntov_v_steam": {
+    "title": "Растёт число украденных аккаунтов в Steam",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kolichestvo_atak_umnyh_botov_na_mfo_viroslo": {
+    "title": "Количество атак умных ботов на МФО выросло почти на четверть с начала года",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/braziliya_stala_glavnym_istochnikom_ddos": {
+    "title": "Бразилия стала главным источником DDoS-атак в третьем квартале 2025 года",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rf_planiruyet_prisoedinitsya_k_konvencii_oon_protiv_kiberprestupnosti": {
+    "title": "РФ планирует присоединиться к конвенции ООН против киберпреступности",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_na_dne_karieri_mtusi": {
+    "title": "Servicepipe на Дне карьеры МТУСИ",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/v_agrootrasli_nehvatka_programmistov": {
+    "title": "В агроотрасли не хватает программистов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rossiyane_stali_chasche_pokupat_s_inostrannyh_ip_posle_sboya": {
+    "title": "Россияне стали чаще покупать с иностранных IP-адресов на фоне сбоев мессенджеров",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/baumanka_servicepipe_partners": {
+    "title": "Студенты Бауманки будут изучать кибербезопасность на основе решений Servicepipe",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/dochernyaya_ib_kompaniya_operatora_svyazi_nachnet_konpensirovat_ubitki": {
+    "title": "Дочерняя ИБ-компания оператора связи начнет компенсировать ущерб от пропущенных атак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/dolya_botov_v_trafike_reklamnyh_companiy_rezko_vyrosla": {
+    "title": "Доля ботов в трафике рекламных кампаний резко выросла",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_zafiksirovala_rost_sprosa_na_reservniye_dns": {
+    "title": "Servicepipe зафиксировала рост спроса на резервные DNS",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/aktivnost_botov_na_saitah_dostavki_edi_vyrosla": {
+    "title": "Эксперт Servicepipe рассказал о росте активности ботов на сайтах доставки еды",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ii_otveti_v_poiskovoy_vidache_vliyayut_na_trafik": {
+    "title": "«Яндекс» поборется с маркетплейсами с помощью ИИ-ответов в выдаче",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kak_budut_rabotat_detskiye_sim_karti": {
+    "title": "Как будут работать детские сим-карты в России и от чего защитят",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_flowcollector_nauchilsya_viyavlyat_hirurgicheskiye_ataki_na_urovne_portov": {
+    "title": "Servicepipe FlowCollector научился выявлять «хирургические» атаки на уровне портов",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/expert_servicepipe_rasskazal_o_snizhenii_trafika_v_chatah_ii": {
+    "title": "Эксперт Servicepipe рассказал о снижении трафика из чатов с ИИ-агентами",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/chislo_obmana_s_golosovimi_udvoitsya": {
+    "title": "Число случаев обмана с голосовыми к концу года удвоится",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kiberataki_stanovyatsya_umnee": {
+    "title": "Кибератаки становятся умнее, и бизнес учится предвидеть угрозы",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/innostage_integrirovali_servicepipe_secure_dns_hosting_v_soc_cyberart": {
+    "title": "Innostage и Servicepipe усиливают защиту клиентов",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/servicepipe_bi.zone_partners": {
+    "title": "Servicepipe и BI.ZONE объявили о партнерстве в сфере защиты от DDoS-атак",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/pochemu_kitaiskaya_ii_model_opasna_dlya_biznesa": {
+    "title": "Почему новая китайская ИИ-модель опасна для бизнеса",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/boti_razvili_aktivnost_na_rasprodazhah_v_noyabre": {
+    "title": "Боты развили активность на ноябрьских распродажах",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kak_rabotaet_prodvizhenie_v_neiropoiske": {
+    "title": "Как работает продвижение в нейропоисковой выдаче",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/soc_forum_2025_reportazh": {
+    "title": "SOC Forum 2025: от импортозамещения к экспорту технологий",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/oshibki_ii_mogut_dorogo_oboitis": {
+    "title": "Ошибки генеративного ИИ могут обойтись в десятки миллионов рублей",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pochemu_biznes_ekonomit_na zaschite_ot_ddos": {
+    "title": "Почему бизнес экономит на DDoS-защите в эпоху усиления атак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/poiskoviy_trafik_ot_neirosetey_uvelichilsya": {
+    "title": "Поисковый трафик от нейросетей увеличился в девять раз",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/bot_ne_proidet": {
+    "title": "Бот не пройдет: как эшелонированный подход защищает от любых атак на web",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kak-ii_agenti_pomogayut_rossiyskomu_biznesu": {
+    "title": "Как ИИ-агенты помогают российскому бизнесу",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/tsena_dropperskyh_kart_podskochila": {
+    "title": "Выводные данные: цена дропперских карт на черном рынке подскочила в несколько раз",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/moschenniki_usilili_fishingovye_ataki": {
+    "title": "Мошенники перед «черной пятницей» усилили фишинговые атаки",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/setevaya_bezopasnost_2025_specreportazh": {
+    "title": "Конференция «Сетевая безопасность 2025»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/zvonki_moshennikam_ot_zhertv_novaya_shema_prestupnikov": {
+    "title": "Звонки мошенникам от жертв стали самой популярной схемой",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/na-baze_baumanki_i_mirea_sozdadut_centri_bezopasnosti": {
+    "title": "На базе Бауманки и МИРЭА будут созданы центры по кибербезопасности",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/dns_hosting_rasshirennaya_balansirovka_press_release": {
+    "title": "В Servicepipe представили новый функционал для защищенного DNS‑хостинга — расширенную балансировку",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/laboratoriya_servicepipe_provela_issledovanie_fingerprint_v_reklame": {
+    "title": "Лаборатория Servicepipe исследовала использование fingerprint для выявления ботов в рекламе",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/rossiyskiye_companii_stolknulis_s_novoy_volnoy_kiberatak": {
+    "title": "Российские компании столкнулись с новой волной кибератак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/biznes_perehodit_ot_pokupki_tekhnologiy_k_podpiske": {
+    "title": "Бизнес переходит от покупки технологий к подписке",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/experti_konstatiruyut_kachestvennoe_izmenenie_ugroz_v_2025": {
+    "title": "Эксперты в кибербезопасности констатируют качественное изменение угроз в 2025 году",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/evoluciya_resheniy_po_zaschite_ot_ddos_2025": {
+    "title": "Эволюция решений по защите от DDoS-атак в 2025 году",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rekordniye_ddos_ataki_iniciirovani_temi_zhe_zloumishlennikami": {
+    "title": "Рекордные DDoS-атаки инициированы теми же, кто год назад атаковал бизнес в рекламных целях",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kiberexpert_predupredil_o_moshennicheskoy_sheme": {
+    "title": "Киберэксперт предупредил о мошеннической схеме с блокировкой карты",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/vredonosniy_trafik_v_sfere_turisma_viros_na_120_procentov": {
+    "title": "Вредоносный трафик в сфере туризма перед Новым годом увеличился на 120%",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/issledovaniye_fingerprint_v_cybert": {
+    "title": "Лаборатория Servicepipe исследовала вклад технологии fingerprint в антибот-защите Cybert",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/boti_stali_chasche_ispolzovat_patterni_ludei": {
+    "title": "Боты стали чаще использовать «человеческие» паттерны поведения",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ii_v_kiberbezopasnosti_2025": {
+    "title": "ИИ в кибербезопасности: применение и угрозы 2025",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pochemu_seichas_lutshee_vremya_chtobi_nauchitsya_vibecodit": {
+    "title": "Работа своими руками: почему сейчас лучшее время, чтобы научиться вайб-кодить",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/glavniye_trendi_v_razvitii_neirosetei": {
+    "title": "Главные тренды в развитии нейросетей",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kak_ddosili_rossiyu_v_2025": {
+    "title": "Как злоумышленники DDoSили Россию в 2025 году",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/samaya_moschnaya_ddos_ataka_2025": {
+    "title": "Самая мощная DDoS-атака 2025 года в России пришлась на букмекерский сектор",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kakie_trendi_razvitiya_ii_nas_zhdut_v_2026_godu": {
+    "title": "Какие тренды развития ИИ нас ждут в 2026 году",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pochemu_ii_ataki_proishodyat_vse_chasche": {
+    "title": "Почему ИИ-кибератаки происходят все чаще",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/hackeri_nachali_shantazhirovat_rossiyskie_kiberbez_kompanii": {
+    "title": "Хакеры начали шантажировать российские компании в сфере кибербезопасности неотразимыми DDoS-атаками",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/prognoz_razvitiya_kiberugroz_i_sredstv_zaschiti_2026": {
+    "title": "Прогноз развития киберугроз и средств защиты информации — 2026",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_vishla_iz_reestra_uchastnikov_skolkovo": {
+    "title": "Servicepipe вышла из реестра участников проекта «Сколково»",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/servicepipe_rasshirila_vozmozhnosti_visibla": {
+    "title": "Servicepipe расширила возможности платформы Visibla для борьбы с рекламным фродом",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/roskomnadzor_otcenil_rost_atak": {
+    "title": "Роскомнадзор оценил рост DDoS-атак за 2025 год в 100%",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/dolya_botov_v_reklame_na_smart_tv_vyrosla_za_novogodniye": {
+    "title": "Доля ботов в рекламе на Smart TV за новогодние праздники выросла до 40%",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/saiti_smi_podverglis_atake_botneta_cherpaker": {
+    "title": "Сайты российских СМИ подверглись атаке крадущего контент ботнета Cherpaker",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/T1_intercia_i_servicepipe_partners": {
+    "title": "Т1 Интеграция расширяет защиту бизнеса от DDoS-атак совместно с Servicepipe",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/ogranicheniya_vpn_servisov_rastut_vmeste_so_sprosom_na_nikh": {
+    "title": "Ограничения VPN-сервисов растут вместе со спросом на них",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/umnuyu_tekhniku_stali_chasche_vzlamivat": {
+    "title": "Умную технику россиян стало легче взламывать и вовлекать в DDoS-атаки",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/pochemu_u_botnetov_takie_strannye_nazvaniya": {
+    "title": "Почему у ботнетов такие странные названия",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/zachita_servicepipe_dosgate_i_flowcollector_stala_naglyadnee_i_tochnee": {
+    "title": "Servicepipe выпустила обновление продуктов DosGate и FlowCollector",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/zaschita_web_prilozheniy_v_2026_am_live": {
+    "title": "Защита веб-приложений и API в 2026 году: как перестроить стратегию и выдержать атаки",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_vnedrila_fingerprint_v_cybert": {
+    "title": "Servicepipe внедрила расширенный фингерпринтинг в Cybert для более точной фильтрации трафика",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/tceli_politicheski_motivirovannyh_hackerov_v_2025": {
+    "title": "Какие цели выбирали политически мотивированные хакеры в России",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/moschnost_ddos_atak_na_rossiyu_virosla_v_20_raz": {
+    "title": "С начала года мощность DDoS-атак на Россию выросла в 20 раз",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/gadjeti_vse_chasche_ispolzuyut_dlya_ddos_atak": {
+    "title": "Подержанные гаджеты всё активнее используют для DDoS-атак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/kakie_ugrozi_tait_v-sebe_open_sourse": {
+    "title": "Какие угрозы таит в себе применение open source кода",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/laboratoriya_servicepipe_viyavila_zabitiye_api": {
+    "title": "Лаборатория Servicepipe выявила забытые API в каждом 4 запросе",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/v_gosdume_mogut_smyagchit_ogranicheniya_na_vipusk_kart": {
+    "title": "В Госдуме готовы смягчить ограничения на выпуск банковских карт",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/uralskiy_forum_2026_reportazh": {
+    "title": "Уральский форум «Кибербезопасность в финансах» 2026",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/poyavilis_ii_modeli_kotoriye_hackeri_ispolzuyut_bez_ogranicheniy_na_slabyh_pk": {
+    "title": "Появились ИИ-модели, которые хакеры запускают и используют без ограничений на слабых ПК",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/proway_i_servicepipe_partners": {
+    "title": "PROWAY и Servicepipe объединяют усилия для защиты российского бизнеса",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/servicepipe_i_spikatel_zapuskayut_sovmestniy_obrazovatelniy_proekt": {
+    "title": "Servicepipe и «Спикател» запускают совместный образовательный проект",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/muzchini_delegirovali_pokupku_podarkov_ii_agentam": {
+    "title": "Мужчины делегировали покупку подарков на 8 Марта ИИ-агентам",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe-spikatel-joint-labs": {
+    "title": "Servicepipe и Спикател объединяют экспертность | Пресс-релиз Servicepipe",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/dns-health-checks-press-release": {
+    "title": "Servicepipe внедрила DNS Health Checks | Пресс-релизы Servicepipe",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/mobile-sdk-press-release": {
+    "title": "Servicepipe выпустила Mobile SDK | Пресс-релизы Servicepipe",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/kak_razvivaetsya_ii_v_rossii": {
+    "title": "Как в России развивается искусственный интеллект",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/boti_stali_namerenno_oschibatsya": {
+    "title": "Боты стали чаще намеренно ошибаться, чтобы проходить капчу",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_provela_master_klass_dlya_shkolnikov": {
+    "title": "Servicepipe провела мастер-класс по C++ для московских школьников",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/servicepipe_zapustila_testirovanie_platformi_neprerivnogo_skana": {
+    "title": "Servicepipe запустила тестирование платформы непрерывного сканирования на известные уязвимости",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/v_rossii_zafiksirovali_rost_neulovimyh_ddos_atak": {
+    "title": "В России зафиксировали рост неуловимых для защитных сервисов DDoS-атак",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/na_vashem_saite_est_uyazvimosti_o_kotoryh_hackeri_uznayut_ranshe": {
+    "title": "Михаил Хлебунов: «На вашем сайте есть уязвимости, о которых хакеры узнают раньше вас»",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/trafik_v_ii_otvetakh_alisi_stanet_prozrachnee": {
+    "title": "Трафик в поисковых ИИ-ответах «Яндекса» станет прозрачнее",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/yandex_vykhodit_na_rynok_kiberbeza": {
+    "title": "«Яндекс» выходит на новый рынок в сфере кибербеза",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_partner_day_2026": {
+    "title": "Servicepipe закрыла 2025 год с показателем 1,4 млрд рублей и наградила лучших партнёров",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/servicepipe_fiksiruyet_rost_zaprosov_na_nastroiku_ii_agentov": {
+    "title": "Servicepipe фиксирует трёхкратный рост запросов на настройку работы с ИИ-агентами",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/bukmekeri_podverglis_moschnym_ddos_atakam_v_marte_2026": {
+    "title": "Букмекеры РФ подверглись мощным DDoS-атакам «серых» конкурентов",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_rossii_uvelichilas_auditoria_aziatskyh_messengerov": {
+    "title": "В России заметно увеличилась аудитория азиатских мессенджеров",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/gossopka_reportazh_2026": {
+    "title": "Форум «ГосСОПКА»: ковровые атаки и киберучения",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rol_ii_v_professii_v_2026_godu": {
+    "title": "Роль ИИ в профессии в 2026 году",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/v_pervom_kvartale_2026_goda_ddos_stali_moschnee": {
+    "title": "В I квартале 2026 года DDoS-атаки стали мощнее и распределённее",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_itmode_partners": {
+    "title": "Servicepipe и itmode заключили соглашение о сотрудничестве в области защиты от DDoS-атак и ботов",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/stkript_prisoedinyaetsya_k_laboratorii_servicepipe": {
+    "title": "Компания СТКрипт присоединяется к лаборатории кибербезопасности Servicepipe",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/safetech_prisoedinyaetsya_k_laboratorii_servicepipe": {
+    "title": "Компания SafeTech присоединяется к лаборатории кибербезопасности Servicepipe",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/itorex_prisoedinyaetsya_k_laboratorii_servicepipe": {
+    "title": "Компания ITOREX присоединяется к лаборатории кибербезопасности Servicepipe",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/kak_proshel_ciso_forum": {
+    "title": "Как прошёл CISO Forum 2026",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/moschenniki_stali_atakovat_rossiyan_s_pomoschiyu_sms_bombinga": {
+    "title": "Мошенники стали атаковать россиян с помощью SMS-бомбинга",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/ii_pozvolil_hackeram_aktivnee_vzlamivat_online_profili": {
+    "title": "ИИ позволил хакерам активнее взламывать онлайн-профили россиян",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/rossiyu_nakrili_mnogovektorniye_ataki": {
+    "title": "Россию накрыли многовекторные DDoS-атаки, с которыми не справляется стандартная защита",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_obnovila_produkti_dosgate_i_flowcollector": {
+    "title": "Servicepipe обновила продукты DosGate и FlowCollector",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/rossiyskiye_banki_fiksiruyut_rost_kiberatak_s_ii": {
+    "title": "Российские банки фиксируют рост кибератак с использованием ИИ",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/news/servicepipe_razrabativaet_platformu_setevoi_zaschiti_osnova": {
+    "title": "Servicepipe разрабатывает платформу сетевой защиты «Основа» на базе поведенческого анализа",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/servicepipe_voshla_v_reiting_techuspeh_2026": {
+    "title": "Servicepipe вошла в топ-50 рейтинга быстрорастущих технологических компаний",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/pervaya_rabota_v_icr": {
+    "title": "Первая работа в ИБ: что делает стажер в инженерном центре реагирования",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/news/k_laboratorii_servicepipe_prisoedinyaetsya_it_task": {
+    "title": "К Лаборатории кибербезопасности Servicepipe присоединяется IT TASK",
+    "source": "news-json",
+    "kind": "news"
+  },
+  "/press-center/v_neirootveti_alisi_popadayut_90_procentov_saitov_iz_vidachi_top_10": {
+    "title": "В нейроответах «Алисы» до 90% сайтов приходится на топ-10 выдачи",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/press-center/noviy_botnet_zakhvativayet_stariye_routeri": {
+    "title": "Новый ботнет C0XMO захватывает старые роутеры и вычищает c них другое вредоносное ПО",
+    "source": "news-json",
+    "kind": "press"
+  },
+  "/blog/hello-world": {
+    "title": "Зачем мы здесь | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/sms-leak": {
+    "title": "CMC-бомбинг – как остановить атаку SMS Leak | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/bad-bot-scanner-for-free": {
+    "title": "Как проверить сайт на ботов | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/defense-in-depth": {
+    "title": "Что такое эшелонированная защита от DDoS и ботов | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/caching-option": {
+    "title": "Кеширование данных на узлах в сети | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/what-is-ddos-protection": {
+    "title": "Методы защиты от DDoS: 10 методов | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/online-travel-protection": {
+    "title": "Что такое веб-скрейпинг: примеры | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/waf-or-bot-protection": {
+    "title": "Почему защита от ботов лучше, чем WAF | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/how-to-protect-api": {
+    "title": "Как защитить API в 2023 году | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/control-panel-redesign": {
+    "title": "Редизайн личного кабинета | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/what-is-flowcollector": {
+    "title": "Анализатор трафика FlowCollector | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/requests-log": {
+    "title": "Как работать с Requests Log в личном кабинете | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/mosreg-case-study": {
+    "title": "Как мы гарантировали доступность Mosreg.ru | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/bot-management-rules": {
+    "title": "Что такое бот-менеджмент | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/website-antibot": {
+    "title": "Антибот для сайта – облачное решение: как работает, цена | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/fsp-champ-welcome": {
+    "title": "Servicepipe – партнёр чемпионата по программированию | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/msu-cluster-residence": {
+    "title": "Servicepipe – резидент ИНТЦ МГУ | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/what-is-vulnerability-scanning": {
+    "title": "Что такое сканирование уязвимостей | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/sipuni-case-study": {
+    "title": "Как мы гарантировали доступность SIPUNI | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/web-protection-for-charities": {
+    "title": "Servicepipe – партнёр проекта «Технологии добра» | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dosgate-components": {
+    "title": "Что нового в веб-интерфейсе SP Spider 3.9.7 | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/faster-configs-delivery": {
+    "title": "Доставка обновлений защиты за 15 секунд | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/permanent-ddos-attacks": {
+    "title": "DDoS-атаки, непрекращающиеся годами | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/modulbank-case-study": {
+    "title": "Как мы защитили «Модульбанк» | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/new-node-in-novosibirsk": {
+    "title": "Новый узел фильтрации в Новосибирске | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dosgate-detailed-analytics": {
+    "title": "Детальная ретроспективная аналитика DosGate | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/websocket-protection": {
+    "title": "Почему сложно защищать сервисы на WebSocket | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/real-time-retail-case-study": {
+    "title": "Как мы защищаем онлайн-ритейл | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/what-is-full-stack-bot": {
+    "title": "Что такое фулстек-бот | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/full-stack-bot-obfuscation": {
+    "title": "Как маскируют ботнеты | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/servicepipe-at-gitex-2024": {
+    "title": "Servicepipe на GITEX 2024 в Марокко | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/medical-aggregator-case-study": {
+    "title": "Как мы защищаем агрегатор врачей и клиник | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/behavioral-factors-cheating": {
+    "title": "Защита от накрутки ПФ | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/online-pharmacy-case-study": {
+    "title": "Как мы защитили онлайн-аптеку от DDoS, SMS-бомбинга и парсинга | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/primary-dns": {
+    "title": "Защищённый Primary DNS | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/azbuka-vkusa-case-study": {
+    "title": "Антипарсер с предсказуемой техподдержкой для «Азбуки вкуса» | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/custom-rules": {
+    "title": "Что такое Custom Rules | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/cloud-provider-case-study": {
+    "title": "Как мы защищаем IaaS-сервисы от DDoS-атак | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/good-and-bad-bots": {
+    "title": "Виды ботов на сайте | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/kak_zaschititsya_ot_ddos_atak_2024": {
+    "title": "Как защититься от беспрецедентных DDoS-атак 2024 года | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/digital-bank-case-study": {
+    "title": "Как мы защищаем цифровой банк | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/social-engineering-bots": {
+    "title": "Боты для социальной инженерии | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/loyalty-program-case-study": {
+    "title": "Как мы защищаем программу лояльности от распределённого флуда и фулстек-ботов | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/edtech-case-study": {
+    "title": "Миграция с Cloudflare на Servicepipe | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/mkb-case-study": {
+    "title": "Как мы помогаем МКБ не обращать внимания на DDoS-атаки | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/servicepipe_prinyali_uchastie_v_dne_karieri": {
+    "title": "Servicepipe приняли участие в мероприятиях ВУЗов, посвященных «Дню Карьеры» | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/secure-dns-in-two-clicks": {
+    "title": "Что изменилось в защите DNS | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/advanced_analytics": {
+    "title": "Возможности Расширенной аналитики Servicepipe Antibot | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/custom_events": {
+    "title": "Пользовательские события — новый функционал Servicepipe Antibot | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/servicepipe_vypustila_novuyu_versiyu_flagmanskogo_producta_dosgate": {
+    "title": "Servicepipe выпустила новую версию флагманского продукта DosGate | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/frank-media-case-study": {
+    "title": "Как мы защитили Frank Media от потери трафика | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/secure-dns-hosting-in-saint-petersburg": {
+    "title": "Защищённый DNS-хостинг в Санкт-Петербурге | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/ddos-carpet-bombing": {
+    "title": "Что такое ковровая DDoS-атака | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/airline-reservation-system-case-study": {
+    "title": "Как мы защищаем систему бронирования авиабилетов | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/education-project-interview": {
+    "title": "От школьной скамьи до карьеры кибербезопасника | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dodo-pizza-case-study": {
+    "title": "Как мы помогаем Додо Пицце обеспечивать превосходный клиентский опыт | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/multi-factor-traffic-analysis": {
+    "title": "Что такое многофакторный анализ трафика | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/innostage-case-study": {
+    "title": "Как мы защищаем интегратора от DDoS-атак | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dns-zone-transfer": {
+    "title": "Что такое трансфер DNS-зоны | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/servicepipe_pak_cybert_press_release": {
+    "title": "Что такое ПАК Servicepipe Cybert | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/servicepipe_yadro_dosgate_update": {
+    "title": "Зачем мы модернизировали ядро DosGate | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/brokerage-firm-case-study": {
+    "title": "Как мы защищаем БКС | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/insurance-group-case-study": {
+    "title": "Как мы защищаем личный кабинет застрахованного | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/what-is-ddos": {
+    "title": "Самые распространённые виды DDoS-атак | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/flowcollector-v14": {
+    "title": "Как мы улучшили анализатор сетевых трафика | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/retail-delivery-case-study": {
+    "title": "Как мы экстренно защитили доставку продуктов от фулстек-ботов | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dosgate-4-0-review": {
+    "title": "Большой обзор Servicepipe DosGate 4.0 | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dmitry-burkalov-interview": {
+    "title": "«Когда твоя работа — спасать, очень просто увидеть её результат» | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/why-secondary-dns": {
+    "title": "Зачем нужен резервный DNS | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/sberauto-case-study": {
+    "title": "Как мы защитили СберАвто от парсинга | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dosgate-autopilot": {
+    "title": "Автопилот для DDoS-защиты | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/svetlana-pakhalueva-interview": {
+    "title": "«Самое главное — это правильно разговаривать с пользователем» | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/rlog": {
+    "title": "Выявление аномального трафика с помощью анализа логов | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/lab-report-august-2025": {
+    "title": "Тренды киберугроз | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/engineering-response-center": {
+    "title": "Что такое Инженерный центр реагирования | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/antiddos-solution-for-service-providers": {
+    "title": "Защита от ковровых DDoS-атак для телеком-операторов | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/spectrumdata-case-study": {
+    "title": "Гранулярная защита решений по управлению рисками от парсинга | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/control-panel-for-telecom": {
+    "title": "Монетизируемая панель управления защитой от DDoS | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/network-protection-control-panel": {
+    "title": "Новая панель управления Network DDoS Protection | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dns-hosting-control-panel": {
+    "title": "Новая панель управления Secure DNS Hosting | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/application-protection-control-panel": {
+    "title": "Новая панель управления Web DDoS & Bot Protection | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/flowcollector-updates-q4-2025": {
+    "title": "Как обнаружить кибератаку на конкретный сервис | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dosgate-updates-q4-2025": {
+    "title": "Новая контрмера от атак на DNS | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/nubes-case-study": {
+    "title": "Как мы помогаем гарантировать защищённость облака | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dns-advanced-balancing": {
+    "title": "Что такое расширенная балансировка DNS | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/vseinstrumenti-case-study": {
+    "title": "Доступность не ниже 99,95% для онлайн-гипермаркета | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/what-is-cherpaker": {
+    "title": "Кому угрожает новый ботнет CHERPAKER | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/what-is-bgp-protocol": {
+    "title": "Защита от DDoS по BGP | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dosgate-flowcollector-updates-q1-2026": {
+    "title": "Улучшенный интерфейс DosGate и FlowCollector | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/fingerprint-scoring-for-cybert": {
+    "title": "Как мы применяем fingerprint-скоринг для выявления фулстек-ботов | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/what-is-web-log-analysis": {
+    "title": "Что такое анализ логов сервера | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dns-health-checks": {
+    "title": "Что такое хелсчеки DNS | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/mobile-sdk": {
+    "title": "Как усилить защиту мобильного приложения с помощью SDK | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/gruzovichkof-case-study": {
+    "title": "Как мы помогаем обеспечивать доступность сервиса грузоперевозок | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/what-is-botnet": {
+    "title": "Ботнет: что это такое, как работает и как защитить бизнес | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/what-is-ddos-stress-test": {
+    "title": "Что такое стресс-тест на DDoS | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/control-panel-updates-q1-2026": {
+    "title": "Что нового в панели управления защитой Servicepipe | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/access-groups": {
+    "title": "Как мы упростили администрирование сервисов защиты | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/dosgate-flowcollector-updates-q2-2026": {
+    "title": "Как мы улучшили управление решениями on-premises | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/how-we-protect-against-web-scraping": {
+    "title": "Как мы защищаем от кастомизированного парсинга | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/fintech-ecosystem-case-study": {
+    "title": "Как мы выстроили эшелонированную защиту для одного из крупнейших банков России | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  },
+  "/blog/3data-case-ctudy": {
+    "title": "Как мы гарантировали доступность премиальных дата-центров | Блог Servicepipe",
+    "source": "articles-json",
+    "kind": "blog"
+  }
+}

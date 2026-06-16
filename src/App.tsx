@@ -48,6 +48,7 @@ import {
 } from "./utils/aggregations";
 import { formatInteger, formatPercent, truncateMiddle } from "./utils/format";
 import { parseCsvFile } from "./utils/parseCsv";
+import { getPageTitle } from "./utils/pageTitles";
 import { loadPersistedState, savePersistedState } from "./utils/storage";
 
 const emptyFilters: Filters = {
@@ -76,6 +77,7 @@ type StatRow = {
 
 type TopPathRow = {
   path: string;
+  title: string;
   count: number;
 };
 
@@ -227,14 +229,15 @@ function TopPathsPanel({ rows }: { rows: TopPathRow[] }) {
             >
               <div className="min-w-0 flex-1">
                 <a
-                  className="block break-all text-sm font-bold leading-5 text-ink hover:text-aqua"
+                  className="block break-words text-sm font-bold leading-5 text-ink hover:text-aqua"
                   href={fullUrl}
                   rel="noreferrer"
                   target="_blank"
                   title={fullUrl}
                 >
-                  {row.path}
+                  {row.title}
                 </a>
+                <p className="mt-1 break-all text-xs leading-5 text-muted">{row.path}</p>
                 <p className="mt-1 text-xs leading-5 text-muted">
                   {formatInteger(row.count)} запросов
                 </p>
@@ -527,9 +530,9 @@ export function App() {
   const lowSignalRows = useMemo(
     () =>
       buildLowSignalPaths(filteredRows, 6).map((item) => ({
-        label: truncateMiddle(item.path, 44),
+        label: truncateMiddle(getPageTitle(item.path), 44),
         value: formatInteger(item.count),
-        hint: item.section,
+        hint: `${truncateMiddle(item.path, 36)} · ${item.section}`,
       })),
     [filteredRows],
   );

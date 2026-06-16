@@ -1,4 +1,5 @@
 import type { NormalizedLogRow } from "../types";
+import { getPageTitle } from "./pageTitles";
 
 export type SitemapEntry = {
   url: string;
@@ -70,8 +71,7 @@ function textFromElement(element: Element, tagName: string) {
 }
 
 function titleFromPath(path: string) {
-  if (path === "/") return "Главная";
-  return path.split("/").filter(Boolean).at(-1)?.replace(/-/g, " ") ?? path;
+  return getPageTitle(path);
 }
 
 function groupFromPath(path: string) {
@@ -129,17 +129,13 @@ export function parseRobots(robotsTxt: string): RobotsRule[] {
 
     if (key === "disallow") {
       hasDirective = true;
-      agents.forEach((agent) =>
-        rules.push({ agent, directive: "disallow", value }),
-      );
+      agents.forEach((agent) => rules.push({ agent, directive: "disallow", value }));
       return;
     }
 
     if (key === "crawl-delay") {
       hasDirective = true;
-      agents.forEach((agent) =>
-        rules.push({ agent, directive: "crawl-delay", value }),
-      );
+      agents.forEach((agent) => rules.push({ agent, directive: "crawl-delay", value }));
       return;
     }
 
