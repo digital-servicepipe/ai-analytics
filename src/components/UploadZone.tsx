@@ -11,7 +11,7 @@ type UploadZoneProps = {
 
 function BrandMark() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
+    <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" aria-hidden="true">
       <circle cx="10" cy="10" r="5.5" stroke="currentColor" strokeWidth="1.8" />
       <path
         d="M13.8 13.8 18 18"
@@ -55,10 +55,10 @@ export function UploadZone({ error, isParsing, files, onLogFiles }: UploadZonePr
       <section className="w-full max-w-5xl rounded-[28px] border border-line bg-screen p-3 shadow-workspace">
         <div className="rounded-3xl border border-line bg-panel p-6 md:p-8">
           <div className="mb-6">
-            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-surface text-aqua">
+            <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-line bg-surface text-aqua">
               <BrandMark />
             </div>
-            <p className="text-xs font-bold uppercase tracking-normal text-muted">NeraLens</p>
+            <p className="text-sm font-bold uppercase tracking-wide text-muted">NeraLens</p>
             <h1 className="mt-2 text-3xl font-extrabold tracking-normal text-ink">
               Загрузите CSV логов
             </h1>

@@ -106,7 +106,7 @@ function buildDisplayPath(fullUrl: string): string {
 
 function BrandMark() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
+    <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" aria-hidden="true">
       <circle cx="10" cy="10" r="5.5" stroke="currentColor" strokeWidth="1.8" />
       <path
         d="M13.8 13.8 18 18"
@@ -573,13 +573,13 @@ export function App() {
       <div className="grid h-screen overflow-hidden lg:grid-cols-[232px_minmax(0,1fr)]">
         <aside className="h-screen overflow-y-auto border-r border-line bg-sidebar px-4 py-5">
           <div className="flex h-full flex-col gap-5">
-            <div className="flex items-center gap-3 px-1">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-line bg-surface text-aqua">
+            <div className="flex items-center gap-4 px-1">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-line bg-surface text-aqua">
                 <BrandMark />
               </div>
               <div className="min-w-0">
-                <p className="truncate text-sm font-extrabold text-ink">NeraLens</p>
-                <p className="truncate text-[11px] leading-4 text-muted">AI-боты в логах</p>
+                <p className="truncate text-lg font-extrabold tracking-tight text-ink">NeraLens</p>
+                <p className="truncate text-xs leading-5 text-muted">AI-боты в логах</p>
               </div>
             </div>
 
