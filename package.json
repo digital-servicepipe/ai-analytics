@@ -10,15 +10,21 @@
     "preview": "vite preview --host 0.0.0.0 --port 5177"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@tailwindcss/typography": "^0.5.20",
     "@vitejs/plugin-react": "^5.0.0",
     "@xyflow/react": "^12.11.0",
     "lucide-react": "^0.468.0",
+    "lz-string": "^1.5.0",
     "papaparse": "^5.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "recharts": "^2.12.7"
+    "react-markdown": "^10.1.0",
+    "recharts": "^2.12.7",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
+    "@types/lz-string": "^1.3.34",
     "@types/node": "^22.10.2",
     "@types/papaparse": "^5.3.14",
     "@types/react": "^18.3.18",

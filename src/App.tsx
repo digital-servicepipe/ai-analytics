@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import {
+  Bot,
   Check,
   Copy,
   ExternalLink,
@@ -20,6 +21,7 @@ import { SiteMapBoard } from "./components/SiteMapBoard";
 import { SiteMapExplorer } from "./components/SiteMapExplorer";
 import { UploadZone } from "./components/UploadZone";
 import { UrlTable } from "./components/UrlTable";
+import { AiChatWidget } from "./components/AiChatWidget";
 import {
   DEFAULT_ROBOTS_FILE,
   DEFAULT_ROBOTS_TXT,
@@ -41,8 +43,9 @@ import {
 } from "./utils/aggregations";
 import { formatInteger } from "./utils/format";
 import { parseCsvFile } from "./utils/parseCsv";
-import { loadPersistedState, savePersistedState } from "./utils/storage";
+import { loadGeminiKey, loadPersistedState, saveGeminiKey, savePersistedState } from "./utils/storage";
 import { installAutoNbsp } from "./utils/typography";
+import { parseUrlState, updateUrlState } from "./utils/urlState";
 
 const emptyFilters: Filters = {
   dateFrom: "",
@@ -243,77 +246,116 @@ function SettingsPanel({
   rowCount,
   firstSeen,
   lastSeen,
+  geminiKey,
   onAdd,
   onClear,
   onResetFilters,
+  onGeminiKeyChange,
 }: {
   files: UploadedFileMeta[];
   period: string;
   rowCount: number;
   firstSeen: string;
   lastSeen: string;
+  geminiKey: string;
   onAdd: () => void;
   onClear: () => void;
   onResetFilters: () => void;
+  onGeminiKeyChange: (key: string) => void;
 }) {
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_340px]">
-      <article className="panel p-5">
-        <div className="mb-5">
-          <h2 className="text-lg font-extrabold text-ink">Файлы</h2>
-          <p className="mt-1 text-sm text-muted">
-            Загружайте CSV, объединяйте их в один набор и очищайте базу, если нужно.
-          </p>
-        </div>
-
-        <div className="grid gap-3 md:grid-cols-4">
-          <div className="rounded-2xl bg-surface p-4">
-            <p className="text-xs font-bold uppercase text-muted">Файлы</p>
-            <p className="mt-2 break-words text-sm font-extrabold text-ink">
-              {files.length === 1 ? files[0]?.name : `${files.length} CSV`}
+      <div className="space-y-4">
+        <article className="panel p-5">
+          <div className="mb-5">
+            <h2 className="text-lg font-extrabold text-ink">Файлы</h2>
+            <p className="mt-1 text-sm text-muted">
+              Загружайте CSV, объединяйте их в один набор и очищайте базу, если нужно.
             </p>
           </div>
-          <div className="rounded-2xl bg-surface p-4">
-            <p className="text-xs font-bold uppercase text-muted">Период</p>
-            <p className="mt-2 text-sm font-extrabold text-ink">{period}</p>
-          </div>
-          <div className="rounded-2xl bg-surface p-4">
-            <p className="text-xs font-bold uppercase text-muted">Первая запись</p>
-            <p className="mt-2 text-sm font-extrabold text-ink">{firstSeen}</p>
-          </div>
-          <div className="rounded-2xl bg-surface p-4">
-            <p className="text-xs font-bold uppercase text-muted">Последняя запись</p>
-            <p className="mt-2 text-sm font-extrabold text-ink">{lastSeen}</p>
-          </div>
-        </div>
 
-        <div className="mt-5 flex flex-wrap gap-2">
-          <button
-            className="inline-flex items-center gap-2 rounded-xl bg-aqua px-4 py-2.5 text-sm font-extrabold text-[#071314]"
-            type="button"
-            onClick={onAdd}
-          >
-            <Upload className="h-4 w-4" aria-hidden="true" />
-            Добавить CSV
-          </button>
-          <button
-            className="control inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-ink"
-            type="button"
-            onClick={onResetFilters}
-          >
-            <RotateCcw className="h-4 w-4" aria-hidden="true" />
-            Сбросить фильтры
-          </button>
-          <button
-            className="inline-flex items-center gap-2 rounded-xl border border-red-300/30 bg-red-50 px-4 py-2.5 text-sm font-bold text-red-700"
-            type="button"
-            onClick={onClear}
-          >
-            <Trash2 className="h-4 w-4" aria-hidden="true" />
-            Очистить данные
-          </button>
-        </div>
-      </article>
+          <div className="grid gap-3 md:grid-cols-4">
+            <div className="rounded-2xl bg-surface p-4">
+              <p className="text-xs font-bold uppercase text-muted">Файлы</p>
+              <p className="mt-2 break-words text-sm font-extrabold text-ink">
+                {files.length === 1 ? files[0]?.name : `${files.length} CSV`}
+              </p>
+            </div>
+            <div className="rounded-2xl bg-surface p-4">
+              <p className="text-xs font-bold uppercase text-muted">Период</p>
+              <p className="mt-2 text-sm font-extrabold text-ink">{period}</p>
+            </div>
+            <div className="rounded-2xl bg-surface p-4">
+              <p className="text-xs font-bold uppercase text-muted">Первая запись</p>
+              <p className="mt-2 text-sm font-extrabold text-ink">{firstSeen}</p>
+            </div>
+            <div className="rounded-2xl bg-surface p-4">
+              <p className="text-xs font-bold uppercase text-muted">Последняя запись</p>
+              <p className="mt-2 text-sm font-extrabold text-ink">{lastSeen}</p>
+            </div>
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            <button
+              className="inline-flex items-center gap-2 rounded-xl bg-aqua px-4 py-2.5 text-sm font-extrabold text-[#071314]"
+              type="button"
+              onClick={onAdd}
+            >
+              <Upload className="h-4 w-4" aria-hidden="true" />
+              Добавить CSV
+            </button>
+            <button
+              className="control inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-ink"
+              type="button"
+              onClick={onResetFilters}
+            >
+              <RotateCcw className="h-4 w-4" aria-hidden="true" />
+              Сбросить фильтры
+            </button>
+            <button
+              className="inline-flex items-center gap-2 rounded-xl border border-red-300/30 bg-red-50 px-4 py-2.5 text-sm font-bold text-red-700"
+              type="button"
+              onClick={onClear}
+            >
+              <Trash2 className="h-4 w-4" aria-hidden="true" />
+              Очистить данные
+            </button>
+          </div>
+        </article>
+
+        <article className="panel p-5">
+          <div className="mb-4">
+            <h2 className="text-lg font-extrabold text-ink">Настройки ИИ</h2>
+            <p className="mt-1 text-sm text-muted">
+              Используется для генерации умных инсайтов и СЕО-ТЗ через OpenRouter (бесплатно).
+            </p>
+          </div>
+          <div className="max-w-xl">
+            <label className="mb-2 block text-xs font-bold uppercase text-muted" htmlFor="gemini-key">
+              OpenRouter API Key
+            </label>
+            <input
+              id="gemini-key"
+              type="password"
+              className="w-full rounded-xl border border-line bg-surface px-4 py-2.5 text-sm text-ink outline-none focus:border-aqua"
+              placeholder="sk-or-v1-..."
+              value={geminiKey}
+              onChange={(e) => onGeminiKeyChange(e.target.value)}
+            />
+            <p className="mt-2 text-[11px] leading-relaxed text-muted">
+              Получить бесплатный ключ можно в{" "}
+              <a
+                href="https://openrouter.ai/keys"
+                target="_blank"
+                rel="noreferrer"
+                className="text-aqua hover:underline"
+              >
+                OpenRouter
+              </a>. Используется модель DeepSeek.
+            </p>
+          </div>
+        </article>
+      </div>
 
       <article className="panel p-5">
         <h2 className="text-sm font-extrabold text-ink">База</h2>
@@ -340,8 +382,15 @@ function SettingsPanel({
 export function App() {
   const [rows, setRows] = useState<NormalizedLogRow[]>([]);
   const [files, setFiles] = useState<UploadedFileMeta[]>([]);
-  const [filters, setFilters] = useState<Filters>(emptyFilters);
+  const [geminiKey, setGeminiKey] = useState(() => loadGeminiKey());
+  const [isAiChatOpen, setIsAiChatOpen] = useState(false);
+  const [filters, setFilters] = useState<Filters>(() => {
+    const { filters: urlFilters } = parseUrlState();
+    return { ...emptyFilters, ...urlFilters };
+  });
   const [activeScreen, setActiveScreen] = useState<ScreenKey>(() => {
+    const { screen: urlScreen } = parseUrlState();
+    if (isScreenKey(urlScreen)) return urlScreen;
     const storedScreen = window.localStorage.getItem(ACTIVE_SCREEN_STORAGE_KEY);
     return isScreenKey(storedScreen) ? storedScreen : "overview";
   });
@@ -358,7 +407,8 @@ export function App() {
 
   useEffect(() => {
     window.localStorage.setItem(ACTIVE_SCREEN_STORAGE_KEY, activeScreen);
-  }, [activeScreen]);
+    updateUrlState(activeScreen, filters, emptyFilters);
+  }, [activeScreen, filters]);
 
   useEffect(() => {
     loadPersistedState()
@@ -615,12 +665,12 @@ export function App() {
 
             <div className="mt-auto">
               <button
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-aqua px-3 py-2.5 text-sm font-extrabold text-[#071314]"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-aqua px-3 py-2.5 text-sm font-extrabold text-[#071314] transition hover:opacity-90"
                 type="button"
-                onClick={() => logInputRef.current?.click()}
+                onClick={() => setIsAiChatOpen(true)}
               >
-                <Upload className="h-4 w-4" aria-hidden="true" />
-                Добавить CSV
+                <Bot className="h-4 w-4" aria-hidden="true" />
+                NeraLens AI
               </button>
             </div>
           </div>
@@ -682,10 +732,10 @@ export function App() {
                     <ChartsGrid rows={filteredRows} />
 
                     <section className="grid items-start gap-3 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.85fr)]">
-                      <div className="min-w-0">
+                      <div className="min-w-0 space-y-3">
                         <TopPathsPanel rows={topPathRows} />
                       </div>
-                      <div className="min-w-0">
+                      <div className="min-w-0 space-y-3">
                         <BotReferencePanel rows={filteredRows} />
                       </div>
                     </section>
@@ -720,9 +770,14 @@ export function App() {
                   rowCount={rows.length}
                   firstSeen={timelineMeta.firstSeen}
                   lastSeen={timelineMeta.lastSeen}
+                  geminiKey={geminiKey}
                   onAdd={() => logInputRef.current?.click()}
                   onClear={() => void clearLogs()}
                   onResetFilters={resetFilters}
+                  onGeminiKeyChange={(key) => {
+                    setGeminiKey(key);
+                    saveGeminiKey(key);
+                  }}
                 />
 
                 <SiteMapExplorer
@@ -737,6 +792,13 @@ export function App() {
           </div>
         </section>
       </div>
+
+      <AiChatWidget
+        isOpen={isAiChatOpen}
+        onClose={() => setIsAiChatOpen(false)}
+        apiKey={geminiKey}
+        rows={filteredRows}
+      />
     </main>
   );
 }

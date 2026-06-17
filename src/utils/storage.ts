@@ -87,3 +87,13 @@ export async function savePersistedState(
     store.put({ ...state, version: 2 }, STATE_KEY),
   );
 }
+
+const GEMINI_API_KEY_STORAGE = "nera-lens-gemini-key";
+
+export function loadGeminiKey(): string {
+  return window.localStorage.getItem(GEMINI_API_KEY_STORAGE) || "";
+}
+
+export function saveGeminiKey(key: string): void {
+  window.localStorage.setItem(GEMINI_API_KEY_STORAGE, key.trim());
+}
