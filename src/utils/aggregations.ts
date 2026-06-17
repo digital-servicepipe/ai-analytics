@@ -8,7 +8,7 @@ import type {
   UrlSummary,
 } from "../types";
 import { formatDate, formatInteger, formatPercent, uniqueSorted } from "./format";
-import { getAgentDetailLabel, getAgentIntentProfile } from "./normalize";
+import { getAgentDetailLabel, getAgentIntentProfile, getSectionRank } from "./normalize";
 import { getPageTitle } from "./pageTitles";
 
 const palette = ["#2DD4BF", "#60A5FA", "#A78BFA", "#FB923C", "#FB7185", "#94A3B8"];
@@ -59,6 +59,7 @@ function pageTypePriority(pageType: PageType): number {
     case "industry":
       return 4;
     case "blog":
+    case "company":
       return 3;
     case "other":
       return 2;
@@ -78,6 +79,10 @@ function pageAction(pageType: PageType): string {
       return "Поднимите наверх вывод, тезисы и прямой ответ на главный вопрос.";
     case "industry":
       return "Усильте отраслевые use case, примеры и формулировки под роль клиента.";
+    case "company":
+      return "Проверьте доверительные сигналы: история, команда, контакты, вакансии, партнёрства и понятная навигация.";
+    case "service":
+      return "Служебные страницы должны быть доступны crawler-ам, но не должны смешиваться с контентным спросом.";
     default:
       return "Сделайте страницу проще: один главный месседж, тезисы и явный следующий шаг.";
   }
@@ -123,7 +128,14 @@ export function getFilterOptions(rows: NormalizedLogRow[]) {
   return {
     agentGroups: rankedValues(rows, (row) => row.agentGroup),
     agentDetails: rankedValues(rows, (row) => agentDetail(row)),
-    sections: rankedValues(rows, (row) => row.section),
+    sections: Array.from(countBy(rows, (row) => row.section).entries())
+      .sort((left, right) => {
+        const rankDiff = getSectionRank(left[0]) - getSectionRank(right[0]);
+        if (rankDiff !== 0) return rankDiff;
+        if (right[1] !== left[1]) return right[1] - left[1];
+        return left[0].localeCompare(right[0], "ru");
+      })
+      .map(([section]) => section),
     countries: rankedValues(rows, (row) => row.country),
     minDate: knownDates[0] ?? "",
     maxDate: knownDates[knownDates.length - 1] ?? "",
@@ -227,8 +239,10 @@ export function buildPageTypeShare(rows: NormalizedLogRow[]) {
     blog: "Блог",
     press: "Пресс-центр",
     news: "Новости",
-    industry: "Отрасли",
+    industry: "Решения",
+    company: "Компания",
     file: "Файлы",
+    service: "Служебные",
     technical: "Техническое",
     other: "Другое",
   };

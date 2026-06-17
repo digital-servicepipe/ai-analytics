@@ -22,8 +22,10 @@ const pageTypeLabels: Record<UrlSummary["pageType"], string> = {
   blog: "Блог",
   press: "Пресс",
   news: "Новости",
-  industry: "Отрасль",
+  industry: "Решение",
+  company: "Компания",
   file: "Файл",
+  service: "Служ.",
   technical: "Тех.",
   other: "Другое",
 };

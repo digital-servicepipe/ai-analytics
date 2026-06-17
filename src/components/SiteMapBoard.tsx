@@ -27,6 +27,7 @@ import {
 } from "../utils/siteFiles";
 
 type SitemapBucketKey = "main" | "press" | "blog";
+type SitemapGroupKey = string;
 type NodeTag = "hot" | "warm" | "cold" | "empty" | "blocked";
 
 type SiteMapBoardProps = {
@@ -38,8 +39,9 @@ type SiteMapBoardProps = {
 };
 
 type GroupSummary = {
-  key: SitemapBucketKey;
+  key: SitemapGroupKey;
   label: string;
+  fileName: string;
   totalRequests: number;
   urlCount: number;
   activeCount: number;
@@ -48,14 +50,15 @@ type GroupSummary = {
 };
 
 type GroupNodeData = {
-  groupKey: SitemapBucketKey;
+  groupKey: SitemapGroupKey;
   label: string;
+  fileName: string;
   totalRequests: number;
   urlCount: number;
   activeCount: number;
   blockedCount: number;
   expanded: boolean;
-  onToggle: (groupKey: SitemapBucketKey) => void;
+  onToggle: (groupKey: SitemapGroupKey) => void;
 };
 
 type PathNodeData = {
@@ -70,7 +73,8 @@ type PathNodeData = {
 };
 
 type SitemapEntryMeta = {
-  bucket: SitemapBucketKey;
+  groupKey: SitemapGroupKey;
+  fileName: string;
   order: number;
 };
 
@@ -98,6 +102,18 @@ const bucketMeta: Record<SitemapBucketKey, { label: string }> = {
 function buildFullUrl(path: string) {
   if (/^https?:\/\//i.test(path)) return path;
   return `https://servicepipe.ru${encodeURI(path.startsWith("/") ? path : `/${path}`)}`;
+}
+
+function buildSitemapGroupKey(fileName: string, index: number) {
+  return `sitemap:${index}:${fileName}`;
+}
+
+function formatSitemapLabel(fileName: string) {
+  return fileName.replace(/^site-files\//, "");
+}
+
+function stopMapInteraction(event: { stopPropagation: () => void }) {
+  event.stopPropagation();
 }
 
 function quantile(values: number[], ratio: number) {
@@ -172,16 +188,21 @@ function GroupNode({ data }: NodeProps<Node<GroupNodeData>>) {
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="truncate text-base font-extrabold text-ink">{data.label}</p>
+          <p className="mt-0.5 truncate text-[11px] font-bold uppercase text-muted">
+            {data.fileName}
+          </p>
           <p className="mt-1 text-xs leading-5 text-muted">
             {formatInteger(data.urlCount)} URL, {formatInteger(data.totalRequests)} запросов
           </p>
         </div>
         <button
-          className="nodrag nopan rounded-full border border-line bg-surface px-2.5 py-1 text-[11px] font-bold text-ink hover:border-aqua hover:text-aqua"
+          className="fk-map-action nodrag nopan rounded-full border border-line bg-surface px-2.5 py-1 text-[11px] font-bold text-ink hover:border-aqua hover:text-aqua"
           type="button"
+          onPointerDown={stopMapInteraction}
+          onMouseDown={stopMapInteraction}
+          onDoubleClick={stopMapInteraction}
           onClick={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
+            stopMapInteraction(event);
             data.onToggle(data.groupKey);
           }}
         >
@@ -262,33 +283,40 @@ function PathNode({ data }: NodeProps<Node<PathNodeData>>) {
 
       <div className="mt-3 flex items-center gap-2">
         <button
-          className="nodrag nopan inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-surface text-ink hover:border-aqua hover:text-aqua"
+          className="fk-map-action nodrag nopan inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-surface text-ink hover:border-aqua hover:text-aqua"
           type="button"
           title="Скопировать ссылку"
+          onPointerDown={stopMapInteraction}
+          onMouseDown={stopMapInteraction}
+          onDoubleClick={stopMapInteraction}
           onClick={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
+            stopMapInteraction(event);
             void copyLink();
           }}
         >
           {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
         </button>
         <a
-          className="nodrag nopan inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-surface text-ink hover:border-aqua hover:text-aqua"
+          className="fk-map-action nodrag nopan inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-surface text-ink hover:border-aqua hover:text-aqua"
           href={data.fullUrl}
           rel="noreferrer"
           target="_blank"
           title="Открыть path"
+          onPointerDown={(event) => event.stopPropagation()}
+          onMouseDown={(event) => event.stopPropagation()}
+          onDoubleClick={(event) => event.stopPropagation()}
           onClick={(event) => event.stopPropagation()}
         >
           <ExternalLink className="h-4 w-4" />
         </a>
         <button
-          className="nodrag nopan inline-flex h-8 items-center justify-center rounded-lg border border-line bg-surface px-2.5 text-[11px] font-bold text-ink hover:border-aqua hover:text-aqua"
+          className="fk-map-action nodrag nopan inline-flex h-8 items-center justify-center rounded-lg border border-line bg-surface px-2.5 text-[11px] font-bold text-ink hover:border-aqua hover:text-aqua"
           type="button"
+          onPointerDown={stopMapInteraction}
+          onMouseDown={stopMapInteraction}
+          onDoubleClick={stopMapInteraction}
           onClick={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
+            stopMapInteraction(event);
             data.onPathSelect(data.path);
           }}
         >
@@ -336,16 +364,18 @@ export function SiteMapBoard({
     "empty",
     "blocked",
   ]);
-  const [expandedGroups, setExpandedGroups] = useState<SitemapBucketKey[]>([]);
+  const [expandedGroups, setExpandedGroups] = useState<SitemapGroupKey[]>([]);
 
   const entryMetaByPath = useMemo(() => {
     const meta = new Map<string, SitemapEntryMeta>();
 
     sitemapFiles.forEach((file, fileIndex) => {
+      const groupKey = buildSitemapGroupKey(file.name, fileIndex);
       parseSitemap(file.content).forEach((entry, entryIndex) => {
         if (meta.has(entry.path)) return;
         meta.set(entry.path, {
-          bucket: classifySitemapBucket(file.name, entry.path),
+          groupKey,
+          fileName: file.name,
           order: fileIndex * 10000 + entryIndex,
         });
       });
@@ -353,6 +383,17 @@ export function SiteMapBoard({
 
     return meta;
   }, [sitemapFiles]);
+
+  const sitemapGroups = useMemo(
+    () =>
+      sitemapFiles.map((file, index) => ({
+        key: buildSitemapGroupKey(file.name, index),
+        label: formatSitemapLabel(file.name),
+        fileName: file.name,
+        order: index,
+      })),
+    [sitemapFiles],
+  );
 
   const sitemapEntries = useMemo<SitemapEntry[]>(
     () =>
@@ -395,20 +436,21 @@ export function SiteMapBoard({
   }, [filters, highMark, lowMark, selectedTags, sitemapNodes]);
 
   const groups = useMemo<GroupSummary[]>(() => {
-    const grouped = new Map<SitemapBucketKey, SitemapNode[]>();
+    const grouped = new Map<SitemapGroupKey, SitemapNode[]>();
 
-    bucketOrder.forEach((bucket) => grouped.set(bucket, []));
+    sitemapGroups.forEach((group) => grouped.set(group.key, []));
 
     filteredNodes.forEach((node) => {
-      const bucket = entryMetaByPath.get(node.path)?.bucket ?? classifySitemapBucket("", node.path);
-      const items = grouped.get(bucket) ?? [];
+      const groupKey = entryMetaByPath.get(node.path)?.groupKey ?? sitemapGroups[0]?.key;
+      if (!groupKey) return;
+      const items = grouped.get(groupKey) ?? [];
       items.push(node);
-      grouped.set(bucket, items);
+      grouped.set(groupKey, items);
     });
 
-    return bucketOrder
-      .map((bucket) => {
-        const nodes = (grouped.get(bucket) ?? []).sort((left, right) => {
+    return sitemapGroups
+      .map((group) => {
+        const nodes = (grouped.get(group.key) ?? []).sort((left, right) => {
           if (right.total !== left.total) return right.total - left.total;
           const leftOrder = entryMetaByPath.get(left.path)?.order ?? Number.MAX_SAFE_INTEGER;
           const rightOrder = entryMetaByPath.get(right.path)?.order ?? Number.MAX_SAFE_INTEGER;
@@ -417,8 +459,9 @@ export function SiteMapBoard({
         });
 
         return {
-          key: bucket,
-          label: bucketMeta[bucket].label,
+          key: group.key,
+          label: group.label,
+          fileName: group.fileName,
           totalRequests: nodes.reduce((sum, node) => sum + node.total, 0),
           urlCount: nodes.length,
           activeCount: nodes.filter((node) => node.total > 0).length,
@@ -427,13 +470,13 @@ export function SiteMapBoard({
         };
       })
       .filter((group) => group.urlCount > 0);
-  }, [entryMetaByPath, filteredNodes]);
+  }, [entryMetaByPath, filteredNodes, sitemapGroups]);
 
   useEffect(() => {
     const defaults =
       filters.pathQuery.trim().length > 0
         ? groups.map((group) => group.key)
-        : groups.slice(0, Math.min(3, groups.length)).map((group) => group.key);
+        : [];
 
     setExpandedGroups((current) => {
       const allowed = new Set(groups.map((group) => group.key));
@@ -453,12 +496,20 @@ export function SiteMapBoard({
     [filteredNodes],
   );
 
-  const toggleGroup = (groupKey: SitemapBucketKey) => {
+  const toggleGroup = (groupKey: SitemapGroupKey) => {
     setExpandedGroups((current) =>
       current.includes(groupKey)
         ? current.filter((key) => key !== groupKey)
         : [...current, groupKey],
     );
+  };
+
+  const expandGroup = (groupKey: SitemapGroupKey) => {
+    setExpandedGroups((current) => (current.includes(groupKey) ? current : [...current, groupKey]));
+  };
+
+  const collapseGroup = (groupKey: SitemapGroupKey) => {
+    setExpandedGroups((current) => current.filter((key) => key !== groupKey));
   };
 
   const toggleTag = (tag: NodeTag) => {
@@ -499,6 +550,7 @@ export function SiteMapBoard({
         data: {
           groupKey: group.key,
           label: group.label,
+          fileName: group.fileName,
           totalRequests: group.totalRequests,
           urlCount: group.urlCount,
           activeCount: group.activeCount,
@@ -588,6 +640,52 @@ export function SiteMapBoard({
             <FolderTree className="h-4 w-4" />
             Свернуть всё
           </button>
+        </div>
+      </div>
+
+      <div className="mb-4 rounded-2xl bg-surface px-4 py-3">
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          <p className="mr-auto text-sm font-extrabold text-ink">Sitemap</p>
+          <button
+            className="rounded-lg border border-line bg-panel px-3 py-1.5 text-xs font-bold text-ink hover:border-aqua hover:text-aqua"
+            type="button"
+            onClick={() => setExpandedGroups(groups.map((group) => group.key))}
+          >
+            Раскрыть все
+          </button>
+          <button
+            className="rounded-lg border border-line bg-panel px-3 py-1.5 text-xs font-bold text-ink hover:border-aqua hover:text-aqua"
+            type="button"
+            onClick={() => setExpandedGroups([])}
+          >
+            Скрыть все
+          </button>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {groups.map((group) => {
+            const isExpanded = expandedGroups.includes(group.key);
+            return (
+              <div
+                key={group.key}
+                className="flex items-center gap-2 rounded-xl border border-line bg-panel px-2 py-2"
+              >
+                <button
+                  className={`rounded-lg px-3 py-1.5 text-xs font-bold ${
+                    isExpanded
+                      ? "bg-aqua text-[#071314]"
+                      : "border border-line bg-surface text-ink hover:border-aqua hover:text-aqua"
+                  }`}
+                  type="button"
+                  onClick={() => (isExpanded ? collapseGroup(group.key) : expandGroup(group.key))}
+                >
+                  {group.label}
+                </button>
+                <span className="text-xs font-bold text-muted">
+                  {formatInteger(group.urlCount)} URL
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -711,24 +809,12 @@ export function SiteMapBoard({
           <div className="space-y-2 text-sm text-muted">
             <p>Блоков: {formatInteger(groups.length)}</p>
             <p>Раскрыто: {formatInteger(expandedGroups.length)}</p>
-            <p>
-              Основной:{" "}
-              <span className="font-bold text-ink">
-                {formatInteger(groups.find((group) => group.key === "main")?.urlCount ?? 0)} URL
-              </span>
-            </p>
-            <p>
-              Новости и пресс-центр:{" "}
-              <span className="font-bold text-ink">
-                {formatInteger(groups.find((group) => group.key === "press")?.urlCount ?? 0)} URL
-              </span>
-            </p>
-            <p>
-              Блог и кейсы:{" "}
-              <span className="font-bold text-ink">
-                {formatInteger(groups.find((group) => group.key === "blog")?.urlCount ?? 0)} URL
-              </span>
-            </p>
+            {groups.map((group) => (
+              <p key={group.key}>
+                {group.label}:{" "}
+                <span className="font-bold text-ink">{formatInteger(group.urlCount)} URL</span>
+              </p>
+            ))}
           </div>
         </div>
       </div>

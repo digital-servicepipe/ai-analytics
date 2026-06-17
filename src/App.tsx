@@ -12,6 +12,7 @@ import {
   Upload,
   Waypoints,
 } from "lucide-react";
+import { BotReferencePanel } from "./components/BotReferencePanel";
 import { ChartsGrid } from "./components/ChartsGrid";
 import { EmptyState } from "./components/EmptyState";
 import { FiltersBar } from "./components/FiltersBar";
@@ -33,7 +34,6 @@ import type {
   UploadedFileMeta,
 } from "./types";
 import {
-  buildAgentIntentSummary,
   buildAgentGroupBars,
   buildDetailedAgentBars,
   buildKpis,
@@ -47,6 +47,7 @@ import {
   getFilterOptions,
 } from "./utils/aggregations";
 import { formatInteger, formatPercent, truncateMiddle } from "./utils/format";
+import { getSectionRank } from "./utils/normalize";
 import { parseCsvFile } from "./utils/parseCsv";
 import { getPageTitle } from "./utils/pageTitles";
 import { loadPersistedState, savePersistedState } from "./utils/storage";
@@ -143,7 +144,12 @@ function buildRankingRows(
   });
 
   return Array.from(counts.entries())
-    .sort((left, right) => right[1] - left[1])
+    .sort((left, right) => {
+      const rankDiff = getSectionRank(left[0]) - getSectionRank(right[0]);
+      if (rankDiff !== 0) return rankDiff;
+      if (right[1] !== left[1]) return right[1] - left[1];
+      return left[0].localeCompare(right[0], "ru");
+    })
     .slice(0, limit)
     .map(([label, count]) => ({
       label,
@@ -507,18 +513,8 @@ export function App() {
     [filteredRows],
   );
 
-  const intentRows = useMemo(
-    () =>
-      buildAgentIntentSummary(filteredRows, 6).map((item) => ({
-        label: item.label,
-        value: formatPercent(item.share * 100),
-        hint: item.purpose,
-      })),
-    [filteredRows],
-  );
-
   const sectionRows = useMemo(
-    () => buildRankingRows(filteredRows, "section", "запросов"),
+    () => buildRankingRows(filteredRows, "section", "запросов", 13),
     [filteredRows],
   );
 
@@ -673,7 +669,7 @@ export function App() {
     }
     if (key === "google") return setFilters({ ...emptyFilters, agentGroups: ["Google"] });
     if (key === "product") {
-      return setFilters({ ...emptyFilters, sections: ["Продукты и услуги"] });
+      return setFilters({ ...emptyFilters, sections: ["Продукты"] });
     }
 
     setFilters({
@@ -862,17 +858,13 @@ export function App() {
                       }
                     />
 
-                    <section className="grid items-stretch gap-3 xl:grid-cols-3">
+                    <section className="grid items-stretch gap-3 xl:grid-cols-[minmax(240px,0.75fr)_minmax(0,1.8fr)_minmax(240px,0.75fr)]">
                       <RankingCard
                         title="Группы ботов"
                         description="Кто даёт основной поток."
                         rows={groupRows}
                       />
-                      <RankingCard
-                        title="Намерения user-agent"
-                        description="Что именно пытаются сделать конкретные агенты."
-                        rows={intentRows}
-                      />
+                      <BotReferencePanel rows={filteredRows} />
                       <RankingCard
                         title="Точки роста"
                         description="Какие path получают мало запросов, но их стоит усилить."

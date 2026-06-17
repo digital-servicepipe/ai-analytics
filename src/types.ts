@@ -6,7 +6,9 @@ export type PageType =
   | "press"
   | "news"
   | "industry"
+  | "company"
   | "file"
+  | "service"
   | "technical"
   | "other";
 

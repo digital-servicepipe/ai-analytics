@@ -1,5 +1,5 @@
 import type { NormalizedLogRow, PersistedDashboardState } from "../types";
-import { getAgentGroup } from "./normalize";
+import { getAgentGroup, getPageMeta } from "./normalize";
 
 const DB_NAME = "ai-analytics-dashboard";
 const STORE_NAME = "state";
@@ -12,12 +12,18 @@ const emptyState: PersistedDashboardState = {
 };
 
 function normalizePersistedRows(rows: NormalizedLogRow[] | undefined): NormalizedLogRow[] {
-  return (rows ?? []).map((row) => ({
-    ...row,
-    agentGroup:
-      row.agentGroup ||
-      getAgentGroup(String(row.botType ?? ""), String(row.httpUserAgent ?? "")),
-  }));
+  return (rows ?? []).map((row) => {
+    const { section, pageType } = getPageMeta(String(row.path ?? ""));
+
+    return {
+      ...row,
+      agentGroup:
+        row.agentGroup ||
+        getAgentGroup(String(row.botType ?? ""), String(row.httpUserAgent ?? "")),
+      section,
+      pageType,
+    };
+  });
 }
 
 function openDb(): Promise<IDBDatabase> {
