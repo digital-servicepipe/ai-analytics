@@ -11,7 +11,7 @@ import { formatDate, formatInteger, formatPercent, uniqueSorted } from "./format
 import { getAgentDetailLabel, getAgentIntentProfile, getSectionRank } from "./normalize";
 import { getPageTitle } from "./pageTitles";
 
-const palette = ["#2DD4BF", "#60A5FA", "#A78BFA", "#FB923C", "#FB7185", "#94A3B8"];
+const palette = ["#2DD4BF", "#34D399", "#22D3EE", "#60A5FA", "#A78BFA", "#FB7185"];
 
 export type ActivityGranularity = "hour" | "minute";
 

@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   RotateCcw,
   Settings2,
-  ShieldCheck,
   Trash2,
   Upload,
   Waypoints,
@@ -34,23 +33,16 @@ import type {
   UploadedFileMeta,
 } from "./types";
 import {
-  buildAgentGroupBars,
-  buildDetailedAgentBars,
   buildKpis,
-  buildLowSignalPaths,
-  buildPageTypeShare,
-  buildTimeActivity,
-  buildTopPages,
   buildUrlSummaries,
   filterRows,
   getDataPeriod,
   getFilterOptions,
 } from "./utils/aggregations";
-import { formatInteger, formatPercent, truncateMiddle } from "./utils/format";
-import { getSectionRank } from "./utils/normalize";
+import { formatInteger } from "./utils/format";
 import { parseCsvFile } from "./utils/parseCsv";
-import { getPageTitle } from "./utils/pageTitles";
 import { loadPersistedState, savePersistedState } from "./utils/storage";
+import { installAutoNbsp } from "./utils/typography";
 
 const emptyFilters: Filters = {
   dateFrom: "",
@@ -64,23 +56,22 @@ const emptyFilters: Filters = {
 
 type ScreenKey = "overview" | "pages" | "map" | "control";
 
-type RankingRow = {
-  label: string;
-  value: string;
-  hint?: string;
-};
+const ACTIVE_SCREEN_STORAGE_KEY = "ai-analytics-active-screen";
 
-type StatRow = {
-  label: string;
-  value: string;
-  hint: string;
-};
+function isScreenKey(value: string | null): value is ScreenKey {
+  return value === "overview" || value === "pages" || value === "map" || value === "control";
+}
 
 type TopPathRow = {
   path: string;
   title: string;
   count: number;
+  userAgentExamples: string[];
 };
+
+type TopPathLimit = 5 | 15 | 30 | 50 | "all";
+
+const topPathLimitOptions: TopPathLimit[] = [5, 15, 30, 50, "all"];
 
 type LoadedSitemapFile = {
   name: string;
@@ -109,6 +100,10 @@ function buildFullUrl(path: string): string {
   return `https://servicepipe.ru${encodeURI(normalizedPath)}`;
 }
 
+function buildDisplayPath(fullUrl: string): string {
+  return fullUrl.replace(/^https?:\/\/[^/]+/i, "") || "/";
+}
+
 function BrandMark() {
   return (
     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
@@ -130,80 +125,10 @@ function BrandMark() {
   );
 }
 
-function buildRankingRows(
-  rows: NormalizedLogRow[],
-  key: "section",
-  hintLabel: string,
-  limit = 6,
-): RankingRow[] {
-  const counts = new Map<string, number>();
-
-  rows.forEach((row) => {
-    const value = row[key] || "Unknown";
-    counts.set(value, (counts.get(value) ?? 0) + 1);
-  });
-
-  return Array.from(counts.entries())
-    .sort((left, right) => {
-      const rankDiff = getSectionRank(left[0]) - getSectionRank(right[0]);
-      if (rankDiff !== 0) return rankDiff;
-      if (right[1] !== left[1]) return right[1] - left[1];
-      return left[0].localeCompare(right[0], "ru");
-    })
-    .slice(0, limit)
-    .map(([label, count]) => ({
-      label,
-      value: formatInteger(count),
-      hint: hintLabel,
-    }));
-}
-
-function RankingCard({
-  title,
-  description,
-  rows,
-}: {
-  title: string;
-  description: string;
-  rows: RankingRow[];
-}) {
-  return (
-    <article className="panel h-full p-4">
-      <div className="mb-4">
-        <h2 className="text-sm font-extrabold text-ink">{title}</h2>
-        <p className="mt-1 text-xs leading-5 text-muted">{description}</p>
-      </div>
-
-      <div className="space-y-2">
-        {rows.length ? (
-          rows.map((row) => (
-            <div
-              key={`${title}:${row.label}`}
-              className="flex items-start justify-between gap-3 rounded-2xl bg-surface px-3 py-3"
-            >
-              <div className="min-w-0">
-                <p className="break-words text-sm font-bold leading-5 text-ink">{row.label}</p>
-                {row.hint && (
-                  <p className="mt-0.5 break-words text-xs leading-5 text-muted">{row.hint}</p>
-                )}
-              </div>
-              <span className="shrink-0 text-right text-sm font-extrabold text-aqua">
-                {row.value}
-              </span>
-            </div>
-          ))
-        ) : (
-          <div className="rounded-2xl bg-surface px-3 py-3 text-sm text-muted">
-            Недостаточно данных
-          </div>
-        )}
-      </div>
-    </article>
-  );
-}
-
 function TopPathsPanel({ rows }: { rows: TopPathRow[] }) {
   const [copied, setCopied] = useState("");
+  const [limit, setLimit] = useState<TopPathLimit>(15);
+  const visibleRows = limit === "all" ? rows : rows.slice(0, limit);
 
   const copyUrl = async (path: string) => {
     const fullUrl = buildFullUrl(path);
@@ -217,25 +142,54 @@ function TopPathsPanel({ rows }: { rows: TopPathRow[] }) {
   };
 
   return (
-    <article className="panel h-full p-4">
-      <div className="mb-4">
-        <h2 className="text-sm font-extrabold text-ink">Топ path</h2>
-        <p className="mt-1 text-xs leading-5 text-muted">
-          15 страниц с самым заметным потоком. Можно сразу открыть или скопировать ссылку.
-        </p>
+    <article className="panel flex h-[640px] flex-col p-4">
+      <div className="mb-4 flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
+        <div className="min-w-0">
+          <h2 className="text-sm font-extrabold text-ink">Топ path</h2>
+          <p className="mt-1 text-xs leading-5 text-muted">
+            Самые частые страницы в&nbsp;выборке. Ссылку можно открыть или скопировать.
+          </p>
+        </div>
+        <div className="flex shrink-0 flex-wrap items-center gap-1.5">
+          {topPathLimitOptions.map((option) => {
+            const active = limit === option;
+            const label = option === "all" ? "Все" : String(option);
+
+            return (
+              <button
+                key={option}
+                className={`h-8 rounded-lg border px-2.5 text-xs font-extrabold transition ${
+                  active
+                    ? "border-aqua bg-aqua text-[#071314]"
+                    : "border-line bg-surface text-muted hover:border-aqua hover:text-ink"
+                }`}
+                type="button"
+                onClick={() => setLimit(option)}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      <div className="space-y-2">
-        {rows.map((row) => {
+      <p className="mb-3 text-xs font-bold text-muted">
+        Показано {formatInteger(visibleRows.length)} из&nbsp;{formatInteger(rows.length)}
+      </p>
+
+      <div className="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1">
+        {visibleRows.map((row) => {
           const fullUrl = buildFullUrl(row.path);
+          const displayPath = buildDisplayPath(fullUrl);
+
           return (
             <div
               key={row.path}
-              className="flex items-start justify-between gap-3 rounded-2xl bg-surface px-3 py-3"
+              className="flex items-start justify-between gap-3 rounded-2xl border border-line bg-surface px-3 py-3 transition hover:bg-panel"
             >
               <div className="min-w-0 flex-1">
                 <a
-                  className="block break-words text-sm font-bold leading-5 text-ink hover:text-aqua"
+                  className="block break-words text-sm font-extrabold leading-5 text-aqua transition hover:text-[#93E6D9]"
                   href={fullUrl}
                   rel="noreferrer"
                   target="_blank"
@@ -243,10 +197,13 @@ function TopPathsPanel({ rows }: { rows: TopPathRow[] }) {
                 >
                   {row.title}
                 </a>
-                <p className="mt-1 break-all text-xs leading-5 text-muted">{row.path}</p>
-                <p className="mt-1 text-xs leading-5 text-muted">
-                  {formatInteger(row.count)} запросов
+                <p className="mt-1 break-all text-xs leading-5 text-muted">
+                  {displayPath}
                 </p>
+                <p className="mt-1 break-words text-xs leading-5 text-muted">
+                  {row.userAgentExamples.join(" / ")}
+                </p>
+                <p className="mt-1 text-xs leading-5 text-muted">{formatInteger(row.count)} запросов</p>
               </div>
 
               <div className="flex shrink-0 items-center gap-2">
@@ -275,33 +232,6 @@ function TopPathsPanel({ rows }: { rows: TopPathRow[] }) {
             </div>
           );
         })}
-      </div>
-    </article>
-  );
-}
-
-function HealthPanel({ rows }: { rows: StatRow[] }) {
-  return (
-    <article className="panel h-full p-4">
-      <div className="mb-4 flex items-center gap-2">
-        <ShieldCheck className="h-4 w-4 text-aqua" aria-hidden="true" />
-        <h2 className="text-sm font-extrabold text-ink">Сейчас</h2>
-      </div>
-
-      <div className="space-y-2">
-        {rows.map((row) => (
-          <div key={row.label} className="rounded-2xl bg-surface px-3 py-3">
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <p className="text-sm font-bold text-ink">{row.label}</p>
-                <p className="mt-1 break-words text-xs leading-5 text-muted">{row.hint}</p>
-              </div>
-              <span className="max-w-[55%] break-words text-right text-sm font-extrabold text-ink">
-                {row.value}
-              </span>
-            </div>
-          </div>
-        ))}
       </div>
     </article>
   );
@@ -411,7 +341,10 @@ export function App() {
   const [rows, setRows] = useState<NormalizedLogRow[]>([]);
   const [files, setFiles] = useState<UploadedFileMeta[]>([]);
   const [filters, setFilters] = useState<Filters>(emptyFilters);
-  const [activeScreen, setActiveScreen] = useState<ScreenKey>("overview");
+  const [activeScreen, setActiveScreen] = useState<ScreenKey>(() => {
+    const storedScreen = window.localStorage.getItem(ACTIVE_SCREEN_STORAGE_KEY);
+    return isScreenKey(storedScreen) ? storedScreen : "overview";
+  });
   const [error, setError] = useState("");
   const [isParsing, setIsParsing] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -420,6 +353,12 @@ export function App() {
   ]);
   const [robotsTxt, setRobotsTxt] = useState(DEFAULT_ROBOTS_TXT);
   const logInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => installAutoNbsp(), []);
+
+  useEffect(() => {
+    window.localStorage.setItem(ACTIVE_SCREEN_STORAGE_KEY, activeScreen);
+  }, [activeScreen]);
 
   useEffect(() => {
     loadPersistedState()
@@ -490,97 +429,16 @@ export function App() {
     [allOptions, filters, rows],
   );
 
-  const groupRows = useMemo(
-    () =>
-      buildAgentGroupBars(filteredRows)
-        .slice(0, 6)
-        .map((item) => ({
-          label: item.agentGroup,
-          value: formatInteger(item.count),
-          hint: "запросов",
-        })),
-    [filteredRows],
-  );
-
-  const detailRows = useMemo(
-    () =>
-      buildDetailedAgentBars(filteredRows)
-        .slice(0, 6)
-        .map((item) => ({
-          label: truncateMiddle(item.label, 36),
-          value: formatInteger(item.count),
-        })),
-    [filteredRows],
-  );
-
-  const sectionRows = useMemo(
-    () => buildRankingRows(filteredRows, "section", "запросов", 13),
-    [filteredRows],
-  );
-
   const topPathRows = useMemo<TopPathRow[]>(
-    () => buildTopPages(filteredRows, 15),
-    [filteredRows],
-  );
-
-  const lowSignalRows = useMemo(
     () =>
-      buildLowSignalPaths(filteredRows, 6).map((item) => ({
-        label: truncateMiddle(getPageTitle(item.path), 44),
-        value: formatInteger(item.count),
-        hint: `${truncateMiddle(item.path, 36)} · ${item.section}`,
+      urlSummaries.map((item) => ({
+        path: item.path,
+        title: item.title,
+        count: item.total,
+        userAgentExamples: item.userAgentExamples,
       })),
-    [filteredRows],
+    [urlSummaries],
   );
-
-  const healthRows = useMemo<StatRow[]>(() => {
-    const total = filteredRows.length;
-    const agentGroups = buildAgentGroupBars(filteredRows);
-    const detailedAgents = buildDetailedAgentBars(filteredRows);
-    const pageTypes = buildPageTypeShare(filteredRows).sort(
-      (left, right) => right.value - left.value,
-    );
-    const peakMinute = buildTimeActivity(filteredRows, "minute").reduce(
-      (best, current) => (current.count > best.count ? current : best),
-      { key: "", label: "--", count: 0 },
-    );
-    const peakHour = buildTimeActivity(filteredRows, "hour").reduce(
-      (best, current) => (current.count > best.count ? current : best),
-      { key: "", label: "--", count: 0 },
-    );
-
-    return [
-      {
-        label: "Главная группа",
-        value: agentGroups[0]?.agentGroup ?? "Нет данных",
-        hint: agentGroups[0]
-          ? `${formatPercent((agentGroups[0].count / total) * 100)} потока`
-          : "Нет данных",
-      },
-      {
-        label: "Главный user-agent",
-        value: truncateMiddle(detailedAgents[0]?.label ?? "Нет данных", 30),
-        hint: detailedAgents[0]
-          ? `${formatInteger(detailedAgents[0].count)} запросов`
-          : "Нет данных",
-      },
-      {
-        label: "Пик по минуте",
-        value: peakMinute.label,
-        hint: `${formatInteger(peakMinute.count)} запросов`,
-      },
-      {
-        label: "Пик по часу",
-        value: peakHour.label,
-        hint: `${formatInteger(peakHour.count)} запросов`,
-      },
-      {
-        label: "Тип path",
-        value: pageTypes[0]?.name ?? "Нет данных",
-        hint: pageTypes[0] ? formatInteger(pageTypes[0].value) : "Нет данных",
-      },
-    ];
-  }, [filteredRows]);
 
   const timelineMeta = useMemo(() => {
     const validDates = rows
@@ -649,35 +507,6 @@ export function App() {
 
   const resetFilters = () => setFilters(emptyFilters);
 
-  const quickFilter = (
-    key:
-      | "all"
-      | "openai"
-      | "anthropic"
-      | "perplexity"
-      | "google"
-      | "product"
-      | "noTechnical",
-  ) => {
-    if (key === "all") return resetFilters();
-    if (key === "openai") return setFilters({ ...emptyFilters, agentGroups: ["OpenAI"] });
-    if (key === "anthropic") {
-      return setFilters({ ...emptyFilters, agentGroups: ["Anthropic"] });
-    }
-    if (key === "perplexity") {
-      return setFilters({ ...emptyFilters, agentGroups: ["Perplexity"] });
-    }
-    if (key === "google") return setFilters({ ...emptyFilters, agentGroups: ["Google"] });
-    if (key === "product") {
-      return setFilters({ ...emptyFilters, sections: ["Продукты"] });
-    }
-
-    setFilters({
-      ...emptyFilters,
-      sections: allOptions.sections.filter((section) => section !== "Технический шум"),
-    });
-  };
-
   if (!isReady) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-surface text-sm font-semibold text-accent">
@@ -741,11 +570,11 @@ export function App() {
         onChange={onLogInput}
       />
 
-      <div className="grid h-screen overflow-hidden lg:grid-cols-[188px_minmax(0,1fr)]">
-        <aside className="h-screen overflow-y-auto border-r border-line bg-sidebar px-3 py-4">
-          <div className="flex h-full flex-col gap-4">
+      <div className="grid h-screen overflow-hidden lg:grid-cols-[232px_minmax(0,1fr)]">
+        <aside className="h-screen overflow-y-auto border-r border-line bg-sidebar px-4 py-5">
+          <div className="flex h-full flex-col gap-5">
             <div className="flex items-center gap-3 px-1">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-line bg-surface text-aqua">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-line bg-surface text-aqua">
                 <BrandMark />
               </div>
               <div className="min-w-0">
@@ -754,7 +583,7 @@ export function App() {
               </div>
             </div>
 
-            <nav className="space-y-2">
+            <nav className="space-y-2.5">
               {screenOrder.map((screen) => {
                 const meta = screenMeta[screen];
                 const Icon = meta.icon;
@@ -763,7 +592,7 @@ export function App() {
                 return (
                   <button
                     key={screen}
-                    className={`flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2.5 text-left ${
+                    className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left ${
                       isActive
                         ? "bg-panel text-ink ring-1 ring-inset ring-aqua/25"
                         : "text-muted hover:bg-surface hover:text-ink"
@@ -772,7 +601,7 @@ export function App() {
                     onClick={() => setActiveScreen(screen)}
                   >
                     <div
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
                         isActive ? "bg-aqua/12 text-aqua" : "bg-surface text-muted"
                       }`}
                     >
@@ -786,7 +615,7 @@ export function App() {
 
             <div className="mt-auto">
               <button
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-aqua px-3 py-2.5 text-sm font-extrabold text-[#071314]"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-aqua px-3 py-2.5 text-sm font-extrabold text-[#071314]"
                 type="button"
                 onClick={() => logInputRef.current?.click()}
               >
@@ -797,9 +626,9 @@ export function App() {
           </div>
         </aside>
 
-        <section className="h-screen min-w-0 overflow-y-auto px-4 py-4 sm:px-5 lg:px-6 xl:px-7">
-          <div className="flex w-full flex-col gap-4">
-            <header className="flex flex-wrap items-end gap-3">
+        <section className="h-screen min-w-0 overflow-y-auto px-4 py-4 sm:px-5 lg:px-6 xl:px-6">
+          <div className="flex w-full flex-col gap-5">
+            <header className="flex flex-wrap items-end gap-4">
               <div className="mr-auto">
                 <p className="text-sm font-bold text-muted">{activeMeta.label}</p>
                 <h2 className="mt-1 text-3xl font-extrabold text-ink">{activeMeta.title}</h2>
@@ -838,7 +667,6 @@ export function App() {
               options={filterOptions}
               onChange={setFilters}
               onReset={resetFilters}
-              onQuickFilter={quickFilter}
             />
 
             {activeScreen === "overview" && (
@@ -851,47 +679,15 @@ export function App() {
 
                 {filteredRows.length ? (
                   <>
-                    <ChartsGrid
-                      rows={filteredRows}
-                      onPathSelect={(path) =>
-                        setFilters((current) => ({ ...current, pathQuery: path }))
-                      }
-                    />
+                    <ChartsGrid rows={filteredRows} />
 
-                    <section className="grid items-stretch gap-3 xl:grid-cols-[minmax(240px,0.75fr)_minmax(0,1.8fr)_minmax(240px,0.75fr)]">
-                      <RankingCard
-                        title="Группы ботов"
-                        description="Кто даёт основной поток."
-                        rows={groupRows}
-                      />
-                      <BotReferencePanel rows={filteredRows} />
-                      <RankingCard
-                        title="Точки роста"
-                        description="Какие path получают мало запросов, но их стоит усилить."
-                        rows={lowSignalRows}
-                      />
-                    </section>
-
-                    <section className="grid items-stretch gap-3 xl:grid-cols-[minmax(0,2fr)_minmax(320px,1fr)]">
+                    <section className="grid items-start gap-3 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.85fr)]">
                       <div className="min-w-0">
                         <TopPathsPanel rows={topPathRows} />
                       </div>
                       <div className="min-w-0">
-                        <HealthPanel rows={healthRows} />
+                        <BotReferencePanel rows={filteredRows} />
                       </div>
-                    </section>
-
-                    <section className="grid items-stretch gap-3 xl:grid-cols-2">
-                      <RankingCard
-                        title="Короткие user-agent"
-                        description="Какие конкретные имена встречаются чаще всего."
-                        rows={detailRows}
-                      />
-                      <RankingCard
-                        title="Разделы спроса"
-                        description="Какие разделы сайта чаще всего попадают в интерес ботов."
-                        rows={sectionRows}
-                      />
                     </section>
                   </>
                 ) : (

@@ -5,17 +5,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#F4F7FB",
-        muted: "#99A9BD",
-        panel: "#121923",
-        line: "#2A3443",
-        surface: "#19212E",
-        app: "#0B1118",
-        screen: "#0E151E",
-        sidebar: "#0F151F",
-        accent: "#79A9FF",
-        aqua: "#55D4C3",
-        violet: "#B79DFF",
+        ink: "#E3E3E3",
+        muted: "#8E918F",
+        panel: "#1E1F20",
+        line: "rgba(255, 255, 255, 0.08)",
+        surface: "#222327",
+        app: "#0E0E0F",
+        screen: "#1E1F20",
+        sidebar: "#1E1F20",
+        accent: "#2DD4BF",
+        aqua: "#2DD4BF",
+        violet: "#A78BFA",
       },
       boxShadow: {
         card: "0 18px 42px rgba(0, 0, 0, 0.24)",

@@ -178,13 +178,13 @@ export function DateRangePicker({
     <div ref={wrapperRef} className="relative">
       <button
         ref={triggerRef}
-        className="control inline-flex h-[46px] w-full items-center justify-between gap-2 px-3 py-1.5 text-left"
+        className="control inline-flex h-14 w-full items-center justify-between gap-3 px-3 py-2 text-left"
         type="button"
         onClick={() => setIsOpen((current) => !current)}
       >
         <span className="inline-flex min-w-0 items-center gap-2.5">
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl bg-aqua/10 text-aqua">
-            <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-aqua/10 text-aqua">
+            <CalendarDays className="h-4 w-4" aria-hidden="true" />
           </span>
           <span className="grid min-w-0 gap-0">
             <span className="text-[10px] font-bold uppercase tracking-normal text-muted">Дата</span>

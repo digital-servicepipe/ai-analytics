@@ -18,14 +18,12 @@ import {
   buildDetailedAgentBars,
   buildPageTypeShare,
   buildTimeActivity,
-  buildTopPages,
   type ActivityGranularity,
 } from "../utils/aggregations";
 import { formatInteger, truncateMiddle } from "../utils/format";
 
 type ChartsGridProps = {
   rows: NormalizedLogRow[];
-  onPathSelect: (path: string) => void;
 };
 
 const groupPalette = [
@@ -56,7 +54,7 @@ function ChartCard({
   className?: string;
 }) {
   return (
-    <article className={`panel min-h-[320px] p-4 ${className}`.trim()}>
+    <article className={`panel h-full min-h-[320px] p-4 ${className}`.trim()}>
       <div className="mb-4 flex min-h-11 items-start justify-between gap-3">
         <div className="min-w-0">
           <h2 className="text-sm font-extrabold text-ink">{title}</h2>
@@ -105,7 +103,7 @@ function TooltipCard({
   );
 }
 
-export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
+export function ChartsGrid({ rows }: ChartsGridProps) {
   const [activityGranularity, setActivityGranularity] =
     useState<ActivityGranularity>("hour");
 
@@ -116,14 +114,6 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
       buildDetailedAgentBars(rows)
         .slice(0, 10)
         .map((item) => ({ ...item, shortLabel: truncateMiddle(item.label, 22) })),
-    [rows],
-  );
-  const topPaths = useMemo(
-    () =>
-      buildTopPages(rows, 8).map((item) => ({
-        ...item,
-        shortLabel: truncateMiddle(item.title, 28),
-      })),
     [rows],
   );
   const pageTypes = useMemo(
@@ -143,9 +133,10 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
   const activityStep = Math.max(0, Math.ceil(activity.length / 7) - 1);
 
   return (
-    <section className="grid gap-3 2xl:grid-cols-12">
-      <div className="2xl:col-span-8">
-        <ChartCard
+    <section className="grid gap-3">
+      <div className="grid items-stretch gap-3 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.85fr)]">
+        <div className="min-w-0">
+          <ChartCard
           title="Запросы по дням"
           subtitle="Основные группы ботов по дням."
         >
@@ -189,41 +180,10 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
               ))}
             </AreaChart>
           </ResponsiveContainer>
-        </ChartCard>
-      </div>
+          </ChartCard>
+        </div>
 
-      <div className="2xl:col-span-4">
-        <ChartCard title="Группы ботов" subtitle="Кто даёт основной поток.">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={groupBars}
-              layout="vertical"
-              margin={{ top: 8, right: 12, bottom: 0, left: 46 }}
-            >
-              <CartesianGrid stroke={gridStroke} horizontal={false} />
-              <XAxis type="number" tick={axisTick} axisLine={false} allowDecimals={false} />
-              <YAxis
-                dataKey="agentGroup"
-                type="category"
-                tick={axisTick}
-                tickLine={false}
-                width={94}
-              />
-              <Tooltip content={<TooltipCard />} />
-              <Bar dataKey="count" radius={[0, 10, 10, 0]} isAnimationActive={false}>
-                {groupBars.map((entry, index) => (
-                  <Cell
-                    key={`${entry.agentGroup}:${entry.count}`}
-                    fill={groupPalette[index % groupPalette.length]}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
-      </div>
-
-      <div className="2xl:col-span-6">
+      <div className="min-w-0">
         <ChartCard
           title="Запросы по времени"
           subtitle={
@@ -267,6 +227,7 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
               <Tooltip content={<TooltipCard />} />
               <Bar
                 dataKey="count"
+                name="Запросы"
                 fill="#2DD4BF"
                 radius={[10, 10, 0, 0]}
                 isAnimationActive={false}
@@ -275,8 +236,46 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
           </ResponsiveContainer>
         </ChartCard>
       </div>
+      </div>
 
-      <div className="2xl:col-span-6">
+      <div className="grid items-stretch gap-3 xl:grid-cols-3">
+        <div className="min-w-0">
+        <ChartCard title="Группы ботов" subtitle="Кто даёт основной поток.">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={groupBars}
+              layout="vertical"
+              margin={{ top: 8, right: 12, bottom: 0, left: 46 }}
+            >
+              <CartesianGrid stroke={gridStroke} horizontal={false} />
+              <XAxis type="number" tick={axisTick} axisLine={false} allowDecimals={false} />
+              <YAxis
+                dataKey="agentGroup"
+                type="category"
+                tick={axisTick}
+                tickLine={false}
+                width={94}
+              />
+              <Tooltip content={<TooltipCard />} />
+              <Bar
+                dataKey="count"
+                name="Запросы"
+                radius={[0, 10, 10, 0]}
+                isAnimationActive={false}
+              >
+                {groupBars.map((entry, index) => (
+                  <Cell
+                    key={`${entry.agentGroup}:${entry.count}`}
+                    fill={groupPalette[index % groupPalette.length]}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      </div>
+
+      <div className="min-w-0">
         <ChartCard title="Топ user-agent" subtitle="Какие имена встречаются чаще всего.">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
@@ -296,6 +295,7 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
               <Tooltip content={<TooltipCard />} />
               <Bar
                 dataKey="count"
+                name="Запросы"
                 radius={[0, 10, 10, 0]}
                 fill="#60A5FA"
                 isAnimationActive={false}
@@ -305,7 +305,7 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
         </ChartCard>
       </div>
 
-      <div className="2xl:col-span-5">
+      <div className="min-w-0">
         <ChartCard title="Типы path" subtitle="Какие типы path получают больше запросов.">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
@@ -328,7 +328,12 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
                 width={64}
               />
               <Tooltip content={<TooltipCard />} />
-              <Bar dataKey="value" radius={[0, 10, 10, 0]} isAnimationActive={false}>
+              <Bar
+                dataKey="value"
+                name="Запросы"
+                radius={[0, 10, 10, 0]}
+                isAnimationActive={false}
+              >
                 {pageTypes.map((entry, index) => (
                   <Cell key={entry.name} fill={groupPalette[index % groupPalette.length]} />
                 ))}
@@ -336,46 +341,7 @@ export function ChartsGrid({ rows, onPathSelect }: ChartsGridProps) {
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
-      </div>
-
-      <div className="2xl:col-span-7">
-        <ChartCard title="Топ path" subtitle="Клик по строке подставляет path в фильтр.">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={topPaths}
-              layout="vertical"
-              margin={{ top: 8, right: 20, bottom: 0, left: 140 }}
-            >
-              <CartesianGrid stroke={gridStroke} horizontal={false} />
-              <XAxis
-                type="number"
-                tick={axisTick}
-                axisLine={{ stroke: gridStroke }}
-                allowDecimals={false}
-              />
-              <YAxis
-                dataKey="shortLabel"
-                type="category"
-                tick={axisTick}
-                tickLine={false}
-                interval={0}
-                width={140}
-              />
-              <Tooltip content={<TooltipCard />} />
-              <Bar
-                dataKey="count"
-                fill="#A78BFA"
-                radius={[0, 10, 10, 0]}
-                cursor="pointer"
-                isAnimationActive={false}
-                onClick={(event) => {
-                  const path = event?.payload?.path;
-                  if (path) onPathSelect(path);
-                }}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
+        </div>
       </div>
     </section>
   );
