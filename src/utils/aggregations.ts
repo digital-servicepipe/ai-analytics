@@ -362,7 +362,7 @@ export function buildUrlSummaries(rows: NormalizedLogRow[]): UrlSummary[] {
         lastSeen: formatDate(last),
         countries: uniqueSorted(group.map((row) => row.country)).slice(0, 6),
         asnCount: new Set(group.map((row) => row.asn)).size,
-        userAgentExamples: uniqueSorted(group.map((row) => agentDetail(row))).slice(0, 3),
+        userAgentExamples: uniqueSorted(group.map((row) => agentDetail(row))).slice(0, 8),
       };
     })
     .sort((left, right) => right.total - left.total);
