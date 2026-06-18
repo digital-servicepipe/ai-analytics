@@ -93,7 +93,24 @@ export type ParseResult = {
   rowCount: number;
 };
 
-export type FileKind = "logs";
+export type SeoSource = "Google" | "Yandex" | "Unknown";
+
+export type SeoMetricRow = {
+  id: string;
+  fileId: string;
+  fileName: string;
+  source: SeoSource;
+  date: string;
+  path: string;
+  clicks: number;
+  impressions: number;
+  ctr: number;
+  position: number;
+  section: string;
+  pageType: PageType;
+};
+
+export type FileKind = "logs" | "seo";
 
 export type UploadedFileMeta = {
   id: string;
@@ -101,10 +118,12 @@ export type UploadedFileMeta = {
   name: string;
   rowCount: number;
   uploadedAt: string;
+  source?: SeoSource;
 };
 
 export type PersistedDashboardState = {
-  version: 2;
+  version: 3;
   rows: NormalizedLogRow[];
+  seoRows: SeoMetricRow[];
   files: UploadedFileMeta[];
 };

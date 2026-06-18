@@ -2,5 +2,5 @@ services:
   ai-agent-dashboard:
     build: .
     ports:
-      - "5177:80"
+      - "80:80"
     restart: unless-stopped

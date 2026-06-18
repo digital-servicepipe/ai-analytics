@@ -7,6 +7,7 @@ import {
   FileText,
   LayoutDashboard,
   RotateCcw,
+  Search,
   Settings2,
   Trash2,
   Upload,
@@ -19,6 +20,7 @@ import { FiltersBar } from "./components/FiltersBar";
 import { KpiCard } from "./components/KpiCard";
 import { SiteMapBoard } from "./components/SiteMapBoard";
 import { SiteMapExplorer } from "./components/SiteMapExplorer";
+import { SeoDashboard } from "./components/SeoDashboard";
 import { UploadZone } from "./components/UploadZone";
 import { UrlTable } from "./components/UrlTable";
 import { AiChatWidget } from "./components/AiChatWidget";
@@ -32,6 +34,7 @@ import type {
   Filters,
   NormalizedLogRow,
   PersistedDashboardState,
+  SeoMetricRow,
   UploadedFileMeta,
 } from "./types";
 import {
@@ -43,6 +46,7 @@ import {
 } from "./utils/aggregations";
 import { formatInteger } from "./utils/format";
 import { parseCsvFile } from "./utils/parseCsv";
+import { parseSeoFile } from "./utils/parseSeo";
 import { loadGeminiKey, loadPersistedState, saveGeminiKey, savePersistedState } from "./utils/storage";
 import { installAutoNbsp } from "./utils/typography";
 import { parseUrlState, updateUrlState } from "./utils/urlState";
@@ -57,12 +61,19 @@ const emptyFilters: Filters = {
   pathQuery: "",
 };
 
-type ScreenKey = "overview" | "pages" | "map" | "control";
+type ScreenKey = "overview" | "pages" | "seo" | "map" | "control";
 
 const ACTIVE_SCREEN_STORAGE_KEY = "ai-analytics-active-screen";
+const SEO_MODULE_ENABLED = false;
 
 function isScreenKey(value: string | null): value is ScreenKey {
-  return value === "overview" || value === "pages" || value === "map" || value === "control";
+  return (
+    value === "overview" ||
+    value === "pages" ||
+    (SEO_MODULE_ENABLED && value === "seo") ||
+    value === "map" ||
+    value === "control"
+  );
 }
 
 type TopPathRow = {
@@ -381,6 +392,7 @@ function SettingsPanel({
 
 export function App() {
   const [rows, setRows] = useState<NormalizedLogRow[]>([]);
+  const [seoRows, setSeoRows] = useState<SeoMetricRow[]>([]);
   const [files, setFiles] = useState<UploadedFileMeta[]>([]);
   const [geminiKey, setGeminiKey] = useState(() => loadGeminiKey());
   const [isAiChatOpen, setIsAiChatOpen] = useState(false);
@@ -402,6 +414,7 @@ export function App() {
   ]);
   const [robotsTxt, setRobotsTxt] = useState(DEFAULT_ROBOTS_TXT);
   const logInputRef = useRef<HTMLInputElement>(null);
+  const seoInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => installAutoNbsp(), []);
 
@@ -411,9 +424,16 @@ export function App() {
   }, [activeScreen, filters]);
 
   useEffect(() => {
+    if (!SEO_MODULE_ENABLED && activeScreen === "seo") {
+      setActiveScreen("overview");
+    }
+  }, [activeScreen]);
+
+  useEffect(() => {
     loadPersistedState()
       .then((state) => {
         setRows(state.rows);
+        setSeoRows(state.seoRows);
         setFiles(state.files);
       })
       .catch((caught) => {
@@ -455,6 +475,7 @@ export function App() {
 
   const persistState = async (nextState: PersistedDashboardState) => {
     setRows(nextState.rows);
+    setSeoRows(nextState.seoRows);
     setFiles(nextState.files);
     await savePersistedState(nextState);
   };
@@ -525,8 +546,9 @@ export function App() {
       }));
 
       await persistState({
-        version: 2,
+        version: 3,
         rows: [...rows, ...parsedFiles.flatMap(({ parsed }) => parsed.rows)],
+        seoRows,
         files: [...files, ...fileMetas],
       });
 
@@ -538,17 +560,66 @@ export function App() {
     }
   };
 
+  const handleSeoFiles = async (incomingFiles: File[]) => {
+    if (!incomingFiles.length) return;
+
+    setIsParsing(true);
+    setError("");
+
+    try {
+      const parsedFiles = await Promise.all(
+        incomingFiles.map(async (file) => {
+          const fileId = createFileId();
+          return {
+            file,
+            fileId,
+            parsed: await parseSeoFile(file, fileId),
+          };
+        }),
+      );
+
+      const fileMetas: UploadedFileMeta[] = parsedFiles.map(({ file, fileId, parsed }) => ({
+        id: fileId,
+        kind: "seo",
+        name: file.name,
+        rowCount: parsed.rowCount,
+        uploadedAt: new Date().toISOString(),
+        source: parsed.sources.length === 1 ? parsed.sources[0] : undefined,
+      }));
+
+      await persistState({
+        version: 3,
+        rows,
+        seoRows: [...seoRows, ...parsedFiles.flatMap(({ parsed }) => parsed.rows)],
+        files: [...files, ...fileMetas],
+      });
+
+      setActiveScreen("seo");
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "Не удалось прочитать SEO XLSX.");
+    } finally {
+      setIsParsing(false);
+    }
+  };
+
   const onLogInput = (event: ChangeEvent<HTMLInputElement>) => {
     const incomingFiles = Array.from(event.target.files ?? []);
     if (incomingFiles.length) void handleLogFiles(incomingFiles);
     event.target.value = "";
   };
 
+  const onSeoInput = (event: ChangeEvent<HTMLInputElement>) => {
+    const incomingFiles = Array.from(event.target.files ?? []);
+    if (incomingFiles.length) void handleSeoFiles(incomingFiles);
+    event.target.value = "";
+  };
+
   const clearLogs = async () => {
     setError("");
     await persistState({
-      version: 2,
+      version: 3,
       rows: [],
+      seoRows: [],
       files: [],
     });
     setFilters(emptyFilters);
@@ -565,13 +636,15 @@ export function App() {
     );
   }
 
-  if (!rows.length) {
+  if (!rows.length && (!SEO_MODULE_ENABLED || !seoRows.length)) {
     return (
       <UploadZone
         error={error}
         files={files}
         isParsing={isParsing}
         onLogFiles={handleLogFiles}
+        onSeoFiles={handleSeoFiles}
+        showSeoUpload={SEO_MODULE_ENABLED}
       />
     );
   }
@@ -592,6 +665,12 @@ export function App() {
       description: "Какие path получают запросы и кто по ним ходит",
       icon: FileText,
     },
+    seo: {
+      label: "SEO",
+      title: "SEO",
+      description: "Отдельная панель Google Search Console и Яндекс.Вебмастера без связи с AI-визитами.",
+      icon: Search,
+    },
     map: {
       label: "Карта",
       title: "Карта сайта",
@@ -599,15 +678,19 @@ export function App() {
       icon: Waypoints,
     },
     control: {
-      label: "Данные",
-      title: "Файлы и проверки",
-      description: "CSV, очистка базы и проверка sitemap с robots.txt",
+      label: "Настройки",
+      title: "Настройки",
+      description: "Файлы, очистка базы и проверка sitemap с robots.txt",
       icon: Settings2,
     },
   };
 
-  const screenOrder: ScreenKey[] = ["overview", "pages", "map", "control"];
+  // SEO module is temporarily hidden; keep the screen code wired for quick restore.
+  const screenOrder: ScreenKey[] = SEO_MODULE_ENABLED
+    ? ["overview", "pages", "seo", "map", "control"]
+    : ["overview", "pages", "map", "control"];
   const activeMeta = screenMeta[activeScreen];
+  const activeRowCount = SEO_MODULE_ENABLED && activeScreen === "seo" ? seoRows.length : filteredRows.length;
 
   return (
     <main className="min-h-screen bg-app text-ink">
@@ -619,6 +702,16 @@ export function App() {
         multiple
         onChange={onLogInput}
       />
+      {SEO_MODULE_ENABLED && (
+        <input
+          ref={seoInputRef}
+          className="hidden"
+          type="file"
+          accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          multiple
+          onChange={onSeoInput}
+        />
+      )}
 
       <div className="grid h-screen overflow-hidden lg:grid-cols-[232px_minmax(0,1fr)]">
         <aside className="h-screen overflow-y-auto border-r border-line bg-sidebar px-4 py-5">
@@ -688,16 +781,27 @@ export function App() {
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-2xl border border-line bg-panel px-3 py-2 text-sm font-bold text-ink">
-                  {formatInteger(filteredRows.length)} строк
+                  {formatInteger(activeRowCount)} строк
                 </span>
-                <button
-                  className="control inline-flex items-center gap-2 px-3 py-2 text-sm font-bold text-ink"
-                  type="button"
-                  onClick={resetFilters}
-                >
-                  <RotateCcw className="h-4 w-4" aria-hidden="true" />
-                  Сбросить
-                </button>
+                {SEO_MODULE_ENABLED && activeScreen === "seo" ? (
+                  <button
+                    className="control inline-flex items-center gap-2 px-3 py-2 text-sm font-bold text-ink"
+                    type="button"
+                    onClick={() => seoInputRef.current?.click()}
+                  >
+                    <Upload className="h-4 w-4" aria-hidden="true" />
+                    Добавить SEO XLSX
+                  </button>
+                ) : (
+                  <button
+                    className="control inline-flex items-center gap-2 px-3 py-2 text-sm font-bold text-ink"
+                    type="button"
+                    onClick={resetFilters}
+                  >
+                    <RotateCcw className="h-4 w-4" aria-hidden="true" />
+                    Сбросить
+                  </button>
+                )}
               </div>
             </header>
 
@@ -712,12 +816,14 @@ export function App() {
               </div>
             )}
 
-            <FiltersBar
-              filters={filters}
-              options={filterOptions}
-              onChange={setFilters}
-              onReset={resetFilters}
-            />
+            {(!SEO_MODULE_ENABLED || activeScreen !== "seo") && (
+              <FiltersBar
+                filters={filters}
+                options={filterOptions}
+                onChange={setFilters}
+                onReset={resetFilters}
+              />
+            )}
 
             {activeScreen === "overview" && (
               <>
@@ -750,6 +856,11 @@ export function App() {
               <>{filteredRows.length ? <UrlTable summaries={urlSummaries} /> : <EmptyState />}</>
             )}
 
+            {/* SEO module is temporarily hidden via SEO_MODULE_ENABLED. */}
+            {SEO_MODULE_ENABLED && activeScreen === "seo" && (
+              <SeoDashboard rows={seoRows} onUploadSeo={() => seoInputRef.current?.click()} />
+            )}
+
             {activeScreen === "map" && (
               <SiteMapBoard
                 filters={filters}
@@ -763,7 +874,7 @@ export function App() {
             )}
 
             {activeScreen === "control" && (
-              <>
+              <div className="flex flex-col gap-5">
                 <SettingsPanel
                   files={files}
                   period={period}
@@ -787,7 +898,7 @@ export function App() {
                     setFilters((current) => ({ ...current, pathQuery: path }))
                   }
                 />
-              </>
+              </div>
             )}
           </div>
         </section>
